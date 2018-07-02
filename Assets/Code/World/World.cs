@@ -6,13 +6,21 @@ using UnityEngine;
 
 public class World : MonoBehaviour
 {
+    [SerializeField] NoiseParameters _parameters; public NoiseParameters parameters => _parameters;
+
+    static World _instance;
+    public static World instance => _instance ?? (_instance = FindObjectOfType<World>());
+
     static int _worldSize = Constants.Terrain.WORLD_SIZE;
     Chunk[,]   _chunks    = new Chunk[_worldSize, _worldSize];
 
     ChunkGenerator _chunkGenerator;
 
+
     void Awake()
     {
+        _instance = this;
+
         _chunkGenerator = new ChunkGenerator();
 
         for (int y = 0; y < _worldSize; y++)

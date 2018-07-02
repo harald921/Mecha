@@ -45,7 +45,7 @@ partial class ChunkGenerator
 
         public Tile[,] Generate(Vector2DInt inChunkPosition)
         {
-            float[,] noiseMap = Noise.GenerateMap(_chunkSize, inChunkPosition);
+            float[,] noiseMap = Noise.GenerateMap(_chunkSize, inChunkPosition, World.instance.parameters);
 
             Tile[,] newTiles = new Tile[_chunkSize, _chunkSize];
             for (int y = 0; y < _chunkSize; y++)
@@ -100,6 +100,7 @@ partial class ChunkGenerator
 
             return newGO;
         }
+
 
         int[] GenerateTriangleIDs()
         {

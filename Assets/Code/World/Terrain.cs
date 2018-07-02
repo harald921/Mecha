@@ -6,8 +6,11 @@ public struct Terrain
 {
     static Dictionary<TerrainType, TerrainData> _staticTerrainData = new Dictionary<TerrainType, TerrainData>()
     {
-        { TerrainType.Grass, new TerrainData(inTextureID: 2, inMoveSpeedMultiplier: 1.0f, inPassable: true) },
-        { TerrainType.Sand,  new TerrainData(inTextureID: 1, inMoveSpeedMultiplier: 0.5f, inPassable: true) }
+        { TerrainType.Grass,  new TerrainData(inTextureID: 0, inMoveSpeedMultiplier: 1.0f, inPassable: true) },
+        { TerrainType.Sand,   new TerrainData(inTextureID: 1, inMoveSpeedMultiplier: 0.5f, inPassable: true) },
+        { TerrainType.Rock,   new TerrainData(inTextureID: 2, inMoveSpeedMultiplier: 0.5f, inPassable: true) },
+        { TerrainType.Water,  new TerrainData(inTextureID: 3, inMoveSpeedMultiplier: 0.5f, inPassable: true) }
+
     };
 
     readonly TerrainType _type;
@@ -15,8 +18,10 @@ public struct Terrain
 
     public Terrain(float inHeight)
     {
-        if (inHeight == 0) _type = TerrainType.Grass;
-        else               _type = TerrainType.Sand;
+        if      (inHeight <= 0.25f) _type = TerrainType.Grass;
+        else if (inHeight <= 0.50f) _type = TerrainType.Sand;
+        else if (inHeight <= 0.75f) _type = TerrainType.Rock;
+        else                        _type = TerrainType.Water;
     }
 }
 
@@ -38,5 +43,7 @@ public class TerrainData
 public enum TerrainType
 {
     Grass,
-    Sand
+    Sand,
+    Rock,
+    Water
 }
