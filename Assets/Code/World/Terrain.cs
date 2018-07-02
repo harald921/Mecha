@@ -18,10 +18,10 @@ public struct Terrain
 
     public Terrain(float inHeight)
     {
-        if      (inHeight <= 0.25f) _type = TerrainType.Grass;
-        else if (inHeight <= 0.50f) _type = TerrainType.Sand;
-        else if (inHeight <= 0.75f) _type = TerrainType.Rock;
-        else                        _type = TerrainType.Water;
+        if      (inHeight <= 0.25f) _type = TerrainType.Water;
+        else if (inHeight <= 0.50f) _type = TerrainType.Grass;
+        else if (inHeight <= 0.75f) _type = TerrainType.Sand;
+        else                        _type = TerrainType.Rock;
     }
 }
 

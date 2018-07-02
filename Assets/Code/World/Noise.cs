@@ -18,8 +18,9 @@ public class Noise : MonoBehaviour
                 {
                     float octaveModifier = Mathf.Pow(2, i);
                     noiseMap[x, y] += (1 / octaveModifier) * Mathf.PerlinNoise(sampleX * octaveModifier, sampleY * octaveModifier);
-                    noiseMap[x, y] -= 0.09f;
                 }
+
+                noiseMap[x, y] -= 0.5f;
             }
 
         return noiseMap;
