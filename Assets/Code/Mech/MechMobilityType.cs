@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class MechMobilityType 
 {
-    public readonly int _movement;
-    public readonly int _armor;
+    [SerializeField] string _name; public string name => _name;
 
-    MobilityFlags[] _mobilityFlags;
+    [SerializeField] int _movement;
+    [SerializeField] int _armor;
 
-
-    public MechMobilityType(int inMovement, int inArmor, MobilityFlags[] inMobilityFlags)
-    {
-        _movement = inMovement;
-        _armor    = inArmor;
-
-        _mobilityFlags = inMobilityFlags;
-    }
+    [SerializeField] MobilityFlags[] _mobilityFlags;
 }
 
 public enum MobilityFlags
@@ -26,3 +20,5 @@ public enum MobilityFlags
     IgnoresDifficultTerrain,
     Stationary
 }
+
+    
