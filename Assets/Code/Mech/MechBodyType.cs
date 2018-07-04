@@ -2,29 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MechBodyType 
+
+public class MechBodyType
 {
-    Weapon[] _weaponSlots;
+    [SerializeField] string _name; public string name => _name;
+
+    [SerializeField] int _weaponSlotCount;  public int weaponSlotCount  => _weaponSlotCount;
+    [SerializeField] int _utilitySlotCount; public int utilitySlotCount => _utilitySlotCount; 
+}
+
+public class MechBody
+{
+    static MechBodyTypeDatabase _bodyTypeDatabase;
+    static MechBodyTypeDatabase bodyTypeDatabase = _bodyTypeDatabase ?? (_bodyTypeDatabase = Object.FindObjectOfType<MechBodyTypeDatabase>());
+
+    Weapon[]  _weaponSlots;
     Utility[] _utilitySlots;
 
+    MechBodyType _bodyType;
 
-    public MechBodyType(int inWeaponSlotCount, int inUtilitySlotCount)
+
+    public MechBody(string inBodyTypeName)
     {
-        _weaponSlots  = new Weapon[inWeaponSlotCount];
-        _utilitySlots = new Utility[inUtilitySlotCount];
+        _bodyType = _bodyTypeDatabase.GetBodyType(inBodyTypeName);
+
+        _weaponSlots  = new Weapon[_bodyType.weaponSlotCount];
+        _utilitySlots = new Utility[_bodyType.utilitySlotCount];
     }
-
-
-    Weapon  GetWeapon(int inSlotID)  => _weaponSlots[inSlotID];
-    Utility GetUtility(int inSlotID) => _utilitySlots[inSlotID];
 }
 
-class Weapon
+
+public class Weapon
 {
 
 }
 
-class Utility
+public class Utility
 {
 
 }

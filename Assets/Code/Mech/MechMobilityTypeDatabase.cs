@@ -6,14 +6,16 @@ public class MechMobilityTypeDatabase : MonoBehaviour
 {
     [SerializeField] List<MechMobilityType> _mobilityTypesToSerialize;
 
-    public Dictionary<string, MechMobilityType> _mobilityType { get; private set; } = new Dictionary<string, MechMobilityType>();
-
+    Dictionary<string, MechMobilityType> _mobilityTypes = new Dictionary<string, MechMobilityType>();
+     
 
     void Awake()
     {
         foreach (MechMobilityType mobilityTypeToSerialize in _mobilityTypesToSerialize)
-        {
-            _mobilityType.Add(mobilityTypeToSerialize.name, mobilityTypeToSerialize);
-        }
+            _mobilityTypes.Add(mobilityTypeToSerialize.name, mobilityTypeToSerialize);
     }
+
+
+    public MechMobilityType GetMobilityType(string inMobilityTypeName) => _mobilityTypes[inMobilityTypeName];
+
 }

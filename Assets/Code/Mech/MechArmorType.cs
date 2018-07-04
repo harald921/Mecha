@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class MechArmorType 
 {
-    public readonly int _movementModifier;
-    public readonly int _armorModifier;
+    [SerializeField] string _name; public string name => _name;
 
-
-    public MechArmorType(int inMovementModifier, int inArmorModifier)
-    {
-        _movementModifier = inMovementModifier;
-        _armorModifier = inArmorModifier;
-    }
+    [SerializeField] int _movementModifier; public int movementModifier => _movementModifier;
+    [SerializeField] int _armorModifier;    public int armorModifier    => _armorModifier;
 }
