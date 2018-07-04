@@ -13,6 +13,10 @@ public class MechBodyType
         _weaponSlots  = new Weapon[inWeaponSlotCount];
         _utilitySlots = new Utility[inUtilitySlotCount];
     }
+
+
+    Weapon  GetWeapon(int inSlotID)  => _weaponSlots[inSlotID];
+    Utility GetUtility(int inSlotID) => _utilitySlots[inSlotID];
 }
 
 class Weapon

@@ -12,7 +12,8 @@ public class World : MonoBehaviour
     public static World instance => _instance ?? (_instance = FindObjectOfType<World>());
 
     static int _worldSize = Constants.Terrain.WORLD_SIZE;
-    Chunk[,]   _chunks    = new Chunk[_worldSize, _worldSize];
+
+    Chunk[,] _chunks = new Chunk[_worldSize, _worldSize];
 
     ChunkGenerator _chunkGenerator;
 
@@ -25,7 +26,7 @@ public class World : MonoBehaviour
 
         for (int y = 0; y < _worldSize; y++)
             for (int x = 0; x < _worldSize; x++)
-                _chunkGenerator.Generate(new Vector2DInt(x, y));
+                _chunks[x,y] = _chunkGenerator.Generate(new Vector2DInt(x, y));
     }
 }
 

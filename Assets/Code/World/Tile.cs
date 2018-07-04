@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Tile
 {
-    readonly Vector2DInt _position;
-    readonly Vector2DInt _chunkPosition;
+    public readonly Vector2DInt position;
+    public readonly Vector2DInt chunkPosition;
 
     public Terrain terrain { get; private set; }
 
 
     public Tile(Vector2DInt inPosition, Vector2DInt inChunkPosition, Terrain inTerrain)
     {
-        _position = inPosition;
-        _chunkPosition = inChunkPosition;
+        position = inPosition;
+        chunkPosition = inChunkPosition;
 
         terrain = inTerrain;
     }
