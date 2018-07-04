@@ -6,14 +6,16 @@ public struct Vector2DInt
 {
     public int x, y;
 
+    #region Properties
     public static Vector2DInt Zero  => new Vector2DInt(0, 0);
     public static Vector2DInt One   => new Vector2DInt(1);
     public static Vector2DInt Up    => new Vector2DInt(0, 1);
     public static Vector2DInt Down  => new Vector2DInt(0, -1);
     public static Vector2DInt Left  => new Vector2DInt(-1, 0);
     public static Vector2DInt Right => new Vector2DInt(1, 0);
+    #endregion
 
-
+    #region Constructors
     public Vector2DInt(int inXandY)
     {
         x = inXandY;
@@ -25,7 +27,9 @@ public struct Vector2DInt
         x = inX;
         y = inY;
     }
+    #endregion
 
+    #region Methods
     public void SetXandYto100()
     {
         x = 100;
@@ -41,8 +45,9 @@ public struct Vector2DInt
 
         return true;
     }
+    #endregion
 
-
+    #region Serialization
     public void BinarySave(BinaryWriter inWriter)
     {
         inWriter.Write(x);
@@ -54,7 +59,9 @@ public struct Vector2DInt
         x = inReader.ReadInt32();
         y = inReader.ReadInt32();
     }
+    #endregion
 
+    #region Overrides
     public override string ToString() =>
         "(" + x + ", " + y + ")";
 
@@ -69,6 +76,16 @@ public struct Vector2DInt
         }
 
         return false;
+    }
+
+    public override int GetHashCode()
+    {
+        int hash = 17;
+
+        hash *= 23 + x.GetHashCode();
+        hash *= 23 + y.GetHashCode();
+
+        return hash;
     }
 
     public static Vector2DInt operator +(Vector2DInt inVector1, Vector2DInt inVector2) =>
@@ -127,4 +144,6 @@ public struct Vector2DInt
     public static bool operator !=(Vector2DInt inVector1, Vector2DInt inVector2) =>
         inVector1.x != inVector2.x ||
         inVector1.y != inVector2.y;
+
+    #endregion
 }
