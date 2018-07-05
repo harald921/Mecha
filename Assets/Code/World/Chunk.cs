@@ -29,6 +29,9 @@ public class Chunk
     public Tile GetTile(Vector2DInt inPosition) => 
         _tiles[inPosition.x, inPosition.y];
 
+    public Tile GetTile(int inPositionX, int inPositionY) =>
+        _tiles[inPositionX, inPositionY];
+
     public void SetTile(Vector2DInt inPosition, Tile inTile)
     {
         _tiles[inPosition.x, inPosition.y] = inTile;

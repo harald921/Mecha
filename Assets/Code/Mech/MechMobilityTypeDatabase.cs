@@ -4,18 +4,59 @@ using UnityEngine;
 
 public class MechMobilityTypeDatabase : MonoBehaviour
 {
-    [SerializeField] List<MechMobilityType> _mobilityTypesToSerialize;
+    static MechMobilityTypeDatabase _instance;
+    public static MechMobilityTypeDatabase instance => _instance ?? (_instance = FindObjectOfType<MechMobilityTypeDatabase>());
 
-    Dictionary<string, MechMobilityType> _mobilityTypes = new Dictionary<string, MechMobilityType>();
+
+    [SerializeField] List<MechMobilityTypeData> _mobilityTypesToSerialize;
+
+    Dictionary<string, MechMobilityTypeData> _mobilityTypes = new Dictionary<string, MechMobilityTypeData>();
      
 
     void Awake()
     {
-        foreach (MechMobilityType mobilityTypeToSerialize in _mobilityTypesToSerialize)
+        foreach (MechMobilityTypeData mobilityTypeToSerialize in _mobilityTypesToSerialize)
             _mobilityTypes.Add(mobilityTypeToSerialize.name, mobilityTypeToSerialize);
     }
 
 
-    public MechMobilityType GetMobilityType(string inMobilityTypeName) => _mobilityTypes[inMobilityTypeName];
+    public MechMobilityTypeData GetMobilityType(string inMobilityTypeName) => _mobilityTypes[inMobilityTypeName];
+}
 
+
+
+public class MechMobilityType
+{
+    static MechMobilityTypeDatabase _mobilityTypeDB = MechMobilityTypeDatabase.instance;
+
+    public MechMobilityTypeData data => _mobilityTypeDB.GetMobilityType(_mobilityTypeName);
+
+    readonly string _mobilityTypeName;
+
+
+    public MechMobilityType(string inMobilityTypeName)
+    {
+        _mobilityTypeName = inMobilityTypeName;
+    }
+}
+
+
+
+[System.Serializable]
+public class MechMobilityTypeData
+{
+    [SerializeField] string _name; public string name => _name;
+
+    [SerializeField] int _movementModifier; public int movementModifier => _movementModifier;
+    [SerializeField] int _armorModifier;    public int armorModifier    => _armorModifier;
+
+    [SerializeField] MobilityFlags[] _mobilityFlags;
+}
+
+public enum MobilityFlags
+{
+    Aerial,
+    CanTravelLiquids,
+    IgnoresDifficultTerrain,
+    Stationary
 }

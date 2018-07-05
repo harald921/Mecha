@@ -4,17 +4,49 @@ using UnityEngine;
 
 public class MechArmorTypeDatabase : MonoBehaviour
 {
-    [SerializeField] List<MechArmorType> _armorTypesToSerialize;
+    static MechArmorTypeDatabase _instance;
+    public static MechArmorTypeDatabase instance => _instance ?? (_instance = FindObjectOfType<MechArmorTypeDatabase>());
 
-    Dictionary<string, MechArmorType> _armorTypes = new Dictionary<string, MechArmorType>();
+
+    [SerializeField] List<MechArmorTypeData> _armorTypesToSerialize;
+
+    Dictionary<string, MechArmorTypeData> _armorTypes = new Dictionary<string, MechArmorTypeData>();
 
     
     void Awake()
     {
-        foreach (MechArmorType armorType in _armorTypesToSerialize)
+        foreach (MechArmorTypeData armorType in _armorTypesToSerialize)
             _armorTypes.Add(armorType.name, armorType);
     }
 
 
-    public MechArmorType GetArmorType(string inArmorTypeName) => _armorTypes[inArmorTypeName];
+    public MechArmorTypeData GetArmorType(string inArmorTypeName) => _armorTypes[inArmorTypeName];
+}
+
+
+
+public class MechArmorType
+{
+    static MechArmorTypeDatabase _armorTypeDB = MechArmorTypeDatabase.instance;
+
+    public MechArmorTypeData data => _armorTypeDB.GetArmorType(_armorTypeName);
+
+    readonly string _armorTypeName;
+
+
+    public MechArmorType(string inArmorTypeName)
+    {
+        _armorTypeName = inArmorTypeName;
+    }
+}
+
+
+
+[System.Serializable]
+public class MechArmorTypeData
+{
+    [SerializeField] string _name; public string name => _name;
+
+    [SerializeField] int _movementModifier; public int movementModifier => _movementModifier;
+    [SerializeField] int _armorModifier;    public int armorModifier    => _armorModifier;
 }

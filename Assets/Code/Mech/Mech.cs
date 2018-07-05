@@ -1,19 +1,36 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Mech 
+public partial class Mech
 {
     public readonly MechBodyType     bodyType;
     public readonly MechMobilityType mobilityType;
     public readonly MechArmorType    armorType;
 
+    public readonly UtilityComponent  utilityComponent;
+    public readonly MovementComponent movementComponent;
+    public readonly ViewComponent     viewComponent;
 
-    public Mech(MechBodyType inBodyType, MechMobilityType inMobilitytype, MechArmorType inArmorType)
+    public event Action OnComponentsCreated;
+    public event Action OnComponentsInitialized;
+
+
+    public Mech(MechBodyType inBodyType, MechMobilityType inMobilityType, MechArmorType inArmorType, Tile inSpawnTile)
     {
         bodyType     = inBodyType;
-        mobilityType = inMobilitytype;
+        mobilityType = inMobilityType;
         armorType    = inArmorType;
+
+        utilityComponent  = new UtilityComponent(this);
+        movementComponent = new MovementComponent(this, inSpawnTile);
+        viewComponent     = new ViewComponent(this);
+
+        OnComponentsCreated?.Invoke();
+        OnComponentsInitialized?.Invoke();
     }
 }
+
+
