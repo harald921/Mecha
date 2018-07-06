@@ -15,8 +15,7 @@ public class MechMobilityTypeDatabase : MonoBehaviour
 
     void Awake()
     {
-        foreach (MechMobilityTypeData mobilityTypeToSerialize in _mobilityTypesToSerialize)
-            _mobilityTypes.Add(mobilityTypeToSerialize.name, mobilityTypeToSerialize);
+        _mobilityTypesToSerialize.ForEach(mobilityType => _mobilityTypes.Add(mobilityType.name, mobilityType));
     }
 
 

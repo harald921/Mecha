@@ -15,8 +15,7 @@ public class MechArmorTypeDatabase : MonoBehaviour
     
     void Awake()
     {
-        foreach (MechArmorTypeData armorType in _armorTypesToSerialize)
-            _armorTypes.Add(armorType.name, armorType);
+        _armorTypesToSerialize.ForEach(armorType => _armorTypes.Add(armorType.name, armorType));
     }
 
 

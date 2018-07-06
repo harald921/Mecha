@@ -15,8 +15,7 @@ public class MechBodyTypeDatabase : MonoBehaviour
 
     void Awake()
     {
-        foreach (MechBodyTypeData bodyType in _bodyTypesToSerialize)
-            _bodyTypes.Add(bodyType.name, bodyType);
+        _bodyTypesToSerialize.ForEach(bodyType => _bodyTypes.Add(bodyType.name, bodyType));
     }
 
 
