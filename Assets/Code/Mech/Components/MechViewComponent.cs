@@ -19,9 +19,9 @@ public partial class Mech
         }
 
 
-        void UpdatePosition(object inSender, OnCurrentTileChangeArgs inTileChangeArgs)
+        void UpdatePosition(OnCurrentTileChangeArgs inTileChangeArgs)
         {
-            Vector2DInt newPosition = inTileChangeArgs.currentTile.position;
+            Vector2DInt newPosition = inTileChangeArgs.currentTile.worldPosition;
 
             _viewGO.transform.position = new Vector3(newPosition.x + 0.5f, 0.5f, newPosition.y + 0.5f);
         }

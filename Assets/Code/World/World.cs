@@ -18,6 +18,7 @@ public class World : MonoBehaviour
 
     Mech _testMech;
 
+
     void Awake()
     {
         _instance = this;
@@ -31,13 +32,30 @@ public class World : MonoBehaviour
         _testMech = new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), _chunks[0, 0].GetTile(2, 3));
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+            _testMech.movementComponent.Move(Vector2DInt.Up);
+        if (Input.GetKeyDown(KeyCode.S))
+            _testMech.movementComponent.Move(Vector2DInt.Down);
+        if (Input.GetKeyDown(KeyCode.A))
+            _testMech.movementComponent.Move(Vector2DInt.Left);
+        if (Input.GetKeyDown(KeyCode.D))
+            _testMech.movementComponent.Move(Vector2DInt.Right);
+    }
+
 
     public Tile GetTile(Vector2DInt inWorldPosition)
     {
-        throw new System.Exception("TODO: Implement this");
+        Vector2DInt inChunkPosition = WorldPositionToChunkPosition(inWorldPosition);
+        return _chunks[inChunkPosition.x, inChunkPosition.y].GetTile(inWorldPosition);
     }
 
     public Chunk GetChunk(Vector2DInt inChunkPosition) => _chunks[inChunkPosition.x, inChunkPosition.y];
+
+
+    public static Vector2DInt WorldPositionToChunkPosition(Vector2DInt inWorldPosition) =>
+        inWorldPosition / Constants.Terrain.CHUNK_SIZE;
 }
 
 

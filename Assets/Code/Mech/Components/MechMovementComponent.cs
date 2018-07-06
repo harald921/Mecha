@@ -12,7 +12,7 @@ public partial class Mech
 
         readonly int movementSpeed;
 
-        public event EventHandler<OnCurrentTileChangeArgs> OnCurrentTileChange;
+        public event Action<OnCurrentTileChangeArgs> OnCurrentTileChange;
 
 
         public MovementComponent(Mech inParentMech, Tile inSpawnTile) : base(inParentMech)
@@ -21,19 +21,30 @@ public partial class Mech
 
             currentTile = inSpawnTile;
 
-
-            mech.OnComponentsInitialized += () => OnCurrentTileChange?.Invoke(this, new OnCurrentTileChangeArgs(currentTile));
+            mech.OnComponentsInitialized += () => OnCurrentTileChange?.Invoke(new OnCurrentTileChangeArgs(currentTile));
         }
 
 
         public void Move(Vector2DInt inDirection)
         {
-            throw new Exception("TODO: Implement this");
+            Tile targetTile = currentTile.GetRelativeTile(inDirection);
+            if (targetTile == null)
+            {
+                Debug.LogError("Tried to move onto null tile");
+                return;
+            }
+
+            Tile previousTile = currentTile;
+            currentTile = targetTile;
+
+            OnCurrentTileChange?.Invoke(new OnCurrentTileChangeArgs(currentTile, previousTile));
         }
     }
 }
 
-public class OnCurrentTileChangeArgs : EventArgs
+
+
+public class OnCurrentTileChangeArgs
 {
     public Tile currentTile;
     public Tile previousTile;
