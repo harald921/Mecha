@@ -3,10 +3,10 @@
 
 
 
-* Implement pathfinding
-* Make the test mech pathfind to the tile you click
-* Make pathfinding work with different terrain types (Aerial ignores mountains, amphibious ignores water, etc)
-* Add some kinda turn, with "planned actions" which are executed when the turn is done
+* Make pathfinding work with different terrain types (Aerial ignores mountains, amphibious ignores water, etc). Probably should make a pathfinding component..
+* Make it so that you can click a mech, and see what tiles it can move to
+* Make each mech only able to perform 1 action per turn, and a way to go to "next player"
+
 
 
 
