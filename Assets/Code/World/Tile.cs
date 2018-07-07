@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Tile
 {
+    public readonly Vector2DInt localPosition;
     public readonly Vector2DInt worldPosition;
     public readonly Vector2DInt chunkPosition;
 
@@ -12,12 +13,13 @@ public class Tile
     public readonly Node node;
 
 
-    public Tile(Vector2DInt inPosition, Vector2DInt inChunkPosition, Terrain inTerrain)
+    public Tile(Vector2DInt inLocalPosition, Vector2DInt inChunkPosition, Terrain inTerrain)
     {
         node = new Node(this);
 
-        worldPosition = inPosition;
+        localPosition = inLocalPosition;
         chunkPosition = inChunkPosition;
+        worldPosition = localPosition + (chunkPosition * Constants.Terrain.CHUNK_SIZE); // TODO: Read from file ONCE
 
         terrain = inTerrain;
     }

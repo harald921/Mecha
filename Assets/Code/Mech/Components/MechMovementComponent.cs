@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using MEC;
 
 public partial class Mech
 {
@@ -25,19 +25,31 @@ public partial class Mech
         }
 
 
-        public void Move(Vector2DInt inDirection)
+        public void TryMoveTo(Tile inDestination)
         {
-            Tile targetTile = currentTile.GetRelativeTile(inDirection);
-            if (targetTile == null)
+            Debug.Log($"Trying to move from { currentTile.worldPosition.ToString() } to { inDestination.worldPosition.ToString() } ");
+
+            List<Tile> path = Pathfinder.FindPath(currentTile, inDestination);
+
+            if (path.Count > 0)
+                Timing.RunCoroutine(_DoMoveAnimation(path));       
+
+            else
+                Debug.LogError("Couldn't move to destination");
+        }
+
+        
+        IEnumerator<float> _DoMoveAnimation(List<Tile> inPath)
+        {
+            foreach (Tile tile in inPath)
             {
-                Debug.LogError("Tried to move onto null tile");
-                return;
+                Tile previousTile = currentTile;
+                currentTile = tile;
+
+                OnCurrentTileChange(new OnCurrentTileChangeArgs(currentTile, previousTile));
+
+                yield return Timing.WaitForSeconds(0.1f);
             }
-
-            Tile previousTile = currentTile;
-            currentTile = targetTile;
-
-            OnCurrentTileChange?.Invoke(new OnCurrentTileChangeArgs(currentTile, previousTile));
         }
     }
 }

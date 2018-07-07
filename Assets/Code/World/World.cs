@@ -34,28 +34,34 @@ public class World : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-            _testMech.movementComponent.Move(Vector2DInt.Up);
-        if (Input.GetKeyDown(KeyCode.S))
-            _testMech.movementComponent.Move(Vector2DInt.Down);
-        if (Input.GetKeyDown(KeyCode.A))
-            _testMech.movementComponent.Move(Vector2DInt.Left);
-        if (Input.GetKeyDown(KeyCode.D))
-            _testMech.movementComponent.Move(Vector2DInt.Right);
+        Vector3     mouseWorldPosition  = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2DInt targetWorldPosition = new Vector2DInt((int)mouseWorldPosition.x, (int)mouseWorldPosition.z);
+
+        if (Input.GetMouseButtonDown(0))
+            _testMech.movementComponent.TryMoveTo(GetTile(targetWorldPosition));
     }
 
 
     public Tile GetTile(Vector2DInt inWorldPosition)
     {
-        Vector2DInt inChunkPosition = WorldPositionToChunkPosition(inWorldPosition);
-        return _chunks[inChunkPosition.x, inChunkPosition.y].GetTile(inWorldPosition);
+        if (inWorldPosition.x < 0 || inWorldPosition.y < 0)
+            return null;
+
+        Vector2DInt chunkPosition = WorldPosToChunkPos(inWorldPosition);
+        Vector2DInt tilePosition  = WorldPosToLocalTilePos(inWorldPosition);
+
+        return _chunks[chunkPosition.x, chunkPosition.y].GetTile(tilePosition);
     }
 
-    public Chunk GetChunk(Vector2DInt inChunkPosition) => _chunks[inChunkPosition.x, inChunkPosition.y];
+    public Chunk GetChunk(Vector2DInt inChunkPosition) => 
+        _chunks[inChunkPosition.x, inChunkPosition.y];
 
 
-    public static Vector2DInt WorldPositionToChunkPosition(Vector2DInt inWorldPosition) =>
+    public static Vector2DInt WorldPosToChunkPos(Vector2DInt inWorldPosition) =>
         inWorldPosition / Constants.Terrain.CHUNK_SIZE;
+
+    public static Vector2DInt WorldPosToLocalTilePos(Vector2DInt inWorldPosition) =>
+        inWorldPosition % Constants.Terrain.CHUNK_SIZE;
 }
 
 
