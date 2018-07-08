@@ -122,19 +122,19 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4180069653611544, guid: b013a1df5dce43848826511e2ddab3b2, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.38
       objectReference: {fileID: 0}
     - target: {fileID: 4180069653611544, guid: b013a1df5dce43848826511e2ddab3b2, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4180069653611544, guid: b013a1df5dce43848826511e2ddab3b2, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -10
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 4180069653611544, guid: b013a1df5dce43848826511e2ddab3b2, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4180069653611544, guid: b013a1df5dce43848826511e2ddab3b2, type: 2}
       propertyPath: m_LocalRotation.y
@@ -146,11 +146,25 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4180069653611544, guid: b013a1df5dce43848826511e2ddab3b2, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4180069653611544, guid: b013a1df5dce43848826511e2ddab3b2, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180069653611544, guid: b013a1df5dce43848826511e2ddab3b2, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 20710050953780754, guid: b013a1df5dce43848826511e2ddab3b2,
+        type: 2}
+      propertyPath: orthographic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20710050953780754, guid: b013a1df5dce43848826511e2ddab3b2,
+        type: 2}
+      propertyPath: orthographic size
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b013a1df5dce43848826511e2ddab3b2, type: 2}
