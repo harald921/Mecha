@@ -62,6 +62,10 @@ public static class Pathfinder
     {
         Tile currentTile = inTileList[0];
 
+        List<Player> players = new List<Player>();
+
+        var onlinePlayers = players.Where(player => player.isOnline);
+
         foreach (Tile openTile in inTileList)
             if (openTile.node.totalCost <= currentTile.node.totalCost)
             {
@@ -92,4 +96,9 @@ public static class Pathfinder
 
         return path;
     }
+}
+
+class Player
+{
+    public bool isOnline;
 }
