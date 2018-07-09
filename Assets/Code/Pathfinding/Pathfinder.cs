@@ -62,8 +62,6 @@ public static class Pathfinder
     {
         Tile currentTile = inTileList[0];
 
-        var cheaperTiles = inTileList.Where(openTile => openTile.node.totalCost <= currentTile.node.totalCost);
-
         foreach (Tile openTile in inTileList)
             if (openTile.node.totalCost <= currentTile.node.totalCost)
             {
