@@ -10,7 +10,7 @@ public partial class Mech
     {
         public Tile currentTile { get; private set; }
 
-        readonly int movementSpeed;
+        public readonly int movementSpeed;
 
         public event Action<OnCurrentTileChangeArgs> OnCurrentTileChange;
 
@@ -27,9 +27,7 @@ public partial class Mech
 
         public void TryMoveTo(Tile inDestination)
         {
-            Debug.Log($"Trying to move from { currentTile.worldPosition.ToString() } to { inDestination.worldPosition.ToString() } ");
-
-            List<Tile> path = Pathfinder.FindPath(currentTile, inDestination);
+            List<Tile> path = mech.pathfindingComponent.FindPath(currentTile, inDestination);
 
             if (path.Count > 0)
                 Timing.RunCoroutine(_DoMoveAnimation(path));       

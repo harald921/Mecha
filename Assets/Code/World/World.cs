@@ -29,6 +29,10 @@ public class World : MonoBehaviour
             for (int x = 0; x < _worldSize; x++)
                 _chunks[x,y] = _chunkGenerator.Generate(new Vector2DInt(x, y));
 
+    }
+
+    void Start()
+    {
         _testMech = new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), _chunks[0, 0].GetTile(2, 3));
     }
 

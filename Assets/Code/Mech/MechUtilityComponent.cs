@@ -17,5 +17,9 @@ public partial class Mech
             _weaponSlots  = new Weapon[mech.bodyType.data.weaponSlotCount];
             _utilitySlots = new Utility[mech.bodyType.data.utilitySlotCount];
         }
+
+
+        public Weapon GetWeapon(int inSlotID)   => _weaponSlots[inSlotID];
+        public Utility GetUtility(int inSlotID) => _utilitySlots[inSlotID];
     }
 }
