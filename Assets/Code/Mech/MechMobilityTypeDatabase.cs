@@ -49,7 +49,9 @@ public class MechMobilityTypeData
     [SerializeField] int _movementModifier; public int movementModifier => _movementModifier;
     [SerializeField] int _armorModifier;    public int armorModifier    => _armorModifier;
 
-    [SerializeField] MobilityFlags[] _mobilityFlags;
+    [SerializeField] List<MobilityFlags> _mobilityFlags;
+
+    public bool ContainsMobilityFlag(MobilityFlags inMobilityFlag) => _mobilityFlags.Contains(inMobilityFlag);
 }
 
 public enum MobilityFlags

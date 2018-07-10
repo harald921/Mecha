@@ -6,10 +6,10 @@ public struct Terrain
 {
     static Dictionary<TerrainType, TerrainData> _staticTerrainData = new Dictionary<TerrainType, TerrainData>()
     {
-        { TerrainType.Grass,  new TerrainData(inTextureID: 0, inMoveSpeedMultiplier: 1.0f, inPassable: true) },
-        { TerrainType.Sand,   new TerrainData(inTextureID: 1, inMoveSpeedMultiplier: 0.5f, inPassable: true) },
-        { TerrainType.Rock,   new TerrainData(inTextureID: 2, inMoveSpeedMultiplier: 0.5f, inPassable: true) },
-        { TerrainType.Water,  new TerrainData(inTextureID: 3, inMoveSpeedMultiplier: 0.5f, inPassable: true) }
+        { TerrainType.Grass,  new TerrainData(inTextureID: 0, inTerrainFlag: TerrainFlag.Normal)     },
+        { TerrainType.Sand,   new TerrainData(inTextureID: 1, inTerrainFlag: TerrainFlag.Difficult)  },
+        { TerrainType.Rock,   new TerrainData(inTextureID: 2, inTerrainFlag: TerrainFlag.Impassable) },
+        { TerrainType.Water,  new TerrainData(inTextureID: 3, inTerrainFlag: TerrainFlag.Liquid)     }
 
     };
 
@@ -27,16 +27,13 @@ public struct Terrain
 
 public class TerrainData
 {
-    public readonly int textureID;
-    public readonly float moveSpeedMultiplier;
-    public readonly bool passable;
+    public readonly int   textureID;
+    public readonly TerrainFlag terrainFlag;
 
-
-    public TerrainData(int inTextureID, float inMoveSpeedMultiplier, bool inPassable)
+    public TerrainData(int inTextureID, TerrainFlag inTerrainFlag)
     {
-        textureID = inTextureID;
-        moveSpeedMultiplier = inMoveSpeedMultiplier;
-        passable = inPassable;
+        textureID   = inTextureID;
+        terrainFlag = inTerrainFlag;
     }
 }
 
@@ -46,4 +43,12 @@ public enum TerrainType
     Sand,
     Rock,
     Water
+}
+
+public enum TerrainFlag
+{
+    Normal,
+    Difficult,
+    Liquid,
+    Impassable
 }

@@ -9,6 +9,7 @@ public partial class Mech
     {
         public PathfindingComponent(Mech inParentMech) : base(inParentMech) { }
 
+
         public List<Tile> FindPath(Tile inStart, Tile inDestination)
         {
             List<Tile> closedTiles = new List<Tile>();
@@ -28,12 +29,17 @@ public partial class Mech
                 List<Tile> neighbours = currentTile.GetNeighbours();
                 foreach (Tile neighbour in neighbours)
                 {
-                    if (!neighbour.terrain.data.passable)
-                        continue;
-    
                     if (closedTiles.Contains(neighbour))
                         continue;
-    
+
+                    if (neighbour.terrain.data.terrainFlag == TerrainFlag.Impassable)
+                        if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.Aerial))
+                            continue;
+
+                    if (neighbour.terrain.data.terrainFlag == TerrainFlag.Liquid)
+                        if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.CanTravelLiquids))
+                            continue;
+
                     // Calculate the neighbours cost from start
                     int newNeighbourCostToStart = currentTile.node.costToStart + currentTile.node.CostBetween(neighbour);
     
