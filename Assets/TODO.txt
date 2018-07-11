@@ -3,7 +3,6 @@
 
 
 
-* Make 
 * Make difficult terrain different from normal terrain
 * Make it so that you can click a mech, and see what tiles it can move to
 * Make each mech only able to perform 1 action per turn, and a way to go to "next player"
