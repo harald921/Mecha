@@ -3,7 +3,7 @@
 
 
 
-* Think of a way to handle actions
+* Think of a way to handle "actions"
 * Limit range of actions, such as Move and Fire
 * Instantiate green translucent cubes over all tiles which are within reach of an action
 * Make each mech only able to perform 1 action per turn, and a way to go to "next player"
