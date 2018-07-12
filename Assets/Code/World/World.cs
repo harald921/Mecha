@@ -68,6 +68,36 @@ public class World : MonoBehaviour
         inWorldPosition % Constants.Terrain.CHUNK_SIZE;
 }
 
+class Player : MonoBehaviour
+{
+
+}
+
+interface ICommand
+{
+    void Execute();
+    void Cancel();
+}
+
+class CommandMoveMech : ICommand
+{
+    readonly Mech _mechActor;
 
 
+    public CommandMoveMech(Mech inMechActor)
+    {
+        _mechActor = inMechActor;
+    }
+
+
+    public void Execute()
+    {
+        
+    }
+
+    public void Cancel()
+    {
+        throw new System.NotImplementedException();
+    }
+}
 
