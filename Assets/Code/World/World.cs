@@ -38,7 +38,8 @@ public class World : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
-            _testMech.movementComponent.TryMoveTo(GetTile(GetCurrentMouseWorldPos()));
+            if (GetCurrentMouseWorldPos() == _testMech.movementComponent.currentTile.worldPosition)
+                _testMech.inputComponent.Click();
     }
 
 
