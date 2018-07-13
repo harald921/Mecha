@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -38,11 +37,8 @@ public class World : MonoBehaviour
 
     void Update()
     {
-        Vector3     mouseWorldPosition  = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2DInt targetWorldPosition = new Vector2DInt((int)mouseWorldPosition.x, (int)mouseWorldPosition.z);
-
         if (Input.GetMouseButtonDown(0))
-            _testMech.movementComponent.TryMoveTo(GetTile(targetWorldPosition));
+            _testMech.movementComponent.TryMoveTo(GetTile(GetCurrentMouseWorldPos()));
     }
 
 
@@ -66,38 +62,11 @@ public class World : MonoBehaviour
 
     public static Vector2DInt WorldPosToLocalTilePos(Vector2DInt inWorldPosition) =>
         inWorldPosition % Constants.Terrain.CHUNK_SIZE;
-}
 
-class Player : MonoBehaviour
-{
-
-}
-
-interface ICommand
-{
-    void Execute();
-    void Cancel();
-}
-
-class CommandMoveMech : ICommand
-{
-    readonly Mech _mechActor;
-
-
-    public CommandMoveMech(Mech inMechActor)
+    public static Vector2DInt GetCurrentMouseWorldPos()
     {
-        _mechActor = inMechActor;
-    }
-
-
-    public void Execute()
-    {
-        
-    }
-
-    public void Cancel()
-    {
-        throw new System.NotImplementedException();
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return new Vector2DInt((int)mouseWorldPosition.x, (int)mouseWorldPosition.z);
     }
 }
 
