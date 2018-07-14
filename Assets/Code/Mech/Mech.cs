@@ -100,6 +100,8 @@ public partial class Mech
 
         readonly Mech _mechActor;
 
+        WalkableTilesView _walkableTilesView;
+
 
         public MoveAction(Mech inMechActor)
         {
@@ -109,6 +111,14 @@ public partial class Mech
         public void Start()
         {
             isActive = true;
+
+            List<Vector2DInt> walkableTilePositions = new List<Vector2DInt>();
+
+            for (int y = -2; y < 3; y++)
+                for (int x = -2; x < 3; x++)
+                    walkableTilePositions.Add(new Vector2DInt(x, y) + _mechActor.movementComponent.currentTile.worldPosition);
+
+            _walkableTilesView = new WalkableTilesView(walkableTilePositions);
 
             Debug.Log("move action started (display walkable tiles)");
         }
@@ -120,7 +130,36 @@ public partial class Mech
 
         public void Cancel()
         {
+            isActive = false;
+
+            _walkableTilesView.Destroy();
+            _walkableTilesView = null;
             Debug.Log("move action canceled (hide walkable tiles and UI)");
         }
+    }
+}
+
+public class WalkableTilesView
+{
+    GameObject[] _views;
+
+    public WalkableTilesView(List<Vector2DInt> inPositions)
+    {
+        _views = new GameObject[inPositions.Count];
+
+        for (int i = 0; i < inPositions.Count; i++)
+        {
+            GameObject tileView = GameObject.Instantiate(Resources.Load<GameObject>("Prefab_WalkableTile"));
+
+            tileView.transform.position = new Vector3(inPositions[i].x + 0.5f, 1, inPositions[i].y + 0.5f);
+
+            _views[i] = tileView;
+        }
+    }
+
+    public void Destroy()
+    {
+        foreach (GameObject view in _views)
+            GameObject.Destroy(view);
     }
 }
