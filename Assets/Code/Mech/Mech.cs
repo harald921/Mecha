@@ -112,20 +112,23 @@ public partial class Mech
         {
             isActive = true;
 
-            List<Vector2DInt> walkableTilePositions = new List<Vector2DInt>();
+            Debug.Log("TODO: Calculate what tiles can be moved to");
+            
+            { // Debug: Create a 3x3 grid of walkable tiles around the mech 
+                List<Vector2DInt> walkableTilePositions = new List<Vector2DInt>(); // _mechActor.movementComponent.GetTilesWithinMoveRange();
+                for (int y = -2; y < 3; y++)
+                    for (int x = -2; x < 3; x++)
+                        walkableTilePositions.Add(new Vector2DInt(x, y) + _mechActor.movementComponent.currentTile.worldPosition);
 
-            for (int y = -2; y < 3; y++)
-                for (int x = -2; x < 3; x++)
-                    walkableTilePositions.Add(new Vector2DInt(x, y) + _mechActor.movementComponent.currentTile.worldPosition);
-
-            _walkableTilesView = new WalkableTilesView(walkableTilePositions);
+                _walkableTilesView = new WalkableTilesView(walkableTilePositions);
+            }
 
             Debug.Log("move action started (display walkable tiles)");
         }
 
-        public void Execute() // This should be the RPC
+        public void Execute() 
         {
-
+            Debug.Log("TODO: Send this as an RPC when networking is implemented");
         }
 
         public void Cancel()

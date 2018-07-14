@@ -3,10 +3,12 @@
 
 
 
-* Think of a way to handle "actions"
-* Limit range of actions, such as Move and Fire
+* Write method to calculate and return the tiles that are eligble to be moved to
+* Write a method to calculate and return the tiles which are eligble to be fired upon
 * Instantiate green translucent cubes over all tiles which are within reach of an action
+
 * Make each mech only able to perform 1 action per turn, and a way to go to "next player"
+
 * Make difficult terrain different from normal terrain (i.e, implement difficult terrain)
 
 
