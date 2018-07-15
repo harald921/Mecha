@@ -3,7 +3,8 @@
 
 
 
-* Write method to calculate and return the tiles that are eligble to be moved to
+* Create "Path" class which also contains the total distance needed to travel the entire path
+* Write method to calculate and return the tiles that are eligble to be moved to. Simply pathfind to every tile within "moveDistance"
 * Write a method to calculate and return the tiles which are eligble to be fired upon
 * Instantiate green translucent cubes over all tiles which are within reach of an action
 
@@ -15,8 +16,8 @@
 
 
 
-
-
+"´" -> "<"
+"`" -> ">"
 
 
 

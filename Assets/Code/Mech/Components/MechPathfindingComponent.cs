@@ -10,20 +10,23 @@ public partial class Mech
         public PathfindingComponent(Mech inParentMech) : base(inParentMech) { }
 
 
-        public List<Tile> FindPath(Tile inStart, Tile inDestination)
+        public Path FindPath(Tile inDestination)
         {
+            if (!CanEnter(inDestination))
+                return Path.Empty;
+
             List<Tile> closedTiles = new List<Tile>();
             List<Tile> openTiles = new List<Tile>() {
-                inStart
+                mech.movementComponent.currentTile
             };
-    
+
             while (openTiles.Count > 0)
             {
                 Tile currentTile = GetTileWithLowestCost(openTiles);
     
                 // If the current tile is the target tile, the path is completed
                 if (currentTile == inDestination)
-                    return RetracePath(inStart, inDestination);
+                    return RetracePath(mech.movementComponent.currentTile, inDestination);
     
                 // Add all walkable neighbours to "openTiles"
                 List<Tile> neighbours = currentTile.GetNeighbours();
@@ -32,13 +35,8 @@ public partial class Mech
                     if (closedTiles.Contains(neighbour))
                         continue;
 
-                    if (neighbour.terrain.data.terrainFlag == TerrainFlag.Impassable)
-                        if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.Aerial))
-                            continue;
-
-                    if (neighbour.terrain.data.terrainFlag == TerrainFlag.Liquid)
-                        if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.CanTravelLiquids))
-                            continue;
+                    if (!CanEnter(neighbour))
+                        continue;
 
                     // Calculate the neighbours cost from start
                     int newNeighbourCostToStart = currentTile.node.costToStart + currentTile.node.CostBetween(neighbour);
@@ -64,10 +62,23 @@ public partial class Mech
             }
     
             // If this is reached, no path was found. Return an empty list.
-            return new List<Tile>();
+            return Path.Empty;
         }
     
     
+        bool CanEnter(Tile inTile)
+        {
+            if (inTile.terrain.data.terrainFlag == TerrainFlag.Impassable)
+                if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.Aerial))
+                    return false;
+
+            if (inTile.terrain.data.terrainFlag == TerrainFlag.Liquid)
+                if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.CanTravelLiquids))
+                    return false;
+
+            return true;
+        }
+
         Tile GetTileWithLowestCost(List<Tile> inTileList)
         {
             Tile currentTile = inTileList[0];
@@ -87,20 +98,38 @@ public partial class Mech
         }
     
     
-        List<Tile> RetracePath(Tile inStartTile, Tile inTargetTile)
+        Path RetracePath(Tile inStartTile, Tile inTargetTile)
         {
-            List<Tile> path = new List<Tile>();
-    
+            List<Tile> pathTiles    = new List<Tile>();
+            int        pathDistance = 0;
+
             Tile currentTile = inTargetTile;
             while (currentTile != inStartTile)
             {
-                path.Add(currentTile);
+                pathTiles.Add(currentTile);
+
+                pathDistance += currentTile.node.DistanceTo(currentTile.node.parent);
+
                 currentTile = currentTile.node.parent;
             }
     
-            path.Reverse();
+            pathTiles.Reverse();
     
-            return path;
+            return new Path(pathTiles, pathDistance);
         }
+    }
+}
+
+public class Path
+{
+    public readonly List<Tile> tiles;
+    public readonly int        distance;
+
+    public static Path Empty => new Path(new List<Tile>(), 0);
+
+    public Path(List<Tile> inTiles, int inDistance)
+    {
+        tiles    = inTiles;
+        distance = inDistance;
     }
 }

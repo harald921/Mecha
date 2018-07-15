@@ -10,14 +10,14 @@ public partial class Mech
     {
         public Tile currentTile { get; private set; }
 
-        public readonly int movementSpeed;
+        public readonly int moveSpeed;
 
         public event Action<OnCurrentTileChangeArgs> OnCurrentTileChange;
 
 
         public MovementComponent(Mech inParentMech, Tile inSpawnTile) : base(inParentMech)
         {
-            movementSpeed = mech.mobilityType.data.movementModifier + mech.armorType.data.movementModifier;
+            moveSpeed = mech.mobilityType.data.movementModifier + mech.armorType.data.movementModifier;
 
             currentTile = inSpawnTile;
 
@@ -27,10 +27,10 @@ public partial class Mech
 
         public void TryMoveTo(Tile inDestination)
         {
-            List<Tile> path = mech.pathfindingComponent.FindPath(currentTile, inDestination);
+            List<Tile> pathTiles = mech.pathfindingComponent.FindPath(inDestination).tiles;
 
-            if (path.Count > 0)
-                Timing.RunCoroutine(_DoMoveAnimation(path));       
+            if (pathTiles.Count > 0)
+                Timing.RunCoroutineSingleton(_DoMoveAnimation(pathTiles), 0, SingletonBehavior.Overwrite);       
 
             else
                 Debug.LogError("Couldn't move to destination");

@@ -112,16 +112,7 @@ public partial class Mech
         {
             isActive = true;
 
-            Debug.Log("TODO: Calculate what tiles can be moved to");
-            
-            { // Debug: Create a 3x3 grid of walkable tiles around the mech 
-                List<Vector2DInt> walkableTilePositions = new List<Vector2DInt>(); // _mechActor.movementComponent.GetTilesWithinMoveRange();
-                for (int y = -2; y < 3; y++)
-                    for (int x = -2; x < 3; x++)
-                        walkableTilePositions.Add(new Vector2DInt(x, y) + _mechActor.movementComponent.currentTile.worldPosition);
-
-                _walkableTilesView = new WalkableTilesView(walkableTilePositions);
-            }
+            _walkableTilesView = new WalkableTilesView(GetWalkablePositions());
 
             Debug.Log("move action started (display walkable tiles)");
         }
@@ -139,6 +130,33 @@ public partial class Mech
             _walkableTilesView = null;
             Debug.Log("move action canceled (hide walkable tiles and UI)");
         }
+
+
+        List<Vector2DInt> GetWalkablePositions()
+        {
+            int moveSpeed = _mechActor.movementComponent.moveSpeed;
+            Vector2DInt currentPosition = _mechActor.movementComponent.currentTile.worldPosition;
+
+            // Calculate possible positions
+            List<Vector2DInt> possiblePositions = new List<Vector2DInt>();
+            for (int y = -moveSpeed; y <= moveSpeed; y++)
+                for (int x = -moveSpeed; x <= moveSpeed; x++)
+                    possiblePositions.Add(new Vector2DInt(x, y) + currentPosition);
+
+            // test which positions are possible to reach within this turn
+            List<Vector2DInt> walkablePositions = new List<Vector2DInt>();
+            foreach (Vector2DInt possiblePosition in possiblePositions)
+            {
+                Tile possibleTile = World.instance.GetTile(possiblePosition);
+                int distanceToPossibleTile = _mechActor.pathfindingComponent.FindPath(possibleTile).distance;
+                if (possiblePosition != null)
+                    if (distanceToPossibleTile <= moveSpeed * 10)
+                        if (distanceToPossibleTile > 0)
+                            walkablePositions.Add(possiblePosition); 
+            }
+
+            return walkablePositions;
+        }
     }
 }
 
@@ -153,6 +171,7 @@ public class WalkableTilesView
         for (int i = 0; i < inPositions.Count; i++)
         {
             GameObject tileView = GameObject.Instantiate(Resources.Load<GameObject>("Prefab_WalkableTile"));
+
 
             tileView.transform.position = new Vector3(inPositions[i].x + 0.5f, 1, inPositions[i].y + 0.5f);
 
