@@ -66,13 +66,13 @@ public partial class Mech
         }
     
     
-        bool CanEnter(Tile inTile)
+        bool CanEnter(Tile inTileToEnter)
         {
-            if (inTile.terrain.data.terrainFlag == TerrainFlag.Impassable)
+            if (inTileToEnter.terrain.data.terrainFlag == TerrainFlag.Impassable)
                 if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.Aerial))
                     return false;
 
-            if (inTile.terrain.data.terrainFlag == TerrainFlag.Liquid)
+            if (inTileToEnter.terrain.data.terrainFlag == TerrainFlag.Liquid)
                 if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.CanTravelLiquids))
                     return false;
 

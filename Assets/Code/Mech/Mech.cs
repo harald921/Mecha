@@ -143,16 +143,19 @@ public partial class Mech
                 for (int x = -moveSpeed; x <= moveSpeed; x++)
                     possiblePositions.Add(new Vector2DInt(x, y) + currentPosition);
 
-            // test which positions are possible to reach within this turn
+            // Test which positions are possible to reach within this turn
             List<Vector2DInt> walkablePositions = new List<Vector2DInt>();
             foreach (Vector2DInt possiblePosition in possiblePositions)
             {
                 Tile possibleTile = World.instance.GetTile(possiblePosition);
-                int distanceToPossibleTile = _mechActor.pathfindingComponent.FindPath(possibleTile).distance;
-                if (possiblePosition != null)
+                if (possibleTile != null)
+                {
+                    int distanceToPossibleTile = _mechActor.pathfindingComponent.FindPath(possibleTile).distance;
+
                     if (distanceToPossibleTile <= moveSpeed * 10)
                         if (distanceToPossibleTile > 0)
                             walkablePositions.Add(possiblePosition); 
+                }
             }
 
             return walkablePositions;
