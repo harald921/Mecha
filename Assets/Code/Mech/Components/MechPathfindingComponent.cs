@@ -16,7 +16,7 @@ public partial class Mech
                 return Path.Empty;
 
             List<Tile> closedTiles = new List<Tile>();
-            List<Tile> openTiles = new List<Tile>() {
+            List<Tile> openTiles   = new List<Tile>() {
                 mech.movementComponent.currentTile
             };
 
@@ -37,6 +37,11 @@ public partial class Mech
 
                     if (!CanEnter(neighbour))
                         continue;
+
+                    if (currentTile.terrain.data.terrainFlag == TerrainFlag.Difficult)
+                        if (neighbour.terrain.data.terrainFlag == TerrainFlag.Difficult)
+                            if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.IgnoresDifficultTerrain))
+                                continue;
 
                     // Calculate the neighbours cost from start
                     int newNeighbourCostToStart = currentTile.node.costToStart + currentTile.node.CostBetween(neighbour);

@@ -113,8 +113,6 @@ public partial class Mech
             isActive = true;
 
             _walkableTilesView = new WalkableTilesView(GetWalkablePositions());
-
-            Debug.Log("move action started (display walkable tiles)");
         }
 
         public void Execute() 
@@ -128,7 +126,6 @@ public partial class Mech
 
             _walkableTilesView.Destroy();
             _walkableTilesView = null;
-            Debug.Log("move action canceled (hide walkable tiles and UI)");
         }
 
 
