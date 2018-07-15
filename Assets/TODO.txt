@@ -6,8 +6,6 @@
 
 * Make each mech only able to perform 1 action per turn, and a way to go to "next player"
 
-* Make difficult terrain different from normal terrain (i.e, implement difficult terrain)
-
 * Write a method to calculate and return the tiles which are eligble to be fired upon
 
 
