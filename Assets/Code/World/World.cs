@@ -50,7 +50,9 @@ public class World : MonoBehaviour
         if (inWorldPosition.x < 0 || inWorldPosition.y < 0)
             return null;
 
-        if (inWorldPosition.x >= _chunks.Length || inWorldPosition.y >= _chunks.Length)
+        int worldSize = Constants.Terrain.CHUNK_SIZE * Constants.Terrain.WORLD_SIZE;
+
+        if (inWorldPosition.x > worldSize || inWorldPosition.y > worldSize)
             return null;
 
         Vector2DInt chunkPosition = WorldPosToChunkPos(inWorldPosition);

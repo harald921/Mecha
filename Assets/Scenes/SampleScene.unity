@@ -250,6 +250,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114720027877597514, guid: 45d4690f5a024e347a4f06fbf4bfa945,
+        type: 2}
+      propertyPath: _mobilityTypesToSerialize.Array.data[0]._movementModifier
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 45d4690f5a024e347a4f06fbf4bfa945, type: 2}
   m_IsPrefabParent: 0

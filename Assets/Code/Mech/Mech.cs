@@ -42,57 +42,7 @@ public partial class Mech
 }
 
 
-public partial class Mech // Takes input, and executes events
-{
-    public class InputComponent : Component
-    {
-        public event Action OnClicked;
-
-
-        public InputComponent(Mech inMech) : base(inMech) { }
-
-
-        public void Click() =>
-            OnClicked?.Invoke();
-    }
-}
-
-public partial class Mech // Decides what action to "begin" depending on the input
-{
-    public class ActionComponent : Component
-    {
-        MoveAction _moveAction;
-
-        public ActionComponent(Mech inMech) : base(inMech)
-        {
-            _moveAction = new MoveAction(mech);
-
-            mech.OnComponentsCreated += () => mech.inputComponent.OnClicked += () =>
-            {
-                if (!_moveAction.isActive)
-                    _moveAction.Start();
-                else
-                    _moveAction.Cancel();
-            };
-        }
-
-    }
-}
-
-
-public partial class Mech // Holds references to UI, and displays it depending on what is happening
-{
-    public class UIComponent : Component
-    {
-        public UIComponent(Mech inMech) : base(inMech)
-        {
-
-        }
-    }
-}
-
-
-public partial class Mech
+public partial class Mech // TODO: Clean up
 {
     public class MoveAction
     {
@@ -160,7 +110,7 @@ public partial class Mech
     }
 }
 
-public class WalkableTilesView
+public class WalkableTilesView // TODO: Clean up
 {
     GameObject[] _views;
 

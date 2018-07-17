@@ -3,9 +3,9 @@
 
 
 
-
+* Clean up Mech.cs and think of a better way to name and store the Mech.MoveAction class and WalkableTilesView class
 * Make each mech only able to perform 1 action per turn, and a way to go to "next player"
-
+	
 * Write a method to calculate and return the tiles which are eligble to be fired upon
 
 
