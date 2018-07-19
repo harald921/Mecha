@@ -5,16 +5,15 @@ public class WalkableTilesView // TODO: Clean up
 {
     GameObject[] _views;
 
-    public WalkableTilesView(List<Vector2DInt> inPositions)
+    public WalkableTilesView(List<Tile> inTiles)
     {
-        _views = new GameObject[inPositions.Count];
+        _views = new GameObject[inTiles.Count];
 
-        for (int i = 0; i < inPositions.Count; i++)
+        for (int i = 0; i < inTiles.Count; i++)
         {
             GameObject tileView = GameObject.Instantiate(Resources.Load<GameObject>("Prefab_WalkableTile"));
 
-
-            tileView.transform.position = new Vector3(inPositions[i].x + 0.5f, 1, inPositions[i].y + 0.5f);
+            tileView.transform.position = new Vector3(inTiles[i].worldPosition.x + 0.5f, 1, inTiles[i].worldPosition.y + 0.5f);
 
             _views[i] = tileView;
         }

@@ -69,8 +69,48 @@ public partial class Mech
             // If this is reached, no path was found. Return an empty list.
             return Path.Empty;
         }
-    
-    
+
+        public List<Tile> FindWalkableTiles(int inMaxDistance)
+        {
+            List<Tile> tilesWithinReach = new List<Tile>();
+            List<Tile> tilesToCheck   = new List<Tile>() {
+                mech.movementComponent.currentTile
+            };
+
+            while (tilesToCheck.Count > 0)
+            {
+                Tile currentTile = tilesToCheck[0];
+
+                tilesToCheck.Remove(currentTile);
+                tilesWithinReach.Add(currentTile);
+
+                foreach (Tile neighbour in currentTile.GetNeighbours())
+                {
+                    if (!CanEnter(neighbour))
+                        continue;
+
+                    if (currentTile.terrain.data.terrainFlag == TerrainFlag.Difficult)
+                        if (neighbour.terrain.data.terrainFlag == TerrainFlag.Difficult)
+                            if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.IgnoresDifficultTerrain))
+                                continue;
+
+                    if (tilesWithinReach.Contains(neighbour))
+                        continue;
+
+                    if (tilesToCheck.Contains(neighbour))
+                        continue;
+
+                    if (!IsInRange(neighbour, inMaxDistance))
+                        continue;
+
+                    tilesToCheck.Add(neighbour);
+                }
+            }
+
+            return tilesWithinReach;
+        }
+
+
         bool CanEnter(Tile inTileToEnter)
         {
             if (inTileToEnter.terrain.data.terrainFlag == TerrainFlag.Impassable)
@@ -83,6 +123,15 @@ public partial class Mech
 
             return true;
         }
+
+        bool IsInRange(Tile inTargetTile, int inMaxRange)
+        {
+            if (FindPath(inTargetTile).distance > inMaxRange * 10)
+                return false;
+
+            return true;
+        }
+
 
         Tile GetTileWithLowestCost(List<Tile> inTileList)
         {

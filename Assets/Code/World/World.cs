@@ -9,7 +9,7 @@ public class World : MonoBehaviour
     static World _instance;
     public static World instance => _instance ?? (_instance = FindObjectOfType<World>());
 
-    static int _worldSize = Constants.Terrain.WORLD_SIZE;
+    static int _worldSize = Constants.Terrain.WORLD_SIZE_IN_CHUNKS;
 
     Chunk[,] _chunks = new Chunk[_worldSize, _worldSize];
 
@@ -50,9 +50,7 @@ public class World : MonoBehaviour
         if (inWorldPosition.x < 0 || inWorldPosition.y < 0)
             return null;
 
-        int worldSize = Constants.Terrain.CHUNK_SIZE * Constants.Terrain.WORLD_SIZE;
-
-        if (inWorldPosition.x > worldSize || inWorldPosition.y > worldSize)
+        if (inWorldPosition.x >= Constants.Terrain.WORLD_SIZE_IN_TILES || inWorldPosition.y >= Constants.Terrain.WORLD_SIZE_IN_TILES)
             return null;
 
         Vector2DInt chunkPosition = WorldPosToChunkPos(inWorldPosition);
