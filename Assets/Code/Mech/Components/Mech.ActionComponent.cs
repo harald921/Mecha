@@ -6,14 +6,16 @@
 
         public ActionComponent(Mech inMech) : base(inMech)
         {
-            _moveAction = new MoveAction(mech);
-
             mech.OnComponentsCreated += () => mech.inputComponent.OnClicked += () =>
             {
-                if (!_moveAction.isActive)
-                    _moveAction.Start();
+                if (_moveAction == null)
+                    _moveAction = new MoveAction(inMech);
+
                 else
+                {
                     _moveAction.Cancel();
+                    _moveAction = null;
+                }
             };
         }
     }

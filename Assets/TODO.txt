@@ -3,7 +3,12 @@
 
 
 
+* Do not create move action view for current tile
+
 * Finish the actual move action action
+	* Make it so each move action tile waits to be clicked
+		* This can be done by letting world invoke "OnTileClicked"
+
 * Make each mech only able to perform 1 action per turn, and a way to go to "next player"
 	
 * Write a method to calculate and return the tiles which are eligble to be fired upon

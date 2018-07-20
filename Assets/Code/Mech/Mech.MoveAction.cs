@@ -6,8 +6,6 @@ public partial class Mech
 {
     public class MoveAction
     {
-        public bool isActive { get; private set; }
-
         readonly Mech _mechActor;
 
         WalkableTilesView _walkableTilesView;
@@ -16,12 +14,6 @@ public partial class Mech
         public MoveAction(Mech inMechActor)
         {
             _mechActor = inMechActor;
-        }
-
-        public void Start()
-        {
-            isActive = true;
-
             _walkableTilesView = new WalkableTilesView(_mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed));
         }
 
@@ -32,8 +24,6 @@ public partial class Mech
 
         public void Cancel()
         {
-            isActive = false;
-
             _walkableTilesView.Destroy();
             _walkableTilesView = null;
         }
