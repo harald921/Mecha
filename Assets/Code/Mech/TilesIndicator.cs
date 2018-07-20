@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class WalkableTilesView // TODO: Clean up
+public class TilesIndicator 
 {
     GameObject[] _views;
 
-    public WalkableTilesView(List<Tile> inTiles)
+    public TilesIndicator(List<Tile> inTiles)
     {
         _views = new GameObject[inTiles.Count];
 
@@ -19,7 +19,7 @@ public class WalkableTilesView // TODO: Clean up
         }
     }
 
-    public void Destroy()
+    public virtual void Destroy()
     {
         foreach (GameObject view in _views)
             GameObject.Destroy(view);

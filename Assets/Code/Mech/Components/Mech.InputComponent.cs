@@ -8,10 +8,15 @@ public partial class Mech // Takes input, and executes events
         public event Action OnClicked;
 
 
-        public InputComponent(Mech inMech) : base(inMech) { }
-
-
-        public void Click() =>
-            OnClicked?.Invoke();
+        public InputComponent(Mech inMech) : base(inMech)
+        {
+            World.instance.OnTileClicked += (Tile inClickedTile) =>
+            {
+                if (inClickedTile == mech.movementComponent.currentTile)
+                    OnClicked?.Invoke();
+                else
+                    mech.movementComponent.TryMoveTo(inClickedTile);
+            };
+        }
     }
 }

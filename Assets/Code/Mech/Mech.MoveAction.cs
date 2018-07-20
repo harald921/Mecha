@@ -8,13 +8,13 @@ public partial class Mech
     {
         readonly Mech _mechActor;
 
-        WalkableTilesView _walkableTilesView;
+        TilesIndicator _walkableTilesView;
 
 
         public MoveAction(Mech inMechActor)
         {
             _mechActor = inMechActor;
-            _walkableTilesView = new WalkableTilesView(_mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed));
+            _walkableTilesView = new MoveActionTilesIndicator(_mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed));
         }
 
         public void Execute() 
@@ -27,5 +27,33 @@ public partial class Mech
             _walkableTilesView.Destroy();
             _walkableTilesView = null;
         }
+    }
+}
+
+
+public class MoveActionTilesIndicator : TilesIndicator
+{
+    List<Tile> _tiles;
+
+
+    public MoveActionTilesIndicator(List<Tile> inTiles) : base(inTiles)
+    {
+        _tiles = inTiles;
+
+        World.instance.OnTileClicked += ExecuteIfContainsTile;
+    }
+
+    public override void Destroy()
+    {
+        base.Destroy();
+
+        World.instance.OnTileClicked -= ExecuteIfContainsTile;
+    }
+
+
+    void ExecuteIfContainsTile(Tile inTile)
+    {
+        if (_tiles.Contains(inTile))
+            Debug.Log("Clicked active tile: " + inTile.worldPosition);
     }
 }
