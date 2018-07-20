@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-
+using static Constants.Terrain;
 
 public class World : MonoBehaviour
 {
@@ -9,9 +9,7 @@ public class World : MonoBehaviour
     static World _instance;
     public static World instance => _instance ?? (_instance = FindObjectOfType<World>());
 
-    static int _worldSize = Constants.Terrain.WORLD_SIZE_IN_CHUNKS;
-
-    Chunk[,] _chunks = new Chunk[_worldSize, _worldSize];
+    Chunk[,] _chunks = new Chunk[WORLD_SIZE_IN_CHUNKS, WORLD_SIZE_IN_CHUNKS];
 
     ChunkGenerator _chunkGenerator;
 
@@ -24,8 +22,8 @@ public class World : MonoBehaviour
 
         _chunkGenerator = new ChunkGenerator();
 
-        for (int y = 0; y < _worldSize; y++)
-            for (int x = 0; x < _worldSize; x++)
+        for (int y = 0; y < WORLD_SIZE_IN_CHUNKS; y++)
+            for (int x = 0; x < WORLD_SIZE_IN_CHUNKS; x++)
                 _chunks[x,y] = _chunkGenerator.Generate(new Vector2DInt(x, y));
     }
 
