@@ -2,7 +2,7 @@
 using UnityEngine;
 using static Constants.Terrain;
 
-public class World : MonoBehaviour
+public partial class World : MonoBehaviour
 {
     [SerializeField] NoiseParameters _parameters; public NoiseParameters parameters => _parameters;
 
@@ -11,9 +11,9 @@ public class World : MonoBehaviour
 
     Chunk[,] _chunks = new Chunk[WORLD_SIZE_IN_CHUNKS, WORLD_SIZE_IN_CHUNKS];
 
-    ChunkGenerator _chunkGenerator;
+    public WorldInputManager inputManager { get; private set; }
 
-    public event System.Action<Tile> OnTileClicked; // TODO: Move this to some kind of WorldInputManager
+    ChunkGenerator    _chunkGenerator;
 
 
     void Awake()
@@ -21,6 +21,8 @@ public class World : MonoBehaviour
         _instance = this;
 
         _chunkGenerator = new ChunkGenerator();
+
+        inputManager = new WorldInputManager(this);
 
         for (int y = 0; y < WORLD_SIZE_IN_CHUNKS; y++)
             for (int x = 0; x < WORLD_SIZE_IN_CHUNKS; x++)
@@ -34,12 +36,7 @@ public class World : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Tile clickedTile = GetTile(GetCurrentMouseWorldPos());
-            if (clickedTile != null)
-                OnTileClicked?.Invoke(clickedTile);
-        }
+        inputManager.ManualUpdate();
     }
 
 
@@ -48,7 +45,7 @@ public class World : MonoBehaviour
         if (inWorldPosition.x < 0 || inWorldPosition.y < 0)
             return null;
 
-        if (inWorldPosition.x >= Constants.Terrain.WORLD_SIZE_IN_TILES || inWorldPosition.y >= Constants.Terrain.WORLD_SIZE_IN_TILES)
+        if (inWorldPosition.x >= WORLD_SIZE_IN_TILES || inWorldPosition.y >= WORLD_SIZE_IN_TILES)
             return null;
 
         Vector2DInt chunkPosition = WorldPosToChunkPos(inWorldPosition);
@@ -62,15 +59,8 @@ public class World : MonoBehaviour
 
 
     public static Vector2DInt WorldPosToChunkPos(Vector2DInt inWorldPosition) =>
-        inWorldPosition / Constants.Terrain.CHUNK_SIZE;
+        inWorldPosition / CHUNK_SIZE;
 
     public static Vector2DInt WorldPosToLocalTilePos(Vector2DInt inWorldPosition) =>
-        inWorldPosition % Constants.Terrain.CHUNK_SIZE;
-
-    public static Vector2DInt GetCurrentMouseWorldPos()
-    {
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return new Vector2DInt((int)mouseWorldPosition.x, (int)mouseWorldPosition.z);
-    }
+        inWorldPosition % CHUNK_SIZE;
 }
-

@@ -113,8 +113,6 @@ public partial class Mech
 
         bool CanEnter(Tile inTileToEnter)
         {
-            Debug.LogError("TODO: Check if there's already a mech here");
-
             if (inTileToEnter.terrain.data.terrainFlag == TerrainFlag.Impassable)
                 if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.Aerial))
                     return false;

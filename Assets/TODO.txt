@@ -1,12 +1,8 @@
 
 
 
-
-* Create a "WorldInputManager" or something similar
-	* This one should hold the "OnTileClicked" event, and also check if a tile has been clicked, etc.
-
 * Do not create move action view for current tile
-	* For this, I need to check whether or not tiles have a mech on them when finding walkable tiles
+	* For this, I need to check whether or not tiles have a mech on them when finding walkable tiles. This should happen in "CanEnter()"
 		* For this I need to make tiles keep track whether or not they have a mech on them
 
 * Finish the actual move action action

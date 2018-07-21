@@ -40,14 +40,14 @@ public class MoveActionTilesIndicator : TilesIndicator
     {
         _tiles = inTiles;
 
-        World.instance.OnTileClicked += ExecuteIfContainsTile;
+        World.instance.inputManager.OnTileClicked += ExecuteIfContainsTile;
     }
 
     public override void Destroy()
     {
         base.Destroy();
 
-        World.instance.OnTileClicked -= ExecuteIfContainsTile;
+        World.instance.inputManager.OnTileClicked -= ExecuteIfContainsTile;
     }
 
 
