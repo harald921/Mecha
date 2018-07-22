@@ -30,7 +30,7 @@ public class Chunk
         _tiles[inPosition.x, inPosition.y];
 
     public Tile GetTile(int inPositionX, int inPositionY) =>
-        _tiles[inPositionX, inPositionY];
+        GetTile(new Vector2DInt(inPositionX, inPositionY));
 
     public void SetTile(Vector2DInt inPosition, Tile inTile)
     {

@@ -84,9 +84,13 @@ public partial class Mech
                 tilesToCheck.Remove(currentTile);
                 tilesWithinReach.Add(currentTile);
 
+                // Search for tile to add to "tilesToCheck"
                 foreach (Tile neighbour in currentTile.GetNeighbours())
                 {
-                    if (!CanEnter(neighbour))
+                    if (tilesWithinReach.Contains(neighbour))
+                        continue;
+
+                    if (tilesToCheck.Contains(neighbour))
                         continue;
 
                     if (currentTile.terrain.data.terrainFlag == TerrainFlag.Difficult)
@@ -94,10 +98,7 @@ public partial class Mech
                             if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.IgnoresDifficultTerrain))
                                 continue;
 
-                    if (tilesWithinReach.Contains(neighbour))
-                        continue;
-
-                    if (tilesToCheck.Contains(neighbour))
+                    if (!CanEnter(neighbour))
                         continue;
 
                     if (!IsInRange(neighbour, inMaxDistance))
@@ -120,6 +121,9 @@ public partial class Mech
             if (inTileToEnter.terrain.data.terrainFlag == TerrainFlag.Liquid)
                 if (!mech.mobilityType.data.ContainsMobilityFlag(MobilityFlags.CanTravelLiquids))
                     return false;
+
+            if (inTileToEnter.mech != null)
+                return false;
 
             return true;
         }

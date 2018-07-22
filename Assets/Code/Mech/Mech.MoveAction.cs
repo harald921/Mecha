@@ -8,13 +8,17 @@ public partial class Mech
     {
         readonly Mech _mechActor;
 
-        TilesIndicator _walkableTilesView;
+        TilesIndicator moveActionTilesIndicator;
 
 
         public MoveAction(Mech inMechActor)
         {
             _mechActor = inMechActor;
-            _walkableTilesView = new MoveActionTilesIndicator(_mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed));
+
+            List<Tile> walkableTiles = _mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed);
+            walkableTiles.Remove(_mechActor.movementComponent.currentTile);
+
+            moveActionTilesIndicator = new MoveActionTilesIndicator(walkableTiles);
         }
 
         public void Execute() 
@@ -24,8 +28,8 @@ public partial class Mech
 
         public void Cancel()
         {
-            _walkableTilesView.Destroy();
-            _walkableTilesView = null;
+            moveActionTilesIndicator.Destroy();
+            moveActionTilesIndicator = null;
         }
     }
 }

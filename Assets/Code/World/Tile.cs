@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public class Tile
     public Terrain terrain { get; private set; }
 
     public readonly Node node;
+
+    public Mech mech => World.instance.mechManager.GetMech(worldPosition);
 
 
     public Tile(Vector2DInt inLocalPosition, Vector2DInt inChunkPosition, Terrain inTerrain)

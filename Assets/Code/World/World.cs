@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+
 using static Constants.Terrain;
 
 public partial class World : MonoBehaviour
@@ -12,8 +14,9 @@ public partial class World : MonoBehaviour
     Chunk[,] _chunks = new Chunk[WORLD_SIZE_IN_CHUNKS, WORLD_SIZE_IN_CHUNKS];
 
     public WorldInputManager inputManager { get; private set; }
+    public WorldMechManager  mechManager  { get; private set; }
 
-    ChunkGenerator    _chunkGenerator;
+    ChunkGenerator _chunkGenerator;
 
 
     void Awake()
@@ -31,7 +34,7 @@ public partial class World : MonoBehaviour
 
     void Start()
     {
-        new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), _chunks[0, 0].GetTile(2, 3));
+        mechManager = new WorldMechManager();
     }
 
     void Update()
@@ -57,10 +60,36 @@ public partial class World : MonoBehaviour
     public Chunk GetChunk(Vector2DInt inChunkPosition) => 
         _chunks[inChunkPosition.x, inChunkPosition.y];
 
+    public Chunk GetChunk(int inChunkPositionX, int inChunkPositionY) =>
+        GetChunk(new Vector2DInt(inChunkPositionX, inChunkPositionY));
 
     public static Vector2DInt WorldPosToChunkPos(Vector2DInt inWorldPosition) =>
         inWorldPosition / CHUNK_SIZE;
 
     public static Vector2DInt WorldPosToLocalTilePos(Vector2DInt inWorldPosition) =>
         inWorldPosition % CHUNK_SIZE;
+}
+
+
+public class WorldMechManager
+{
+    List<Mech> _mechs = new List<Mech>();
+
+    public Mech GetMech(Vector2DInt inPosition)
+    {
+        foreach (Mech mech in _mechs)
+            if (mech.movementComponent.currentTile.worldPosition == inPosition)
+                return mech;
+
+        return null;
+    }
+
+
+    public WorldMechManager()
+    {
+        Debug.LogWarning("DEBUG: Manually spawning test-mech. WorldMechManager ctor should be moved to Awake ASAP");
+
+        Tile debugTargetTile = World.instance.GetChunk(0, 0).GetTile(2, 3); 
+        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), debugTargetTile)); 
+    }
 }
