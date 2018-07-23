@@ -12,14 +12,28 @@ public class MechArmorTypeDatabase : MonoBehaviour
 
     Dictionary<string, MechArmorTypeData> _armorTypes = new Dictionary<string, MechArmorTypeData>();
 
-    
-    void Awake()
+    bool _initialized;
+
+
+    void Awake() => Initialize();
+
+    void Initialize()
     {
+        if (_initialized)
+            return;
+
         _armorTypesToSerialize.ForEach(armorType => _armorTypes.Add(armorType.name, armorType));
+        _initialized = true;
     }
 
 
-    public MechArmorTypeData GetArmorType(string inArmorTypeName) => _armorTypes[inArmorTypeName];
+    public MechArmorTypeData GetArmorType(string inArmorTypeName)
+    {
+        if (!_initialized)
+            Initialize();
+
+        return _armorTypes[inArmorTypeName];
+    } 
 }
 
 
