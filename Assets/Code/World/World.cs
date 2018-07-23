@@ -30,10 +30,7 @@ public partial class World : MonoBehaviour
         for (int y = 0; y < WORLD_SIZE_IN_CHUNKS; y++)
             for (int x = 0; x < WORLD_SIZE_IN_CHUNKS; x++)
                 _chunks[x,y] = _chunkGenerator.Generate(new Vector2DInt(x, y));
-    }
 
-    void Start()
-    {
         mechManager = new WorldMechManager();
     }
 
@@ -87,7 +84,7 @@ public class WorldMechManager
 
     public WorldMechManager()
     {
-        Debug.LogWarning("DEBUG: Manually spawning test-mech. WorldMechManager ctor should be moved to Awake ASAP");
+        Debug.LogWarning("DEBUG: Manually spawning test-mech.");
 
         Tile debugTargetTile = World.instance.GetChunk(0, 0).GetTile(2, 3); 
         _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), debugTargetTile)); 

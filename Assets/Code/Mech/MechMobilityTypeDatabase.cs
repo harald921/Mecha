@@ -11,15 +11,29 @@ public class MechMobilityTypeDatabase : MonoBehaviour
     [SerializeField] List<MechMobilityTypeData> _mobilityTypesToSerialize;
 
     Dictionary<string, MechMobilityTypeData> _mobilityTypes = new Dictionary<string, MechMobilityTypeData>();
-     
 
-    void Awake()
+    bool _initialized;
+
+
+    void Awake() => Initialize();
+
+    void Initialize()
     {
+        if (_initialized)
+            return;
+
         _mobilityTypesToSerialize.ForEach(mobilityType => _mobilityTypes.Add(mobilityType.name, mobilityType));
+        _initialized = true;
     }
 
 
-    public MechMobilityTypeData GetMobilityType(string inMobilityTypeName) => _mobilityTypes[inMobilityTypeName];
+    public MechMobilityTypeData GetMobilityType(string inMobilityTypeName)
+    {
+        if (!_initialized)
+            Initialize();
+
+        return _mobilityTypes[inMobilityTypeName];
+    }
 }
 
 

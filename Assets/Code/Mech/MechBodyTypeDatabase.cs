@@ -12,14 +12,28 @@ public class MechBodyTypeDatabase : MonoBehaviour
 
     Dictionary<string, MechBodyTypeData> _bodyTypes = new Dictionary<string, MechBodyTypeData>();
 
+    bool _initialized;
 
-    void Awake()
+
+    void Awake() => Initialize();
+
+    void Initialize()
     {
+        if (_initialized)
+            return;
+
         _bodyTypesToSerialize.ForEach(bodyType => _bodyTypes.Add(bodyType.name, bodyType));
+        _initialized = true;
     }
 
 
-    public MechBodyTypeData GetBodyType(string inBodyTypeName) => _bodyTypes[inBodyTypeName];
+    public MechBodyTypeData GetBodyType(string inBodyTypeName)
+    {
+        if (!_initialized)
+            Initialize();
+
+        return _bodyTypes[inBodyTypeName];
+    } 
 }
 
 
