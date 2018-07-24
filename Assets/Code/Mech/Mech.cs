@@ -16,8 +16,8 @@ public partial class Mech
     public readonly ActionComponent      actionComponent;
     public readonly UIComponent          uiComponent;
 
-    public event Action OnComponentsCreated;
-    public event Action OnComponentsInitialized;
+    public event System.Action OnComponentsCreated;
+    public event System.Action OnComponentsInitialized;
 
 
     public Mech(MechBodyType inBodyType, MechMobilityType inMobilityType, MechArmorType inArmorType, Tile inSpawnTile)

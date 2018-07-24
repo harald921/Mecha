@@ -1,7 +1,5 @@
 
 
-* make it so that the mech databases can be acessed even from awake. Simply have a bool that determines whether or not they have been initialized, and if they haven't - do it manually. Easy stuffs.
-
 * Finish the actual move action action
 	* Make it so each move action tile waits to be clicked
 		* This can be done by letting world invoke "OnTileClicked"
@@ -16,49 +14,4 @@
 
 "´" -> "<"
 "`" -> ">"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
