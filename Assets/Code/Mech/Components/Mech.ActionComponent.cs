@@ -4,6 +4,8 @@ public partial class Mech // Decides what action to "begin" depending on the inp
 {
     public class ActionComponent : Component
     {
+        public bool onCooldown { get; private set; }
+
         MoveAction _moveAction;
 
 
@@ -11,8 +13,15 @@ public partial class Mech // Decides what action to "begin" depending on the inp
         {
             mech.OnComponentsCreated += () => mech.inputComponent.OnClicked += () =>
             {
+                if (onCooldown)
+                    return;
+
                 if (_moveAction == null)
-                    _moveAction = new MoveAction(inMech, () => _moveAction = null);
+                    _moveAction = new MoveAction(inMech, () =>
+                    {
+                        onCooldown = true;
+                        _moveAction = null;
+                    });
 
                 else
                 {
