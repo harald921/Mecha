@@ -15,12 +15,13 @@ public partial class Mech
     public readonly InputComponent       inputComponent;
     public readonly ActionComponent      actionComponent;
     public readonly UIComponent          uiComponent;
+    public readonly TeamComponent        teamComponent;
 
     public event System.Action OnComponentsCreated;
     public event System.Action OnComponentsInitialized;
 
 
-    public Mech(MechBodyType inBodyType, MechMobilityType inMobilityType, MechArmorType inArmorType, Tile inSpawnTile)
+    public Mech(MechBodyType inBodyType, MechMobilityType inMobilityType, MechArmorType inArmorType, Tile inSpawnTile, int inTeam)
     {
         bodyType     = inBodyType;
         mobilityType = inMobilityType;
@@ -33,8 +34,10 @@ public partial class Mech
         inputComponent       = new InputComponent(this);
         actionComponent      = new ActionComponent(this);
         uiComponent          = new UIComponent(this);
+        teamComponent        = new TeamComponent(this, inTeam);
 
         OnComponentsCreated?.Invoke();
         OnComponentsInitialized?.Invoke();
     }
 }
+

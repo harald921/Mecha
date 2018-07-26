@@ -15,6 +15,7 @@ public partial class World : MonoBehaviour
 
     public WorldInputManager inputManager { get; private set; }
     public WorldMechManager  mechManager  { get; private set; }
+    public TurnManager       turnManager  { get; private set; }
 
     ChunkGenerator _chunkGenerator;
 
@@ -24,8 +25,8 @@ public partial class World : MonoBehaviour
         _instance = this;
 
         _chunkGenerator = new ChunkGenerator();
-
-        inputManager = new WorldInputManager(this);
+        inputManager    = new WorldInputManager(this);
+        turnManager     = new TurnManager(); 
 
         for (int y = 0; y < WORLD_SIZE_IN_CHUNKS; y++)
             for (int x = 0; x < WORLD_SIZE_IN_CHUNKS; x++)
@@ -54,6 +55,8 @@ public partial class World : MonoBehaviour
         return _chunks[chunkPosition.x, chunkPosition.y].GetTile(tilePosition);
     }
 
+    public Tile GetTile(int inX, int inY) => GetTile(new Vector2DInt(inX, inY));
+
     public Chunk GetChunk(Vector2DInt inChunkPosition) => 
         _chunks[inChunkPosition.x, inChunkPosition.y];
 
@@ -67,6 +70,35 @@ public partial class World : MonoBehaviour
         inWorldPosition % CHUNK_SIZE;
 }
 
+public class TurnManager
+{
+    int playerTurn = 0;
+
+    public event System.Action<int> OnNewTurn;
+    public event System.Action OnNewMyTurn;
+
+    public TurnManager()
+    {
+        World.instance.inputManager.OnPlayerFinishedTurn += (int inPlayerID) =>
+        {
+            if (inPlayerID == playerTurn)
+            {
+                ProgressTurn();
+                OnNewTurn?.Invoke(playerTurn);
+            }
+        };
+
+        OnNewTurn += (int inPlayerID) => Debug.Log("Turn changed");
+    }
+
+    void ProgressTurn()
+    {
+        playerTurn++;
+
+        if (playerTurn > 2)
+            playerTurn = 0;
+    }
+}
 
 public class WorldMechManager
 {
@@ -86,7 +118,8 @@ public class WorldMechManager
     {
         Debug.LogWarning("DEBUG: Manually spawning test-mech.");
 
-        Tile debugTargetTile = World.instance.GetChunk(0, 0).GetTile(2, 3); 
-        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), debugTargetTile)); 
+        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), World.instance.GetTile(2, 1), 0));
+        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), World.instance.GetTile(2, 3), 0));
+        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), World.instance.GetTile(2, 5), 0));
     }
 }

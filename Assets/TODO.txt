@@ -1,8 +1,18 @@
 
 
-* Make each mech only able to perform 1 action per turn, and a way to go to "next player"
+* Create a turn system
+	* Implement invokation of "OnNewMyTurn" 
+		* For this, there has to be several "Player" objects which keep track of what player is local. Photon Time?
+
+* Create a "Program.cs" which is the single MB. Clean up World.cs with this.
+
+* Add a "Next Turn" UI button in the bottom right
+
+* Add health bars above active mechs
+
+* Add debug UI showing the stats of active mechs
 	
-* Write a method to calculate and return the tiles which are eligble to be fired upon
+* Add a way of "shooting" at something. For now, right click a mech to go into "shoot mode" and then left click within range to shoot.
 
 * The pathfinding is a crime against humanity. "CanEnter" is entered 160k times whenever a MoveAction begins for some reason. Send help and more diet coke.
 

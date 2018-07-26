@@ -16,6 +16,8 @@ public partial class Mech
             _viewGO = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
             mech.OnComponentsCreated += () => mech.movementComponent.OnCurrentTileChange += UpdatePosition;
+
+            mech.OnComponentsInitialized += () => _viewGO.GetComponent<MeshRenderer>().material.color = mech.teamComponent.teamColor;
         }
 
 
