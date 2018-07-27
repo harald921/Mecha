@@ -1,41 +1,31 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 using static Constants.Terrain;
 
-public partial class World : MonoBehaviour
+public partial class World
 {
-    [SerializeField] NoiseParameters _parameters; public NoiseParameters parameters => _parameters;
 
-    static World _instance;
-    public static World instance => _instance ?? (_instance = FindObjectOfType<World>());
+    public static World instance { get; private set; }
 
     Chunk[,] _chunks = new Chunk[WORLD_SIZE_IN_CHUNKS, WORLD_SIZE_IN_CHUNKS];
 
     public WorldInputManager inputManager { get; private set; }
-    public WorldMechManager  mechManager  { get; private set; }
-    public TurnManager       turnManager  { get; private set; }
 
     ChunkGenerator _chunkGenerator;
 
 
-    void Awake()
+    public World()
     {
-        _instance = this;
+        instance = this;
 
         _chunkGenerator = new ChunkGenerator();
         inputManager    = new WorldInputManager(this);
-        turnManager     = new TurnManager(); 
 
-        for (int y = 0; y < WORLD_SIZE_IN_CHUNKS; y++)
-            for (int x = 0; x < WORLD_SIZE_IN_CHUNKS; x++)
-                _chunks[x,y] = _chunkGenerator.Generate(new Vector2DInt(x, y));
-
-        mechManager = new WorldMechManager();
+        GenerateWorld();
     }
 
-    void Update()
+    public void ManualUpdate()
     {
         inputManager.ManualUpdate();
     }
@@ -63,63 +53,18 @@ public partial class World : MonoBehaviour
     public Chunk GetChunk(int inChunkPositionX, int inChunkPositionY) =>
         GetChunk(new Vector2DInt(inChunkPositionX, inChunkPositionY));
 
+
+    void GenerateWorld()
+    {
+        for (int y = 0; y < WORLD_SIZE_IN_CHUNKS; y++)
+            for (int x = 0; x < WORLD_SIZE_IN_CHUNKS; x++)
+                _chunks[x, y] = _chunkGenerator.Generate(new Vector2DInt(x, y));
+    }
+
+
     public static Vector2DInt WorldPosToChunkPos(Vector2DInt inWorldPosition) =>
         inWorldPosition / CHUNK_SIZE;
 
     public static Vector2DInt WorldPosToLocalTilePos(Vector2DInt inWorldPosition) =>
         inWorldPosition % CHUNK_SIZE;
-}
-
-public class TurnManager
-{
-    int playerTurn = 0;
-
-    public event System.Action<int> OnNewTurn;
-    public event System.Action OnNewMyTurn;
-
-    public TurnManager()
-    {
-        World.instance.inputManager.OnPlayerFinishedTurn += (int inPlayerID) =>
-        {
-            if (inPlayerID == playerTurn)
-            {
-                ProgressTurn();
-                OnNewTurn?.Invoke(playerTurn);
-            }
-        };
-
-        OnNewTurn += (int inPlayerID) => Debug.Log("Turn changed");
-    }
-
-    void ProgressTurn()
-    {
-        playerTurn++;
-
-        if (playerTurn > 2)
-            playerTurn = 0;
-    }
-}
-
-public class WorldMechManager
-{
-    List<Mech> _mechs = new List<Mech>();
-
-    public Mech GetMech(Vector2DInt inPosition)
-    {
-        foreach (Mech mech in _mechs)
-            if (mech.movementComponent.currentTile.worldPosition == inPosition)
-                return mech;
-
-        return null;
-    }
-
-
-    public WorldMechManager()
-    {
-        Debug.LogWarning("DEBUG: Manually spawning test-mech.");
-
-        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), World.instance.GetTile(2, 1), 0));
-        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), World.instance.GetTile(2, 3), 0));
-        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), World.instance.GetTile(2, 5), 0));
-    }
 }
