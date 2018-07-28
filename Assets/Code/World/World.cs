@@ -3,7 +3,7 @@ using UnityEngine;
 
 using static Constants.Terrain;
 
-public partial class World
+public class World
 {
     Chunk[,] _chunks = new Chunk[WORLD_SIZE_IN_CHUNKS, WORLD_SIZE_IN_CHUNKS];
 

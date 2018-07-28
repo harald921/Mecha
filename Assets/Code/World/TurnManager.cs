@@ -9,7 +9,7 @@ public class TurnManager
 
     public TurnManager()
     {
-        World.instance.inputManager.OnPlayerFinishedTurn += (int inPlayerID) =>
+        Program.inputManager.OnPlayerFinishedTurn += (int inPlayerID) =>
         {
             if (inPlayerID == playerTurn)
             {

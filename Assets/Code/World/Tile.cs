@@ -13,7 +13,7 @@ public class Tile
 
     public readonly Node node;
 
-    public Mech mech => Program.instance.mechManager.GetMech(worldPosition);
+    public Mech mech => Program.mechManager.GetMech(worldPosition);
 
 
     public Tile(Vector2DInt inLocalPosition, Vector2DInt inChunkPosition, Terrain inTerrain)
@@ -44,5 +44,5 @@ public class Tile
     }
 
     public Tile GetRelativeTile(Vector2DInt inOffset) =>
-        World.instance.GetTile(worldPosition + inOffset);
+        Program.world.GetTile(worldPosition + inOffset);
 }

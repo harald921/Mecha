@@ -53,14 +53,14 @@ public class MoveActionTilesIndicator : TilesIndicator
 
         _onTileClickedCallback = inOnTileClickedCallback;
 
-        World.instance.inputManager.OnTileClicked += ExecuteIfContainsTile;
+        Program.inputManager.OnTileClicked += ExecuteIfContainsTile;
     }
 
     public override void Destroy()
     {
         base.Destroy();
 
-        World.instance.inputManager.OnTileClicked -= ExecuteIfContainsTile;
+        Program.inputManager.OnTileClicked -= ExecuteIfContainsTile;
     }
 
 

@@ -10,7 +10,7 @@ public partial class Mech // Takes input, and executes events
 
         public InputComponent(Mech inMech) : base(inMech)
         {
-            World.instance.inputManager.OnTileClicked += (Tile inClickedTile) =>
+            Program.inputManager.OnTileClicked += (Tile inClickedTile) =>
             {
                 if (inClickedTile == mech.movementComponent.currentTile)
                     OnClicked?.Invoke();

@@ -6,9 +6,9 @@ public class Program : MonoBehaviour
 {
     public static World world { get; private set; }
 
+    public static InputManager inputManager { get; private set; }
     public static TurnManager  turnManager  { get; private set; }
     public static MechManager  mechManager  { get; private set; }
-    public static InputManager inputManager { get; private set; }
 
     public static event System.Action OnUpdate;
 
@@ -17,9 +17,9 @@ public class Program : MonoBehaviour
     {
         world = new World();
 
+        inputManager = new InputManager(world);
         turnManager  = new TurnManager();
         mechManager  = new MechManager();
-        inputManager = new InputManager(world);
 
         mechManager.GenerateDebugMechs();
     }
