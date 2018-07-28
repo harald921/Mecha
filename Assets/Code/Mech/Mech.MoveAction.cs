@@ -9,17 +9,29 @@ public partial class Mech
     {
         readonly Mech _mechActor;
 
-        TilesIndicator moveActionTilesIndicator;
+        public bool isActive { get; private set; }
+
+        List<Tile> _walkableTiles;
+
+        TilesIndicator tilesIndicator;
 
 
         public MoveAction(Mech inMechActor, System.Action inOnCompleteCallback) : base(inOnCompleteCallback)
         {
             _mechActor = inMechActor;
 
-            List<Tile> walkableTiles = _mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed);
-            walkableTiles.Remove(_mechActor.movementComponent.currentTile);
+        }
 
-            moveActionTilesIndicator = new MoveActionTilesIndicator(walkableTiles, Execute);
+        public void Start()
+        {
+            isActive = true;
+
+            _walkableTiles = _mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed);
+            _walkableTiles.Remove(_mechActor.movementComponent.currentTile);
+
+            tilesIndicator = new TilesIndicator(_walkableTiles);
+
+            Program.inputManager.OnTileClicked += ExecuteIfTileIsWalkable;
         }
 
         public void Execute(Tile inTargetTile) 
@@ -28,45 +40,23 @@ public partial class Mech
             _mechActor.movementComponent.TryMoveTo(inTargetTile);
 
             OnCompleteCallback?.Invoke();
-            Cancel();
+            Stop();
         }
 
-        public void Cancel()
+        public void Stop()
         {
-            moveActionTilesIndicator.Destroy();
-            moveActionTilesIndicator = null;
+            isActive = false;
+
+            tilesIndicator.Destroy();
+
+            Program.inputManager.OnTileClicked -= ExecuteIfTileIsWalkable;
         }
-    }
-}
 
 
-public class MoveActionTilesIndicator : TilesIndicator
-{
-    List<Tile> _tiles;
-
-    Action<Tile> _onTileClickedCallback;
-
-
-    public MoveActionTilesIndicator(List<Tile> inTiles, Action<Tile> inOnTileClickedCallback) : base(inTiles)
-    {
-        _tiles = inTiles;
-
-        _onTileClickedCallback = inOnTileClickedCallback;
-
-        Program.inputManager.OnTileClicked += ExecuteIfContainsTile;
-    }
-
-    public override void Destroy()
-    {
-        base.Destroy();
-
-        Program.inputManager.OnTileClicked -= ExecuteIfContainsTile;
-    }
-
-
-    void ExecuteIfContainsTile(Tile inTile)
-    {
-        if (_tiles.Contains(inTile))
-            _onTileClickedCallback?.Invoke(inTile);
+        void ExecuteIfTileIsWalkable(Tile inTile)
+        {
+            if (_walkableTiles.Contains(inTile))
+                Execute(inTile);
+        }
     }
 }
