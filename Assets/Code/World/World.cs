@@ -5,12 +5,9 @@ using static Constants.Terrain;
 
 public partial class World
 {
-
     public static World instance { get; private set; }
 
     Chunk[,] _chunks = new Chunk[WORLD_SIZE_IN_CHUNKS, WORLD_SIZE_IN_CHUNKS];
-
-    public WorldInputManager inputManager { get; private set; }
 
     ChunkGenerator _chunkGenerator;
 
@@ -20,16 +17,9 @@ public partial class World
         instance = this;
 
         _chunkGenerator = new ChunkGenerator();
-        inputManager    = new WorldInputManager(this);
 
         GenerateWorld();
     }
-
-    public void ManualUpdate()
-    {
-        inputManager.ManualUpdate();
-    }
-
 
     public Tile GetTile(Vector2DInt inWorldPosition)
     {

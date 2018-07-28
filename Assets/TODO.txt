@@ -5,6 +5,8 @@
 
 * Create a "Program.cs" which is the single MB. Clean up World.cs with this.
 
+* Add the camera from cubic
+
 * Add a "Next Turn" UI button in the bottom right
 
 * Add health bars above active mechs

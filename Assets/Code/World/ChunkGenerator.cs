@@ -45,7 +45,7 @@ partial class ChunkGenerator
 
         public Tile[,] Generate(Vector2DInt inChunkPosition)
         {
-            float[,] noiseMap = Noise.GenerateMap(_chunkSize, inChunkPosition, World.instance.parameters);
+            float[,] noiseMap = Noise.GenerateMap(_chunkSize, inChunkPosition, WorldParameters.instance.parameters);
 
             Tile[,] newTiles = new Tile[_chunkSize, _chunkSize];
             for (int y = 0; y < _chunkSize; y++)

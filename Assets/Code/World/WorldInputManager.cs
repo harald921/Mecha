@@ -1,19 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class WorldInputManager
+public class InputManager
 {
     readonly World _world;
 
-    public event System.Action<Tile> OnTileClicked; // TODO: Move this to some kind of WorldInputManager
-    public event System.Action<int> OnPlayerFinishedTurn;
+    public event Action<Tile> OnTileClicked; // TODO: Move this to some kind of WorldInputManager
+    public event Action<int>  OnPlayerFinishedTurn;
 
-    public WorldInputManager(World inWorld)
+    public InputManager(World inWorld)
     {
         _world = inWorld;
+
+        Program.OnUpdate += ReadInput;
     }
 
 
-    public void ManualUpdate()
+    void ReadInput()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -30,7 +33,8 @@ public class WorldInputManager
             OnPlayerFinishedTurn?.Invoke(2);
     }
 
-    public static Vector2DInt GetCurrentMouseWorldPos()
+
+    static Vector2DInt GetCurrentMouseWorldPos()
     {
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return new Vector2DInt((int)mouseWorldPosition.x, (int)mouseWorldPosition.z);

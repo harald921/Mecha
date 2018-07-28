@@ -13,7 +13,7 @@ public class Tile
 
     public readonly Node node;
 
-    public Mech mech => World.instance.mechManager.GetMech(worldPosition);
+    public Mech mech => Program.instance.mechManager.GetMech(worldPosition);
 
 
     public Tile(Vector2DInt inLocalPosition, Vector2DInt inChunkPosition, Terrain inTerrain)
