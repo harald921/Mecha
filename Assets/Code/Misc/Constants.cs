@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class Constants
 {
-    public const string APP_NAME = "Inscent";
+    public const string APP_NAME = "Mecha";
 
     public static class Terrain
     {
