@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Pathfinding;
 
 public partial class Mech
 {
@@ -178,16 +179,19 @@ public partial class Mech
     }
 }
 
-public class Path
+namespace Pathfinding
 {
-    public readonly List<Tile> tiles;
-    public readonly int        distance;
-
-    public static Path Empty => new Path(new List<Tile>(), 0);
-
-    public Path(List<Tile> inTiles, int inDistance)
+    public class Path
     {
-        tiles    = inTiles;
-        distance = inDistance;
+        public readonly List<Tile> tiles;
+        public readonly int        distance;
+
+        public static Path Empty => new Path(new List<Tile>(), 0);
+
+        public Path(List<Tile> inTiles, int inDistance)
+        {
+            tiles    = inTiles;
+            distance = inDistance;
+        }
     }
 }
