@@ -3,8 +3,6 @@
 	* Implement invokation of "OnNewMyTurn" 
 		* For this, there has to be several "Player" objects which keep track of what player is local. Photon Time?
 
-* Create a "Program.cs" which is the single MB. Clean up World.cs with this.
-
 * Add the camera from cubic
 
 * Add a "Next Turn" UI button in the bottom right

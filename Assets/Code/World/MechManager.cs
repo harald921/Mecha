@@ -5,6 +5,7 @@ public class MechManager
 {
     List<Mech> _mechs = new List<Mech>();
 
+
     public Mech GetMech(Vector2DInt inPosition)
     {
         foreach (Mech mech in _mechs)
@@ -19,8 +20,8 @@ public class MechManager
     {
         Debug.LogWarning("DEBUG: Manually spawning test-mech.");
 
-        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), World.instance.GetTile(2, 1), 0));
-        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), World.instance.GetTile(2, 3), 0));
-        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), World.instance.GetTile(2, 5), 0));
+        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), Program.world.GetTile(new Vector2DInt(2, 1)), 0));
+        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), Program.world.GetTile(new Vector2DInt(2, 3)), 0));
+        _mechs.Add(new Mech(new MechBodyType("debug"), new MechMobilityType("debug"), new MechArmorType("debug"), Program.world.GetTile(new Vector2DInt(2, 5)), 0));
     }
 }
