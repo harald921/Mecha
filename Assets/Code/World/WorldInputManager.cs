@@ -18,13 +18,16 @@ public class InputManager
 
     void ReadInput()
     {
+        // Check what (if any) Tile was clicked
         if (Input.GetMouseButtonDown(0))
         {
             Tile clickedTile = _world.GetTile(GetCurrentMouseWorldPos());
+
             if (clickedTile != null)
                 OnTileClicked?.Invoke(clickedTile);
         }
 
+        // DEBUG Check if player finished turn
         if (Input.GetKeyDown(KeyCode.B))
             OnPlayerFinishedTurn?.Invoke(0);
         if (Input.GetKeyDown(KeyCode.N))
@@ -32,6 +35,8 @@ public class InputManager
         if (Input.GetKeyDown(KeyCode.M))
             OnPlayerFinishedTurn?.Invoke(2);
     }
+
+
 
 
     static Vector2DInt GetCurrentMouseWorldPos()
