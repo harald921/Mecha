@@ -29,107 +29,107 @@ namespace MEC
 {
     public class Timing : MonoBehaviour
     {
-        /// <summary>
+        
         /// The time between calls to SlowUpdate.
-        /// </summary>
+        
         [Tooltip("How quickly the SlowUpdate segment ticks.")]
         public float TimeBetweenSlowUpdateCalls = 1f / 7f;
-        /// <summary>
+        
         /// The amount that each coroutine should be seperated inside the Unity profiler. NOTE: When the profiler window
         /// is not open this value is ignored and all coroutines behave as if "None" is selected.
-        /// </summary>
+        
         [Tooltip("How much data should be sent to the profiler window when it's open.")]
         public DebugInfoType ProfilerDebugAmount;
-        /// <summary>
+        
         /// Whether the manual timeframe should automatically trigger during the update segment.
-        /// </summary>
+        
         [Tooltip("When using manual timeframe, should it run automatically after the update loop or only when TriggerManualTimframeUpdate is called.")]
         public bool AutoTriggerManualTimeframe = true;
-        /// <summary>
+        
         /// The number of coroutines that are being run in the Update segment.
-        /// </summary>
+        
         [Tooltip("A count of the number of Update coroutines that are currently running."), Space(12)]
         public int UpdateCoroutines;
-        /// <summary>
+        
         /// The number of coroutines that are being run in the FixedUpdate segment.
-        /// </summary>
+        
         [Tooltip("A count of the number of FixedUpdate coroutines that are currently running.")]
         public int FixedUpdateCoroutines;
-        /// <summary>
+        
         /// The number of coroutines that are being run in the LateUpdate segment.
-        /// </summary>
+        
         [Tooltip("A count of the number of LateUpdate coroutines that are currently running.")]
         public int LateUpdateCoroutines;
-        /// <summary>
+        
         /// The number of coroutines that are being run in the SlowUpdate segment.
-        /// </summary>
+        
         [Tooltip("A count of the number of SlowUpdate coroutines that are currently running.")]
         public int SlowUpdateCoroutines;
-        /// <summary>
+        
         /// The number of coroutines that are being run in the RealtimeUpdate segment.
-        /// </summary>
+        
         [Tooltip("A count of the number of RealtimeUpdate coroutines that are currently running.")]
         public int RealtimeUpdateCoroutines;
-        /// <summary>
+        
         /// The number of coroutines that are being run in the EditorUpdate segment.
-        /// </summary>
+        
         [Tooltip("A count of the number of EditorUpdate coroutines that are currently running.")]
         public int EditorUpdateCoroutines;
-        /// <summary>
+        
         /// The number of coroutines that are being run in the EditorSlowUpdate segment.
-        /// </summary>
+        
         [Tooltip("A count of the number of EditorSlowUpdate coroutines that are currently running.")]
         public int EditorSlowUpdateCoroutines;
-        /// <summary>
+        
         /// The number of coroutines that are being run in the EndOfFrame segment.
-        /// </summary>
+        
         [Tooltip("A count of the number of EndOfFrame coroutines that are currently running.")]
         public int EndOfFrameCoroutines;
-        /// <summary>
+        
         /// The number of coroutines that are being run in the ManualTimeframe segment.
-        /// </summary>
+        
         [Tooltip("A count of the number of ManualTimeframe coroutines that are currently running.")]
         public int ManualTimeframeCoroutines;
 
-        /// <summary>
+        
         /// The time in seconds that the current segment has been running.
-        /// </summary>
+        
         [System.NonSerialized] 
         public float localTime;
-        /// <summary>
+        
         /// The time in seconds that the current segment has been running.
-        /// </summary>
+        
         public static float LocalTime { get { return Instance.localTime; } }
-        /// <summary>
+        
         /// The amount of time in fractional seconds that elapsed between this frame and the last frame.
-        /// </summary>
+        
         [System.NonSerialized]
         public float deltaTime;
-        /// <summary>
+        
         /// The amount of time in fractional seconds that elapsed between this frame and the last frame.
-        /// </summary>
+        
         public static float DeltaTime { get { return Instance.deltaTime; } }
-        /// <summary>
+        
         /// When defined, this function will be called every time manual timeframe needs to be set. The last manual timeframe time is passed in, and
         /// the new manual timeframe time needs to be returned. If this function is left as null, manual timeframe will be set to the current Time.time.
-        /// </summary>
+        
         public System.Func<float, float> SetManualTimeframeTime;
-        /// <summary>
+        
         /// Used for advanced coroutine control.
-        /// </summary>
+        
         public static System.Func<IEnumerator<float>, CoroutineHandle, IEnumerator<float>> ReplacementFunction;
-        /// <summary>
+        
         /// This event fires just before each segment is run.
-        /// </summary>
+        
         public static event System.Action OnPreExecute;
-        /// <summary>
+        
         /// You can use "yield return Timing.WaitForOneFrame;" inside a coroutine function to go to the next frame. 
         /// This is equalivant to "yield return 0f;"
-        /// </summary>
+        
         public const float WaitForOneFrame = 0f;
-        /// <summary>
+        
         /// The main thread that (almost) everything in unity runs in.
-        /// </summary>
+        
         public static System.Threading.Thread MainThread { get; private set; }
 
 
@@ -537,11 +537,11 @@ namespace MEC
             }
         }
 
-        /// <summary>
+        
         /// This will trigger an update in the manual timeframe segment. If the AutoTriggerManualTimeframeDuringUpdate variable is set to true
         /// then this function will be automitically called every Update, so you would normally want to set that variable to false before
         /// calling this function yourself.
-        /// </summary>
+        
         public void TriggerManualTimeframeUpdate()
         {
             if (OnPreExecute != null)
@@ -1157,9 +1157,9 @@ namespace MEC
             EditorSlowUpdateCoroutines = _nextEditorSlowUpdateProcessSlot = inner.i;
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <returns>The coroutine's handle, which can be used for Wait and Kill operations.</returns>
         public static CoroutineHandle RunCoroutine(IEnumerator<float> coroutine)
@@ -1168,9 +1168,9 @@ namespace MEC
                 : Instance.RunCoroutineInternal(coroutine, Segment.Update, null, null, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
         /// <returns>The coroutine's handle, which can be used for Wait and Kill operations.</returns>
@@ -1180,9 +1180,9 @@ namespace MEC
                 gameObj == null ? (int?)null : gameObj.GetInstanceID(), null, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
         /// <returns>The coroutine's handle, which can be used for Wait and Kill operations.</returns>
@@ -1192,9 +1192,9 @@ namespace MEC
                 : Instance.RunCoroutineInternal(coroutine, Segment.Update, layer, null, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
         /// <returns>The coroutine's handle, which can be used for Wait and Kill operations.</returns>
@@ -1204,9 +1204,9 @@ namespace MEC
                 : Instance.RunCoroutineInternal(coroutine, Segment.Update, null, tag, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -1217,9 +1217,9 @@ namespace MEC
                 gameObj == null ? (int?)null : gameObj.GetInstanceID(), tag, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -1230,9 +1230,9 @@ namespace MEC
                 : Instance.RunCoroutineInternal(coroutine, Segment.Update, layer, tag, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <returns>The coroutine's handle, which can be used for Wait and Kill operations.</returns>
@@ -1242,9 +1242,9 @@ namespace MEC
                 : Instance.RunCoroutineInternal(coroutine, segment, null, null, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
@@ -1255,9 +1255,9 @@ namespace MEC
                 gameObj == null ? (int?)null : gameObj.GetInstanceID(), null, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -1268,9 +1268,9 @@ namespace MEC
                  : Instance.RunCoroutineInternal(coroutine, segment, layer, null, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -1281,9 +1281,9 @@ namespace MEC
                  : Instance.RunCoroutineInternal(coroutine, segment, null, tag, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
@@ -1295,9 +1295,9 @@ namespace MEC
                 gameObj == null ? (int?)null : gameObj.GetInstanceID(), tag, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -1309,9 +1309,9 @@ namespace MEC
                  : Instance.RunCoroutineInternal(coroutine, segment, layer, tag, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <returns>The coroutine's handle, which can be used for Wait and Kill operations.</returns>
         public CoroutineHandle RunCoroutineOnInstance(IEnumerator<float> coroutine)
@@ -1320,9 +1320,9 @@ namespace MEC
                  : RunCoroutineInternal(coroutine, Segment.Update, null, null, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
         /// <returns>The coroutine's handle, which can be used for Wait and Kill operations.</returns>
@@ -1332,9 +1332,9 @@ namespace MEC
                 gameObj == null ? (int?)null : gameObj.GetInstanceID(), null, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
         /// <returns>The coroutine's handle, which can be used for Wait and Kill operations.</returns>
@@ -1344,9 +1344,9 @@ namespace MEC
                  : RunCoroutineInternal(coroutine, Segment.Update, layer, null, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
         /// <returns>The coroutine's handle, which can be used for Wait and Kill operations.</returns>
@@ -1356,9 +1356,9 @@ namespace MEC
                  : RunCoroutineInternal(coroutine, Segment.Update, null, tag, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -1369,9 +1369,9 @@ namespace MEC
                 gameObj == null ? (int?)null : gameObj.GetInstanceID(), tag, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance in the Update segment.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -1382,9 +1382,9 @@ namespace MEC
                  : RunCoroutineInternal(coroutine, Segment.Update, layer, tag, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <returns>The coroutine's handle, which can be used for Wait and Kill operations.</returns>
@@ -1394,9 +1394,9 @@ namespace MEC
                  : RunCoroutineInternal(coroutine, segment, null, null, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
@@ -1407,9 +1407,9 @@ namespace MEC
                 gameObj == null ? (int?)null : gameObj.GetInstanceID(), null, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -1420,9 +1420,9 @@ namespace MEC
                  : RunCoroutineInternal(coroutine, segment, layer, null, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -1433,9 +1433,9 @@ namespace MEC
                  : RunCoroutineInternal(coroutine, segment, null, tag, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
@@ -1447,9 +1447,9 @@ namespace MEC
                 gameObj == null ? (int?)null : gameObj.GetInstanceID(), tag, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine on this Timing instance.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -1461,9 +1461,9 @@ namespace MEC
                 : RunCoroutineInternal(coroutine, segment, layer, tag, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment, but not while the coroutine with the supplied handle is running.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="handle">A tag to attach to the coroutine, and to check for existing instances.</param>
         /// <param name="behaviorOnCollision">Should this coroutine fail to start, overwrite, or wait for any coroutines to finish if any matches are 
@@ -1494,9 +1494,9 @@ namespace MEC
             return Instance.RunCoroutineInternal(coroutine, Segment.Update, null, null, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment with the supplied layer unless there is already one or more coroutines running with that layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
         /// <param name="behaviorOnCollision">Should this coroutine fail to start, overwrite, or wait for any coroutines to finish if any matches are 
@@ -1507,9 +1507,9 @@ namespace MEC
             return gameObj == null ? RunCoroutine(coroutine) : RunCoroutineSingleton(coroutine, gameObj.GetInstanceID(), behaviorOnCollision);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment with the supplied layer unless there is already one or more coroutines running with that layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="layer">A layer to attach to the coroutine, and to check for existing instances.</param>
         /// <param name="behaviorOnCollision">Should this coroutine fail to start, overwrite, or wait for any coroutines to finish if any matches are 
@@ -1545,9 +1545,9 @@ namespace MEC
             return Instance.RunCoroutineInternal(coroutine, Segment.Update, layer, null, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment with the supplied tag unless there is already one or more coroutines running with that tag.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="tag">A tag to attach to the coroutine, and to check for existing instances.</param>
         /// <param name="behaviorOnCollision">Should this coroutine fail to start, overwrite, or wait for any coroutines to finish if any matches are 
@@ -1583,10 +1583,10 @@ namespace MEC
             return Instance.RunCoroutineInternal(coroutine, Segment.Update, null, tag, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment with the supplied graffitti unless there is already one or more coroutines running with both that 
         /// tag and layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
         /// <param name="tag">A tag to attach to the coroutine, and to check for existing instances.</param>
@@ -1599,10 +1599,10 @@ namespace MEC
                 : RunCoroutineSingleton(coroutine, gameObj.GetInstanceID(), tag, behaviorOnCollision);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment with the supplied graffitti unless there is already one or more coroutines running with both that 
         /// tag and layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="layer">A layer to attach to the coroutine, and to check for existing instances.</param>
         /// <param name="tag">A tag to attach to the coroutine, and to check for existing instances.</param>
@@ -1650,9 +1650,9 @@ namespace MEC
             return Instance.RunCoroutineInternal(coroutine, Segment.Update, layer, tag, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine, but not while the coroutine with the supplied handle is running.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="handle">A tag to attach to the coroutine, and to check for existing instances.</param>
@@ -1685,9 +1685,9 @@ namespace MEC
             return Instance.RunCoroutineInternal(coroutine, segment, null, null, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine with the supplied layer unless there is already one or more coroutines running with that layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
@@ -1700,9 +1700,9 @@ namespace MEC
             return gameObj == null ? RunCoroutine(coroutine, segment) : RunCoroutineSingleton(coroutine, segment, gameObj.GetInstanceID(), behaviorOnCollision);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine with the supplied layer unless there is already one or more coroutines running with that layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="layer">A layer to attach to the coroutine, and to check for existing instances.</param>
@@ -1739,9 +1739,9 @@ namespace MEC
             return Instance.RunCoroutineInternal(coroutine, segment, layer, null, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine with the supplied tag unless there is already one or more coroutines running with that tag.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="tag">A tag to attach to the coroutine, and to check for existing instances.</param>
@@ -1779,9 +1779,9 @@ namespace MEC
             return Instance.RunCoroutineInternal(coroutine, segment, null, tag, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine with the supplied graffitti unless there is already one or more coroutines running with both that tag and layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
@@ -1796,9 +1796,9 @@ namespace MEC
                 : RunCoroutineSingleton(coroutine, segment, gameObj.GetInstanceID(), tag, behaviorOnCollision);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine with the supplied graffitti unless there is already one or more coroutines running with both that tag and layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="layer">A layer to attach to the coroutine, and to check for existing instances.</param>
@@ -1847,9 +1847,9 @@ namespace MEC
             return Instance.RunCoroutineInternal(coroutine, segment, layer, tag, new CoroutineHandle(Instance._instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment, but not while the coroutine with the supplied handle is running.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="handle">A tag to attach to the coroutine, and to check for existing instances.</param>
         /// <param name="behaviorOnCollision">Should this coroutine fail to start, overwrite, or wait for any coroutines to finish if any matches are 
@@ -1879,9 +1879,9 @@ namespace MEC
             return RunCoroutineInternal(coroutine, Segment.Update, null, null, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment with the supplied layer unless there is already one or more coroutines running with that layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
         /// <param name="behaviorOnCollision">Should this coroutine fail to start, overwrite, or wait for any coroutines to finish if any matches are 
@@ -1893,9 +1893,9 @@ namespace MEC
                 : RunCoroutineSingletonOnInstance(coroutine, gameObj.GetInstanceID(), behaviorOnCollision);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment with the supplied layer unless there is already one or more coroutines running with that layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="layer">A layer to attach to the coroutine, and to check for existing instances.</param>
         /// <param name="behaviorOnCollision">Should this coroutine fail to start, overwrite, or wait for any coroutines to finish if any matches are 
@@ -1930,9 +1930,9 @@ namespace MEC
             return RunCoroutineInternal(coroutine, Segment.Update, layer, null, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment with the supplied tag unless there is already one or more coroutines running with that tag.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="tag">A tag to attach to the coroutine, and to check for existing instances.</param>
         /// <param name="behaviorOnCollision">Should this coroutine fail to start, overwrite, or wait for any coroutines to finish if any matches are 
@@ -1967,10 +1967,10 @@ namespace MEC
             return RunCoroutineInternal(coroutine, Segment.Update, null, tag, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment with the supplied graffitti unless there is already one or more coroutines running with both that 
         /// tag and layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
         /// <param name="tag">A tag to attach to the coroutine, and to check for existing instances.</param>
@@ -1984,10 +1984,10 @@ namespace MEC
                 : RunCoroutineSingletonOnInstance(coroutine, gameObj.GetInstanceID(), tag, behaviorOnCollision);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine in the Update segment with the supplied graffitti unless there is already one or more coroutines running with both that 
         /// tag and layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="layer">A layer to attach to the coroutine, and to check for existing instances.</param>
         /// <param name="tag">A tag to attach to the coroutine, and to check for existing instances.</param>
@@ -2034,9 +2034,9 @@ namespace MEC
             return RunCoroutineInternal(coroutine, Segment.Update, layer, tag, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine with the supplied layer unless there is already one or more coroutines running with that layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
@@ -2050,9 +2050,9 @@ namespace MEC
                 : RunCoroutineSingletonOnInstance(coroutine, segment, gameObj.GetInstanceID(), behaviorOnCollision);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine with the supplied layer unless there is already one or more coroutines running with that layer.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="layer">A layer to attach to the coroutine, and to check for existing instances.</param>
@@ -2088,9 +2088,9 @@ namespace MEC
             return RunCoroutineInternal(coroutine, segment, layer, null, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine with the supplied tag unless there is already one or more coroutines running with that tag.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="tag">A tag to attach to the coroutine, and to check for existing instances.</param>
@@ -2127,9 +2127,9 @@ namespace MEC
             return RunCoroutineInternal(coroutine, segment, null, tag, new CoroutineHandle(_instanceID), true);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine with the supplied tag unless there is already one or more coroutines running with that tag.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="gameObj">The new coroutine will be put on a layer corresponding to this gameObject.</param>
@@ -2144,9 +2144,9 @@ namespace MEC
                 : RunCoroutineSingletonOnInstance(coroutine, segment, gameObj.GetInstanceID(), tag, behaviorOnCollision);
         }
 
-        /// <summary>
+        
         /// Run a new coroutine with the supplied tag unless there is already one or more coroutines running with that tag.
-        /// </summary>
+        
         /// <param name="coroutine">The new coroutine's handle.</param>
         /// <param name="segment">The segment that the coroutine should run in.</param>
         /// <param name="layer">A layer to attach to the coroutine, and to check for existing instances.</param>
@@ -2709,18 +2709,18 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// This will kill all coroutines running on the main MEC instance and reset the context.
-        /// </summary>
+        
         /// <returns>The number of coroutines that were killed.</returns>
         public static int KillCoroutines()
         {
             return _instance == null ? 0 : _instance.KillCoroutinesOnInstance();
         }
 
-        /// <summary>
+        
         /// This will kill all coroutines running on the current MEC instance and reset the context.
-        /// </summary>
+        
         /// <returns>The number of coroutines that were killed.</returns>
         public int KillCoroutinesOnInstance()
         {
@@ -2791,9 +2791,9 @@ namespace MEC
             return retVal;
         }
 
-        /// <summary>
+        
         /// Kills the instance of the coroutine handle if it exists.
-        /// </summary>
+        
         /// <param name="handle">The handle of the coroutine to kill.</param>
         /// <returns>The number of coroutines that were found and killed (0 or 1).</returns>
         public static int KillCoroutines(CoroutineHandle handle)
@@ -2801,9 +2801,9 @@ namespace MEC
             return ActiveInstances.ContainsKey(handle.Key) ? GetInstance(handle.Key).KillCoroutinesOnInstance(handle) : 0;
         }
 
-        /// <summary>
+        
         /// Kills the instance of the coroutine handle on this Timing instance if it exists.
-        /// </summary>
+        
         /// <param name="handle">The handle of the coroutine to kill.</param>
         /// <returns>The number of coroutines that were found and killed (Normally 0 or 1).</returns>
         public int KillCoroutinesOnInstance(CoroutineHandle handle)
@@ -2831,9 +2831,9 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// Kills all coroutines on the given layer.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be killed.</param>
         /// <returns>The number of coroutines that were found and killed.</returns>
         public static int KillCoroutines(GameObject gameObj)
@@ -2841,9 +2841,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.KillCoroutinesOnInstance(gameObj.GetInstanceID());
         }
 
-        /// <summary> 
+         
         /// Kills all coroutines on the given layer.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be killed.</param>
         /// <returns>The number of coroutines that were found and killed.</returns>
         public int KillCoroutinesOnInstance(GameObject gameObj)
@@ -2851,9 +2851,9 @@ namespace MEC
             return KillCoroutinesOnInstance(gameObj.GetInstanceID());
         }
 
-        /// <summary>
+        
         /// Kills all coroutines on the given layer.
-        /// </summary>
+        
         /// <param name="layer">All coroutines on this layer will be killed.</param>
         /// <returns>The number of coroutines that were found and killed.</returns>
         public static int KillCoroutines(int layer)
@@ -2861,9 +2861,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.KillCoroutinesOnInstance(layer);
         }
 
-        /// <summary> 
+         
         /// Kills all coroutines on the given layer.
-        /// </summary>
+        
         /// <param name="layer">All coroutines on this layer will be killed.</param>
         /// <returns>The number of coroutines that were found and killed.</returns>
         public int KillCoroutinesOnInstance(int layer)
@@ -2897,9 +2897,9 @@ namespace MEC
             return numberFound;
         }
 
-        /// <summary>
+        
         /// Kills all coroutines that have the given tag.
-        /// </summary>
+        
         /// <param name="tag">All coroutines with this tag will be killed.</param>
         /// <returns>The number of coroutines that were found and killed.</returns>
         public static int KillCoroutines(string tag)
@@ -2907,9 +2907,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.KillCoroutinesOnInstance(tag);
         }
 
-        /// <summary> 
+         
         /// Kills all coroutines that have the given tag.
-        /// </summary>
+        
         /// <param name="tag">All coroutines with this tag will be killed.</param>
         /// <returns>The number of coroutines that were found and killed.</returns>
         public int KillCoroutinesOnInstance(string tag)
@@ -2944,9 +2944,9 @@ namespace MEC
             return numberFound;
         }
 
-        /// <summary>
+        
         /// Kills all coroutines with the given tag on the given layer.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be killed.</param>
         /// <param name="tag">All coroutines with this tag on the given layer will be killed.</param>
         /// <returns>The number of coroutines that were found and killed.</returns>
@@ -2955,9 +2955,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.KillCoroutinesOnInstance(gameObj.GetInstanceID(), tag);
         }
 
-        /// <summary> 
+         
         /// Kills all coroutines with the given tag on the given layer.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be killed.</param>
         /// <param name="tag">All coroutines with this tag on the given layer will be killed.</param>
         /// <returns>The number of coroutines that were found and killed.</returns>
@@ -2966,9 +2966,9 @@ namespace MEC
             return KillCoroutinesOnInstance(gameObj.GetInstanceID(), tag);
         }
 
-        /// <summary>
+        
         /// Kills all coroutines with the given tag on the given layer.
-        /// </summary>
+        
         /// <param name="layer">All coroutines on this layer with the given tag will be killed.</param>
         /// <param name="tag">All coroutines with this tag on the given layer will be killed.</param>
         /// <returns>The number of coroutines that were found and killed.</returns>
@@ -2977,9 +2977,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.KillCoroutinesOnInstance(layer, tag);
         }
 
-        /// <summary> 
+         
         /// Kills all coroutines with the given tag on the given layer.
-        /// </summary>
+        
         /// <param name="layer">All coroutines on this layer with the given tag will be killed.</param>
         /// <param name="tag">All coroutines with this tag on the given layer will be killed.</param>
         /// <returns>The number of coroutines that were found and killed.</returns>
@@ -3021,9 +3021,9 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// Retrieves the MEC manager that corresponds to the supplied instance id.
-        /// </summary>
+        
         /// <param name="ID">The instance ID.</param>
         /// <returns>The manager, or null if not found.</returns>
         public static Timing GetInstance(byte ID)
@@ -3031,9 +3031,9 @@ namespace MEC
             return ActiveInstances.ContainsKey(ID) ? ActiveInstances[ID] : null;
         }
 
-        /// <summary>
+        
         /// Use "yield return Timing.WaitForSeconds(time);" to wait for the specified number of seconds.
-        /// </summary>
+        
         /// <param name="waitTime">Number of seconds to wait.</param>
         public static float WaitForSeconds(float waitTime)
         {
@@ -3041,9 +3041,9 @@ namespace MEC
             return LocalTime + waitTime;
         }
 
-        /// <summary>
+        
         /// Use "yield return timingInstance.WaitForSecondsOnInstance(time);" to wait for the specified number of seconds.
-        /// </summary>
+        
         /// <param name="waitTime">Number of seconds to wait.</param>
         public float WaitForSecondsOnInstance(float waitTime)
         {
@@ -3244,9 +3244,9 @@ namespace MEC
             }
         }
 
-        /// <summary>
+        
         /// Not all segments can have their local time value reset to zero, but the ones that can are reset through this function.
-        /// </summary>
+        
         public void ResetTimeCountOnInstance()
         {
             localTime = 0f;
@@ -3258,18 +3258,18 @@ namespace MEC
             _EOFPumpRan = false;
         }
 
-        /// <summary>
+        
         /// This will pause all coroutines running on the main MEC instance until ResumeCoroutines is called.
-        /// </summary>
+        
         /// <returns>The number of coroutines that were paused.</returns>
         public static int PauseCoroutines()
         {
             return _instance == null ? 0 : _instance.PauseCoroutinesOnInstance();
         }
 
-        /// <summary>
+        
         /// This will pause all coroutines running on this MEC instance until ResumeCoroutinesOnInstance is called.
-        /// </summary>
+        
         /// <returns>The number of coroutines that were paused.</returns>
         public int PauseCoroutinesOnInstance()
         {
@@ -3405,9 +3405,9 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines until ResumeCoroutines is called.
-        /// </summary>
+        
         /// <param name="handle">The handle of the coroutine to pause.</param>
         /// <returns>The number of coroutines that were paused (0 or 1).</returns>
         public static int PauseCoroutines(CoroutineHandle handle)
@@ -3415,9 +3415,9 @@ namespace MEC
             return ActiveInstances.ContainsKey(handle.Key) ? GetInstance(handle.Key).PauseCoroutinesOnInstance(handle) : 0;
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on this MEC instance until ResumeCoroutinesOnInstance is called.
-        /// </summary>
+        
         /// <param name="handle">The handle of the coroutine to pause.</param>
         /// <returns>The number of coroutines that were paused (Normally 0 or 1).</returns>
         public int PauseCoroutinesOnInstance(CoroutineHandle handle)
@@ -3440,9 +3440,9 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on the current MEC instance until ResumeCoroutines is called.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be paused.</param>
         /// <returns>The number of coroutines that were paused.</returns>
         public static int PauseCoroutines(GameObject gameObj)
@@ -3450,9 +3450,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.PauseCoroutinesOnInstance(gameObj);
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on this MEC instance until ResumeCoroutinesOnInstance is called.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be paused.</param>
         /// <returns>The number of coroutines that were paused.</returns>
         public int PauseCoroutinesOnInstance(GameObject gameObj)
@@ -3460,9 +3460,9 @@ namespace MEC
             return gameObj == null ? 0 : PauseCoroutinesOnInstance(gameObj.GetInstanceID());
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on the current MEC instance until ResumeCoroutines is called.
-        /// </summary>
+        
         /// <param name="layer">Any coroutines on the matching layer will be paused.</param>
         /// <returns>The number of coroutines that were paused.</returns>
         public static int PauseCoroutines(int layer)
@@ -3470,9 +3470,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.PauseCoroutinesOnInstance(layer);
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on this MEC instance until ResumeCoroutinesOnInstance is called.
-        /// </summary>
+        
         /// <param name="layer">Any coroutines on the matching layer will be paused.</param>
         /// <returns>The number of coroutines that were paused.</returns>
         public int PauseCoroutinesOnInstance(int layer)
@@ -3502,9 +3502,9 @@ namespace MEC
             return count; 
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on the current MEC instance until ResumeCoroutines is called.
-        /// </summary>
+        
         /// <param name="tag">Any coroutines with a matching tag will be paused.</param>
         /// <returns>The number of coroutines that were paused.</returns>
         public static int PauseCoroutines(string tag)
@@ -3512,9 +3512,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.PauseCoroutinesOnInstance(tag);
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on this MEC instance until ResumeCoroutinesOnInstance is called.
-        /// </summary>
+        
         /// <param name="tag">Any coroutines with a matching tag will be paused.</param>
         /// <returns>The number of coroutines that were paused.</returns>
         public int PauseCoroutinesOnInstance(string tag)
@@ -3544,9 +3544,9 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on the current MEC instance until ResumeCoroutines is called.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be paused.</param>
         /// <param name="tag">Any coroutines with a matching tag will be paused.</param>
         /// <returns>The number of coroutines that were paused.</returns>
@@ -3555,9 +3555,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.PauseCoroutinesOnInstance(gameObj.GetInstanceID(), tag);
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on this MEC instance until ResumeCoroutinesOnInstance is called.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be paused.</param>
         /// <param name="tag">Any coroutines with a matching tag will be paused.</param>
         /// <returns>The number of coroutines that were paused.</returns>
@@ -3566,9 +3566,9 @@ namespace MEC
             return gameObj == null ? 0 : PauseCoroutinesOnInstance(gameObj.GetInstanceID(), tag);
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on the current MEC instance until ResumeCoroutines is called.
-        /// </summary>
+        
         /// <param name="layer">Any coroutines on the matching layer will be paused.</param>
         /// <param name="tag">Any coroutines with a matching tag will be paused.</param>
         /// <returns>The number of coroutines that were paused.</returns>
@@ -3577,9 +3577,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.PauseCoroutinesOnInstance(layer, tag);
         }
 
-        /// <summary>
+        
         /// This will pause any matching coroutines running on this MEC instance until ResumeCoroutinesOnInstance is called.
-        /// </summary>
+        
         /// <param name="layer">Any coroutines on the matching layer will be paused.</param>
         /// <param name="tag">Any coroutines with a matching tag will be paused.</param>
         /// <returns>The number of coroutines that were paused.</returns>
@@ -3617,19 +3617,19 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// This resumes all coroutines on the current MEC instance if they are currently paused, otherwise it has
         /// no effect.
-        /// </summary>
+        
         /// <returns>The number of coroutines that were resumed.</returns>
         public static int ResumeCoroutines()
         {
             return _instance == null ? 0 : _instance.ResumeCoroutinesOnInstance();
         }
 
-        /// <summary>
+        
         /// This resumes all coroutines on this MEC instance if they are currently paused, otherwise it has no effect.
-        /// </summary>
+        
         /// <returns>The number of coroutines that were resumed.</returns>
         public int ResumeCoroutinesOnInstance()
         {
@@ -3729,9 +3729,9 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// This will resume any matching coroutines.
-        /// </summary>
+        
         /// <param name="handle">The handle of the coroutine to resume.</param>
         /// <returns>The number of coroutines that were resumed. (Normally 0 or 1).</returns>
         public static int ResumeCoroutines(CoroutineHandle handle)
@@ -3739,9 +3739,9 @@ namespace MEC
             return ActiveInstances.ContainsKey(handle.Key) ? GetInstance(handle.Key).ResumeCoroutinesOnInstance(handle) : 0;
         }
 
-        /// <summary>
+        
         /// This will resume any matching coroutines running on this MEC instance.
-        /// </summary>
+        
         /// <param name="handle">The handle of the coroutine to resume.</param>
         /// <returns>The number of coroutines that were resumed. (Normally 0 or 1)</returns>
         public int ResumeCoroutinesOnInstance(CoroutineHandle handle)
@@ -3773,10 +3773,10 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// This resumes any matching coroutines on the current MEC instance if they are currently paused, otherwise it has
         /// no effect.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be resumed.</param>
         /// <returns>The number of coroutines that were resumed.</returns>
         public static int ResumeCoroutines(GameObject gameObj)
@@ -3784,9 +3784,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.ResumeCoroutinesOnInstance(gameObj.GetInstanceID());
         }
 
-        /// <summary>
+        
         /// This resumes any matching coroutines on this MEC instance if they are currently paused, otherwise it has no effect.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be resumed.</param>
         /// <returns>The number of coroutines that were resumed.</returns>
         public int ResumeCoroutinesOnInstance(GameObject gameObj)
@@ -3794,10 +3794,10 @@ namespace MEC
             return gameObj == null ? 0 : ResumeCoroutinesOnInstance(gameObj.GetInstanceID());
         }
 
-        /// <summary>
+        
         /// This resumes any matching coroutines on the current MEC instance if they are currently paused, otherwise it has
         /// no effect.
-        /// </summary>
+        
         /// <param name="layer">Any coroutines previously paused on the matching layer will be resumend.</param>
         /// <returns>The number of coroutines that were resumed.</returns>
         public static int ResumeCoroutines(int layer)
@@ -3805,9 +3805,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.ResumeCoroutinesOnInstance(layer);
         }
 
-        /// <summary>
+        
         /// This resumes any matching coroutines on this MEC instance if they are currently paused, otherwise it has no effect.
-        /// </summary>
+        
         /// <param name="layer">Any coroutines previously paused on the matching layer will be resumend.</param>
         /// <returns>The number of coroutines that were resumed.</returns>
         public int ResumeCoroutinesOnInstance(int layer)
@@ -3839,9 +3839,9 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// This resumes any matching coroutines on the current MEC instance if they are currently paused, otherwise it has no effect.
-        /// </summary>
+        
         /// <param name="tag">Any coroutines previously paused with a matching tag will be resumend.</param>
         /// <returns>The number of coroutines that were resumed.</returns>
         public static int ResumeCoroutines(string tag)
@@ -3849,9 +3849,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.ResumeCoroutinesOnInstance(tag);
         }
 
-        /// <summary>
+        
         /// This resumes any matching coroutines on this MEC instance if they are currently paused, otherwise it has no effect.
-        /// </summary>
+        
         /// <param name="tag">Any coroutines previously paused with a matching tag will be resumend.</param>
         /// <returns>The number of coroutines that were resumed.</returns>
         public int ResumeCoroutinesOnInstance(string tag)
@@ -3883,10 +3883,10 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// This resumes any matching coroutines on the current MEC instance if they are currently paused, otherwise it has
         /// no effect.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be resumed.</param>
         /// <param name="tag">Any coroutines previously paused with a matching tag will be resumend.</param>
         /// <returns>The number of coroutines that were resumed.</returns>
@@ -3895,9 +3895,9 @@ namespace MEC
             return _instance == null ? 0 : _instance.ResumeCoroutinesOnInstance(gameObj.GetInstanceID(), tag);
         }
 
-        /// <summary>
+        
         /// This resumes any matching coroutines on this MEC instance if they are currently paused, otherwise it has no effect.
-        /// </summary>
+        
         /// <param name="gameObj">All coroutines on the layer corresponding with this GameObject will be resumed.</param>
         /// <param name="tag">Any coroutines previously paused with a matching tag will be resumend.</param>
         /// <returns>The number of coroutines that were resumed.</returns>
@@ -3906,10 +3906,10 @@ namespace MEC
             return gameObj == null ? 0 : ResumeCoroutinesOnInstance(gameObj.GetInstanceID(), tag);
         }
 
-        /// <summary>
+        
         /// This resumes any matching coroutines on the current MEC instance if they are currently paused, otherwise it has
         /// no effect.
-        /// </summary>
+        
         /// <param name="layer">Any coroutines previously paused on the matching layer will be resumend.</param>
         /// <param name="tag">Any coroutines previously paused with a matching tag will be resumend.</param>
         /// <returns>The number of coroutines that were resumed.</returns>
@@ -3918,9 +3918,9 @@ namespace MEC
             return _instance == null? 0 : _instance.ResumeCoroutinesOnInstance(layer, tag);
         }
 
-        /// <summary>
+        
         /// This resumes any matching coroutines on this MEC instance if they are currently paused, otherwise it has no effect.
-        /// </summary>
+        
         /// <param name="layer">Any coroutines previously paused on the matching layer will be resumend.</param>
         /// <param name="tag">Any coroutines previously paused with a matching tag will be resumend.</param>
         /// <returns>The number of coroutines that were resumed.</returns>
@@ -3956,9 +3956,9 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// Returns the tag associated with the coroutine that the given handle points to, if it is running.
-        /// </summary>
+        
         /// <param name="handle">The handle to the coroutine.</param>
         /// <returns>The coroutine's tag, or null if there is no matching tag.</returns>
         public static string GetTag(CoroutineHandle handle)
@@ -3968,9 +3968,9 @@ namespace MEC
                  ? inst._processTags[handle] : null;
         }
 
-        /// <summary>
+        
         /// Returns the layer associated with the coroutine that the given handle points to, if it is running.
-        /// </summary>
+        
         /// <param name="handle">The handle to the coroutine.</param>
         /// <returns>The coroutine's layer as a nullable integer, or null if there is no matching layer.</returns>
         public static int? GetLayer(CoroutineHandle handle)
@@ -3980,9 +3980,9 @@ namespace MEC
                   ? inst._processLayers[handle] : (int?)null;
         }
 
-        /// <summary>
+        
         /// Returns the segment that the coroutine with the given handle is running on.
-        /// </summary>
+        
         /// <param name="handle">The handle to the coroutine.</param>
         /// <returns>The coroutine's segment, or Segment.Invalid if it's not found.</returns>
         public static Segment GetSegment(CoroutineHandle handle)
@@ -3991,9 +3991,9 @@ namespace MEC
             return inst != null && inst._handleToIndex.ContainsKey(handle) ? inst._handleToIndex[handle].seg : Segment.Invalid;
         }
 
-        /// <summary>
+        
         /// Sets the coroutine that the handle points to to have the given tag.
-        /// </summary>
+        
         /// <param name="handle">The handle to the coroutine.</param>
         /// <param name="newTag">The new tag to assign, or null to clear the tag.</param>
         /// <param name="overwriteExisting">If set to false then the tag will not be changed if the coroutine has an existing tag.</param>
@@ -4011,9 +4011,9 @@ namespace MEC
             return true;
         }
 
-        /// <summary>
+        
         /// Sets the coroutine that the handle points to to have the given layer.
-        /// </summary>
+        
         /// <param name="handle">The handle to the coroutine.</param>
         /// <param name="newLayer">The new tag to assign.</param>
         /// <param name="overwriteExisting">If set to false then the tag will not be changed if the coroutine has an existing tag.</param>
@@ -4031,9 +4031,9 @@ namespace MEC
             return true;
         }
 
-        /// <summary>
+        
         /// Sets the segment for the coroutine with the given handle.
-        /// </summary>
+        
         /// <param name="handle">The handle to the coroutine.</param>
         /// <param name="newSegment">The new segment to run the coroutine in.</param>
         /// <returns>Whether the segment was set successfully.</returns>
@@ -4050,9 +4050,9 @@ namespace MEC
             return true;
         }
 
-        /// <summary>
+        
         /// Sets the coroutine that the handle points to to have the given tag.
-        /// </summary>
+        
         /// <param name="handle">The handle to the coroutine.</param>
         /// <returns>Whether the tag was removed successfully.</returns>
         public static bool RemoveTag(CoroutineHandle handle)
@@ -4060,9 +4060,9 @@ namespace MEC
             return SetTag(handle, null);
         }
 
-        /// <summary>
+        
         /// Sets the coroutine that the handle points to to have the given layer.
-        /// </summary>
+        
         /// <param name="handle">The handle to the coroutine.</param>
         /// <returns>Whether the layer was removed successfully.</returns>
         public static bool RemoveLayer(CoroutineHandle handle)
@@ -4076,9 +4076,9 @@ namespace MEC
             return true;
         }
 
-        /// <summary>
+        
         /// Tests to see if the handle you have points to a valid coroutine that is currently running.
-        /// </summary>
+        
         /// <param name="handle">The handle to test.</param>
         /// <returns>Whether it's a valid coroutine.</returns>
         public static bool IsRunning(CoroutineHandle handle)
@@ -4087,9 +4087,9 @@ namespace MEC
             return inst != null && inst._handleToIndex.ContainsKey(handle) && !inst.CoindexIsNull(inst._handleToIndex[handle]);
         }
 
-        /// <summary>
+        
         /// Tests to see if the handle you have points to a coroutine that has not ended but is paused.
-        /// </summary>
+        
         /// <param name="handle">The handle to test.</param>
         /// <returns>Whether it's a paused coroutine.</returns>
         public static bool IsPaused(CoroutineHandle handle)
@@ -4562,20 +4562,20 @@ namespace MEC
             }
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(newCoroutine);" to start a new coroutine and pause the
         /// current one until it finishes.
-        /// </summary>
+        
         /// <param name="newCoroutine">The coroutine to pause for.</param>
         public static float WaitUntilDone(IEnumerator<float> newCoroutine)
         {
             return WaitUntilDone(RunCoroutine(newCoroutine), true);
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(newCoroutine);" to start a new coroutine and pause the
         /// current one until it finishes.
-        /// </summary>
+        
         /// <param name="newCoroutine">The coroutine to pause for.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
         public static float WaitUntilDone(IEnumerator<float> newCoroutine, string tag)
@@ -4583,10 +4583,10 @@ namespace MEC
             return WaitUntilDone(RunCoroutine(newCoroutine, tag), true);
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(newCoroutine);" to start a new coroutine and pause the
         /// current one until it finishes.
-        /// </summary>
+        
         /// <param name="newCoroutine">The coroutine to pause for.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
         public static float WaitUntilDone(IEnumerator<float> newCoroutine, int layer)
@@ -4594,10 +4594,10 @@ namespace MEC
             return WaitUntilDone(RunCoroutine(newCoroutine, layer), true);
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(newCoroutine);" to start a new coroutine and pause the
         /// current one until it finishes.
-        /// </summary>
+        
         /// <param name="newCoroutine">The coroutine to pause for.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -4606,10 +4606,10 @@ namespace MEC
             return WaitUntilDone(RunCoroutine(newCoroutine, layer, tag), true);
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(newCoroutine);" to start a new coroutine and pause the
         /// current one until it finishes.
-        /// </summary>
+        
         /// <param name="newCoroutine">The coroutine to pause for.</param>
         /// <param name="segment">The segment that the new coroutine should run in.</param>
         public static float WaitUntilDone(IEnumerator<float> newCoroutine, Segment segment)
@@ -4617,10 +4617,10 @@ namespace MEC
             return WaitUntilDone(RunCoroutine(newCoroutine, segment), true);
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(newCoroutine);" to start a new coroutine and pause the
         /// current one until it finishes.
-        /// </summary>
+        
         /// <param name="newCoroutine">The coroutine to pause for.</param>
         /// <param name="segment">The segment that the new coroutine should run in.</param>
         /// <param name="tag">An optional tag to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -4629,10 +4629,10 @@ namespace MEC
             return WaitUntilDone(RunCoroutine(newCoroutine, segment, tag), true);
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(newCoroutine);" to start a new coroutine and pause the
         /// current one until it finishes.
-        /// </summary>
+        
         /// <param name="newCoroutine">The coroutine to pause for.</param>
         /// <param name="segment">The segment that the new coroutine should run in.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -4641,10 +4641,10 @@ namespace MEC
             return WaitUntilDone(RunCoroutine(newCoroutine, segment, layer), true);
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(newCoroutine);" to start a new coroutine and pause the
         /// current one until it finishes.
-        /// </summary>
+        
         /// <param name="newCoroutine">The coroutine to pause for.</param>
         /// <param name="segment">The segment that the new coroutine should run in.</param>
         /// <param name="layer">An optional layer to attach to the coroutine which can later be used to identify this coroutine.</param>
@@ -4654,20 +4654,20 @@ namespace MEC
             return WaitUntilDone(RunCoroutine(newCoroutine, segment, layer, tag), true);
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(otherCoroutine);" to pause the current 
         /// coroutine until otherCoroutine is done.
-        /// </summary>
+        
         /// <param name="otherCoroutine">The coroutine to pause for.</param>
         public static float WaitUntilDone(CoroutineHandle otherCoroutine)
         {
             return WaitUntilDone(otherCoroutine, true);
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(otherCoroutine, false);" to pause the current 
         /// coroutine until otherCoroutine is done, supressing warnings.
-        /// </summary>
+        
         /// <param name="otherCoroutine">The coroutine to pause for.</param>
         /// <param name="warnOnIssue">Post a warning if no hold action was actually performed.</param>
         public static float WaitUntilDone(CoroutineHandle otherCoroutine, bool warnOnIssue)
@@ -4734,9 +4734,9 @@ namespace MEC
             return coptr;
         }
 
-        /// <summary>
+        
         /// This will pause one coroutine until another coroutine finishes running. Note: This is NOT used with a yield return statement.
-        /// </summary>
+        
         /// <param name="handle">The coroutine that should be paused.</param>
         /// <param name="otherHandle">The coroutine that will be waited for.</param>
         /// <param name="warnOnIssue">Whether a warning should be logged if there is a problem.</param>
@@ -4784,9 +4784,9 @@ namespace MEC
             }
         }
 
-        /// <summary>
+        
         /// This will pause one coroutine until the other coroutines finish running. Note: This is NOT used with a yield return statement.
-        /// </summary>
+        
         /// <param name="handle">The coroutine that should be paused.</param>
         /// <param name="otherHandles">A list of coroutines to be waited for.</param>
         /// <param name="warnOnIssue">Whether a warning should be logged if there is a problem.</param>
@@ -4882,10 +4882,10 @@ namespace MEC
             return false;
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(wwwObject);" to pause the current 
         /// coroutine until the wwwObject is done.
-        /// </summary>
+        
         /// <param name="wwwObject">The www object to pause for.</param>
         public static float WaitUntilDone(WWW wwwObject)
         {
@@ -4911,10 +4911,10 @@ namespace MEC
             yield return float.NaN;
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(operation);" to pause the current 
         /// coroutine until the operation is done.
-        /// </summary>
+        
         /// <param name="operation">The operation variable returned.</param>
         public static float WaitUntilDone(AsyncOperation operation)
         {
@@ -4940,10 +4940,10 @@ namespace MEC
         }
 
 #if !UNITY_4_6 && !UNITY_4_7 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilDone(operation);" to pause the current 
         /// coroutine until the operation is done.
-        /// </summary>
+        
         /// <param name="operation">The operation variable returned.</param>
         public static float WaitUntilDone(CustomYieldInstruction operation)
         {
@@ -4969,10 +4969,10 @@ namespace MEC
         }
 #endif
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilTrue(evaluatorFunc);" to pause the current 
         /// coroutine until the evaluator function returns true.
-        /// </summary>
+        
         /// <param name="evaluatorFunc">The evaluator function.</param>
         public static float WaitUntilTrue(System.Func<bool> evaluatorFunc)
         {
@@ -4987,10 +4987,10 @@ namespace MEC
             return _StartWhenDone(_tmpRef as System.Func<bool>, false, coptr);
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.WaitUntilFalse(evaluatorFunc);" to pause the current 
         /// coroutine until the evaluator function returns false.
-        /// </summary>
+        
         /// <param name="evaluatorFunc">The evaluator function.</param>
         public static float WaitUntilFalse(System.Func<bool> evaluatorFunc)
         {
@@ -5022,9 +5022,9 @@ namespace MEC
             yield return float.NaN;
         }
 
-        /// <summary>
+        
         /// Keeps this coroutine from executing until UnlockCoroutine is called with a matching key.
-        /// </summary>
+        
         /// <param name="coroutine">The handle to the coroutine to be locked.</param>
         /// <param name="key">The key to use. A new key can be generated by calling "new CoroutineHandle(0)".</param>
         /// <returns>Whether the lock was successful.</returns>
@@ -5043,9 +5043,9 @@ namespace MEC
             return true;
         }
 
-        /// <summary>
+        
         /// Unlocks a coroutine that has been locked, so long as the key matches.
-        /// </summary>
+        
         /// <param name="coroutine">The handle to the coroutine to be unlocked.</param>
         /// <param name="key">The key that the coroutine was previously locked with.</param>
         /// <returns>Whether the coroutine was successfully unlocked.</returns>
@@ -5062,11 +5062,11 @@ namespace MEC
             return true;
         }
 
-        /// <summary>
+        
         /// This will create a one way link between two handles. If the master coroutine ends for any reason or is paused or resumed
         /// that will also happen to the slave coroutine. If a two way link is desired then just call this funciton twice with 
         /// parameters reversed.
-        /// </summary>
+        
         /// <param name="master">The coroutine that generates the link events</param>
         /// <param name="slave">The coroutine that recieves the link events</param>
         /// <returns>The number of coroutines that were linked.</returns>
@@ -5101,9 +5101,9 @@ namespace MEC
             }
         }
 
-        /// <summary>
+        
         /// This will remove the link between two coroutine handles if one exists.
-        /// </summary>
+        
         /// <param name="master">The coroutine that generates the link events</param>
         /// <param name="slave">The coroutine that recieves the link events</param>
         /// <param name="twoWay">if true this will also remove any links that exist from the slave to the master</param>
@@ -5134,10 +5134,10 @@ namespace MEC
             return count;
         }
 
-        /// <summary>
+        
         /// You can use something like "yield return Timing.GetMyHandle(x => myHandle = x)" inside a running coroutine to get 
         /// that coroutine's handle.
-        /// </summary>
+        
         /// <param name="reciever">The function that will recieve the handle.</param>
         public static float GetMyHandle(System.Action<CoroutineHandle> reciever)
         {
@@ -5154,10 +5154,10 @@ namespace MEC
             return input;
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.SwitchCoroutine(segment);" to switch this coroutine to
         /// the given segment on the default instance.
-        /// </summary>
+        
         /// <param name="newSegment">The new segment to run in.</param>
         public static float SwitchCoroutine(Segment newSegment)
         {
@@ -5175,10 +5175,10 @@ namespace MEC
             return null;
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.SwitchCoroutine(segment, tag);" to switch this coroutine to
         /// the given values.
-        /// </summary>
+        
         /// <param name="newSegment">The new segment to run in.</param>
         /// <param name="newTag">The new tag to apply, or null to remove this coroutine's tag.</param>
         public static float SwitchCoroutine(Segment newSegment, string newTag)
@@ -5198,10 +5198,10 @@ namespace MEC
                 return null;
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.SwitchCoroutine(segment, layer);" to switch this coroutine to
         /// the given values.
-        /// </summary>
+        
         /// <param name="newSegment">The new segment to run in.</param>
         /// <param name="newLayer">The new layer to apply.</param>
         public static float SwitchCoroutine(Segment newSegment, int newLayer)
@@ -5221,10 +5221,10 @@ namespace MEC
             return null;
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.SwitchCoroutine(segment, layer, tag);" to switch this coroutine to
         /// the given values.
-        /// </summary>
+        
         /// <param name="newSegment">The new segment to run in.</param>
         /// <param name="newLayer">The new layer to apply.</param>
         /// <param name="newTag">The new tag to apply, or null to remove this coroutine's tag.</param>
@@ -5244,10 +5244,10 @@ namespace MEC
             return null;
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.SwitchCoroutine(tag);" to switch this coroutine to
         /// the given tag.
-        /// </summary>
+        
         /// <param name="newTag">The new tag to apply, or null to remove this coroutine's tag.</param>
         public static float SwitchCoroutine(string newTag)
         {
@@ -5266,10 +5266,10 @@ namespace MEC
             return coptr;
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.SwitchCoroutine(layer);" to switch this coroutine to
         /// the given layer.
-        /// </summary>
+        
         /// <param name="newLayer">The new layer to apply.</param>
         public static float SwitchCoroutine(int newLayer)
         {
@@ -5286,10 +5286,10 @@ namespace MEC
             return coptr;
         }
 
-        /// <summary>
+        
         /// Use the command "yield return Timing.SwitchCoroutine(layer, tag);" to switch this coroutine to
         /// the given tag.
-        /// </summary>
+        
         /// <param name="newLayer">The new layer to apply.</param>
         /// <param name="newTag">The new tag to apply, or null to remove this coroutine's tag.</param>
         public static float SwitchCoroutine(int newLayer, string newTag)
@@ -5313,9 +5313,9 @@ namespace MEC
             return coptr;
         }
 
-        /// <summary>
+        
         /// Calls the specified action after a specified number of seconds.
-        /// </summary>
+        
         /// <param name="delay">The number of seconds to wait before calling the action.</param>
         /// <param name="action">The action to call.</param>
         /// <returns>The handle to the coroutine that is started by this function.</returns>
@@ -5324,9 +5324,9 @@ namespace MEC
             return action == null ? new CoroutineHandle() : RunCoroutine(Instance._DelayedCall(delay, action, null));
         }
 
-        /// <summary>
+        
         /// Calls the specified action after a specified number of seconds.
-        /// </summary>
+        
         /// <param name="delay">The number of seconds to wait before calling the action.</param>
         /// <param name="action">The action to call.</param>
         /// <returns>The handle to the coroutine that is started by this function.</returns>
@@ -5335,9 +5335,9 @@ namespace MEC
             return action == null ? new CoroutineHandle() : RunCoroutineOnInstance(_DelayedCall(delay, action, null));
         }
 
-        /// <summary>
+        
         /// Calls the specified action after a specified number of seconds.
-        /// </summary>
+        
         /// <param name="delay">The number of seconds to wait before calling the action.</param>
         /// <param name="action">The action to call.</param>
         /// <param name="gameObject">A GameObject that will be tagged onto the coroutine and checked to make sure it hasn't been destroyed 
@@ -5348,9 +5348,9 @@ namespace MEC
             return action == null ? new CoroutineHandle() : RunCoroutine(Instance._DelayedCall(delay, action, gameObject), gameObject);
         }
 
-        /// <summary>
+        
         /// Calls the specified action after a specified number of seconds.
-        /// </summary>
+        
         /// <param name="delay">The number of seconds to wait before calling the action.</param>
         /// <param name="action">The action to call.</param>
         /// <param name="gameObject">A GameObject that will be tagged onto the coroutine and checked to make sure it hasn't been destroyed 
@@ -5369,9 +5369,9 @@ namespace MEC
                 action();
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5385,9 +5385,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5401,9 +5401,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5421,9 +5421,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5441,9 +5441,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5459,9 +5459,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5477,9 +5477,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5498,9 +5498,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5519,9 +5519,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
         /// <param name="onDone">An optional action to call when this function finishes.</param>
@@ -5534,9 +5534,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
         /// <param name="onDone">An optional action to call when this function finishes.</param>
@@ -5549,9 +5549,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
         /// <param name="gameObject">A GameObject that will be tagged onto the coroutine and checked to make sure it hasn't been destroyed or disabled
@@ -5566,9 +5566,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
         /// <param name="gameObject">A GameObject that will be tagged onto the coroutine and checked to make sure it hasn't been destroyed or disabled
@@ -5583,9 +5583,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
         /// <param name="timing">The timing segment to run in.</param>
@@ -5599,9 +5599,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
         /// <param name="timing">The timing segment to run in.</param>
@@ -5615,9 +5615,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
         /// <param name="timing">The timing segment to run in.</param>
@@ -5635,9 +5635,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
         /// <param name="timing">The timing segment to run in.</param>
@@ -5676,9 +5676,9 @@ namespace MEC
             }
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each period.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
@@ -5694,9 +5694,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each period.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
@@ -5712,9 +5712,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each period.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
@@ -5733,9 +5733,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each period.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
@@ -5754,9 +5754,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each period.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
@@ -5774,9 +5774,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each period.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
@@ -5794,9 +5794,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each period.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
@@ -5816,9 +5816,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action at the given rate for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each period.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="period">The amount of time between calls.</param>
@@ -5838,9 +5838,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each frame.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5854,9 +5854,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each frame.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5870,9 +5870,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each frame.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5890,9 +5890,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each frame.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5910,9 +5910,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each frame.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5929,9 +5929,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each frame.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5948,9 +5948,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each frame.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -5969,9 +5969,9 @@ namespace MEC
             return handle;
         }
 
-        /// <summary>
+        
         /// Calls the supplied action every frame for a given number of seconds.
-        /// </summary>
+        
         /// <param name="reference">A value that will be passed in to the supplied action each frame.</param>
         /// <param name="timeframe">The number of seconds that this function should run. Use float.PositiveInfinity to run indefinitely.</param>
         /// <param name="action">The action to call every frame.</param>
@@ -6102,95 +6102,95 @@ namespace MEC
         public new static void print(object message) {}
     }
 
-    /// <summary>
+    
     /// The timing segment that a coroutine is running in or should be run in.
-    /// </summary>
+    
     public enum Segment
     {
-        /// <summary>
+        
         /// Sometimes returned as an error state
-        /// </summary>
+        
         Invalid = -1,
-        /// <summary>
+        
         /// This is the default timing segment
-        /// </summary>
+        
         Update,
-        /// <summary>
+        
         /// This is primarily used for physics calculations
-        /// </summary>
+        
         FixedUpdate,
-        /// <summary>
+        
         /// This is run immediately after update
-        /// </summary>
+        
         LateUpdate,
-        /// <summary>
+        
         /// This executes, by default, about as quickly as the eye can detect changes in a text field
-        /// </summary>
+        
         SlowUpdate,
-        /// <summary>
+        
         /// This is the same as update, but it ignores Unity's timescale
-        /// </summary>
+        
         RealtimeUpdate,
-        /// <summary>
+        
         /// This is a coroutine that runs in the unity editor while your app is not in play mode
-        /// </summary>
+        
         EditorUpdate,
-        /// <summary>
+        
         /// This executes in the unity editor about as quickly as the eye can detect changes in a text field
-        /// </summary>
+        
         EditorSlowUpdate,
-        /// <summary>
+        
         /// This segment executes as the very last action before the frame is done
-        /// </summary>
+        
         EndOfFrame,
-        /// <summary>
+        
         /// This segment can be configured to execute and/or define its notion of time in custom ways
-        /// </summary>
+        
         ManualTimeframe
     }
 
-    /// <summary>
+    
     /// How much debug info should be sent to the Unity profiler. NOTE: Setting this to anything above none shows up in the profiler as a 
     /// decrease in performance and a memory alloc. Those effects do not translate onto device.
-    /// </summary>
+    
     public enum DebugInfoType
     {
-        /// <summary>
+        
         /// None coroutines will be separated in the Unity profiler
-        /// </summary>
+        
         None,
-        /// <summary>
+        
         /// The Unity profiler will identify each coroutine individually
-        /// </summary>
+        
         SeperateCoroutines,
-        /// <summary>
+        
         /// Coroutines will be separated and any tags or layers will be identified
-        /// </summary>
+        
         SeperateTags
     }
 
-    /// <summary>
+    
     /// How the new coroutine should act if there are any existing coroutines running.
-    /// </summary>
+    
     public enum SingletonBehavior
     {
-        /// <summary>
+        
         /// Don't run this corutine if there are any matches
-        /// </summary>
+        
         Abort,
-        /// <summary>
+        
         /// Kill any matching coroutines when this one runs
-        /// </summary>
+        
         Overwrite,
-        /// <summary>
+        
         /// Pause this coroutine until any matches finish running
-        /// </summary>
+        
         Wait
     }
 
-    /// <summary>
+    
     /// A handle for a MEC coroutine.
-    /// </summary>
+    
     public struct CoroutineHandle : System.IEquatable<CoroutineHandle>
     {
         private const byte ReservedSpace = 0x0F;
@@ -6235,18 +6235,18 @@ namespace MEC
             return _id;
         }
 
-        /// <summary>
+        
         /// Get or set the corrosponding coroutine's tag. Null removes the tag or represents no tag assigned.
-        /// </summary>
+        
         public string Tag
         {
             get { return Timing.GetTag(this); }
             set { Timing.SetTag(this, value); }
         }
 
-        /// <summary>
+        
         /// Get or set the corrosponding coroutine's layer. Null removes the layer or represents no layer assigned.
-        /// </summary>
+        
         public int? Layer
         {
             get { return Timing.GetLayer(this); }
@@ -6259,36 +6259,36 @@ namespace MEC
             }
         }
 
-        /// <summary>
+        
         /// Get or set the coorsponding coroutine's segment.
-        /// </summary>
+        
         public Segment Segment
         {
             get { return Timing.GetSegment(this); }
             set { Timing.SetSegment(this, value); }
         }
 
-        /// <summary>
+        
         /// Is true until the coroutine function ends or is killed. Setting this to false will kill the coroutine.
-        /// </summary>
+        
         public bool IsRunning
         {
             get { return Timing.IsRunning(this); }
             set { if(!value) Timing.KillCoroutines(this); }
         }
 
-        /// <summary>
+        
         /// Is true while the coroutine is paused (but not in a WaitUntilDone holding pattern). Setting this value will pause or resume the coroutine. 
-        /// </summary>
+        
         public bool IsPaused
         {
             get { return Timing.IsPaused(this); }
             set { if (value) Timing.PauseCoroutines(this); else Timing.ResumeCoroutines(this);}
         }
 
-        /// <summary>
+        
         /// Is true if this handle may have been a valid handle at some point. (i.e. is not an uninitialized handle, error handle, or a key to a coroutine lock)
-        /// </summary>
+        
         public bool IsValid
         {
             get { return Key != 0; }
@@ -6298,9 +6298,9 @@ namespace MEC
 
 public static class MECExtensionMethods
 {
-    /// <summary>
+    
     /// Adds a delay to the beginning of this coroutine.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="timeToDelay">The number of seconds to delay this coroutine.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6312,9 +6312,9 @@ public static class MECExtensionMethods
             yield return coroutine.Current;
     }
 
-    /// <summary>
+    
     /// Adds a delay to the beginning of this coroutine until a function returns true.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="condition">The coroutine will be paused until this function returns true.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6327,9 +6327,9 @@ public static class MECExtensionMethods
             yield return coroutine.Current;
     }
 
-    /// <summary>
+    
     /// Adds a delay to the beginning of this coroutine until a function returns true.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="data">A variable that will be passed into the condition function each time it is tested.</param>
     /// <param name="condition">The coroutine will be paused until this function returns true.</param>
@@ -6343,9 +6343,9 @@ public static class MECExtensionMethods
             yield return coroutine.Current;
     }
 
-    /// <summary>
+    
     /// Adds a delay to the beginning of this coroutine in frames.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="framesToDelay">The number of frames to delay this coroutine.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6358,9 +6358,9 @@ public static class MECExtensionMethods
             yield return coroutine.Current;
     }
 
-    /// <summary>
+    
     /// Cancels this coroutine when the supplied game object is destroyed or made inactive.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="gameObject">The GameObject to test.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6371,9 +6371,9 @@ public static class MECExtensionMethods
             yield return coroutine.Current;
     }
 
-    /// <summary>
+    
     /// Cancels this coroutine when the supplied game objects are destroyed or made inactive.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="gameObject1">The first GameObject to test.</param>
     /// <param name="gameObject2">The second GameObject to test</param>
@@ -6385,9 +6385,9 @@ public static class MECExtensionMethods
             yield return coroutine.Current;
     }
 
-    /// <summary>
+    
     /// Cancels this coroutine when the supplied function returns false.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="condition">The test function. True for continue, false to stop.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6399,9 +6399,9 @@ public static class MECExtensionMethods
             yield return coroutine.Current;
     }
 
-    /// <summary>
+    
     /// Cancels this coroutine when the supplied game object is destroyed, but only pauses it while it's inactive.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="gameObject">The GameObject to test.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6423,9 +6423,9 @@ public static class MECExtensionMethods
         }
     }
 
-    /// <summary>
+    
     /// Cancels this coroutine when the supplied game objects are destroyed, but only pauses them while they're inactive.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="gameObject1">The first GameObject to test.</param>
     /// <param name="gameObject2">The second GameObject to test</param>
@@ -6448,9 +6448,9 @@ public static class MECExtensionMethods
         }
     }
 
-    /// <summary>
+    
     /// Pauses this coroutine whenever the supplied function returns false.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="condition">The test function. True for continue, false to stop.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6462,9 +6462,9 @@ public static class MECExtensionMethods
             yield return coroutine.Current;
     }
 
-    /// <summary>
+    
     /// Runs the supplied coroutine immediately after this one.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="nextCoroutine">The coroutine to run next.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6479,9 +6479,9 @@ public static class MECExtensionMethods
             yield return nextCoroutine.Current;
     }
 
-    /// <summary>
+    
     /// Runs the supplied function immediately after this coroutine finishes.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="onDone">The action to run after this coroutine finishes.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6494,9 +6494,9 @@ public static class MECExtensionMethods
             onDone();
     }
 
-    /// <summary>
+    
     /// Runs the supplied coroutine immediately before this one.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="lastCoroutine">The coroutine to run first.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6510,9 +6510,9 @@ public static class MECExtensionMethods
             yield return coroutine.Current;
     }
 
-    /// <summary>
+    
     /// Runs the supplied function immediately before this coroutine starts.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="onStart">The action to run before this coroutine starts.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6525,9 +6525,9 @@ public static class MECExtensionMethods
             yield return coroutine.Current;
     }
 
-    /// <summary>
+    
     /// Combines the this coroutine with another and runs them in a combined handle.
-    /// </summary>
+    
     /// <param name="coroutineA">The coroutine handle to act upon.</param>
     /// <param name="coroutineB">The coroutine handle to combine.</param>
     /// <returns>The modified coroutine handle.</returns>
@@ -6536,9 +6536,9 @@ public static class MECExtensionMethods
         return Superimpose(coroutineA, coroutineB, MEC.Timing.Instance);
     }
 
-    /// <summary>
+    
     /// Combines the this coroutine with another and runs them in a combined handle.
-    /// </summary>
+    
     /// <param name="coroutineA">The coroutine handle to act upon.</param>
     /// <param name="coroutineB">The coroutine handle to combine.</param>
     /// <param name="instance">The timing instance that this will be run in, if not the default instance.</param>
@@ -6564,9 +6564,9 @@ public static class MECExtensionMethods
         }
     }
 
-    /// <summary>
+    
     /// Uses the passed in function to change the return values of this coroutine.
-    /// </summary>
+    
     /// <param name="coroutine">The coroutine handle to act upon.</param>
     /// <param name="newReturn">A function that takes the current return value and returns the new return.</param>
     /// <returns>The modified coroutine handle.</returns>

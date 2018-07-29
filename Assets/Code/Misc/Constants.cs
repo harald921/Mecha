@@ -16,4 +16,10 @@ public static class Constants
         public const int    WORLD_SIZE_IN_TILES  = CHUNK_SIZE * WORLD_SIZE_IN_CHUNKS;
         public const int    RENDER_DISTANCE      = 3;
     }
+
+    public static class Networking
+    {
+        public const string PHOTON_CLOUD_APP_ID = "c161aabb-bcec-4782-aa0f-9913dd0e1b58";
+        public const bool   AUTO_JOIN_LOBBY     = false;
+    }
 }

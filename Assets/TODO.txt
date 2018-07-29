@@ -1,4 +1,6 @@
 
+* Make it possible to serialize and send the move command
+
 * Create a turn system
 	* Implement invokation of "OnNewMyTurn" 
 		* For this, there has to be several "Player" objects which keep track of what player is local. Photon Time?
