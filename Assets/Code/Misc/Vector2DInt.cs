@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Lidgren.Network;
 
-public struct Vector2DInt
+public struct Vector2DInt : IPackable
 {
     public int x, y;
 
     #region Properties
-    public static Vector2DInt Zero => new Vector2DInt(0, 0);
-    public static Vector2DInt One => new Vector2DInt(1);
-    public static Vector2DInt Up => new Vector2DInt(0, 1);
-    public static Vector2DInt Down => new Vector2DInt(0, -1);
-    public static Vector2DInt Left => new Vector2DInt(-1, 0);
+    public static Vector2DInt Zero  => new Vector2DInt(0, 0);
+    public static Vector2DInt One   => new Vector2DInt(1);
+    public static Vector2DInt Up    => new Vector2DInt(0, 1);
+    public static Vector2DInt Down  => new Vector2DInt(0, -1);
+    public static Vector2DInt Left  => new Vector2DInt(-1, 0);
     public static Vector2DInt Right => new Vector2DInt(1, 0);
     #endregion
 
@@ -146,4 +147,21 @@ public struct Vector2DInt
         inVector1.y != inVector2.y;
 
     #endregion
+
+
+    public int GetPacketSize() => NetUtility.BitsToHoldUInt((uint)x) +
+                                  NetUtility.BitsToHoldUInt((uint)y) +
+                                  Constants.BOOL_SIZE_IN_BITS * 2;
+
+    public void PackInto(NetBuffer inBuffer)
+    {
+        inBuffer.WriteVariableInt32(x);
+        inBuffer.WriteVariableInt32(y);
+    }
+
+    public void UnpackFrom(NetBuffer inBuffer)
+    {
+        x = inBuffer.ReadVariableInt32();
+        y = inBuffer.ReadVariableInt32();
+    }
 }

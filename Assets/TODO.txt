@@ -1,4 +1,6 @@
 
+* Combine "Command" and Mech.MoveAction
+
 * Make it possible to serialize and send the move command
 
 * Create a turn system
@@ -22,3 +24,10 @@
 "´" -> "<"
 "`" -> ">"
 
+
+
+
+
+
+
+Current: NetworkManager.cs

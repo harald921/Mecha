@@ -19,7 +19,7 @@ public class NetworkManager : LoadBalancingClient
         AppId         = PHOTON_CLOUD_APP_ID;
         AppVersion    = GAME_VERSION;
         AutoJoinLobby = AUTO_JOIN_LOBBY;
-
+        
         OnStateChangeAction += (ClientState inClientState) =>
         {
             switch (inClientState)
@@ -38,7 +38,6 @@ public class NetworkManager : LoadBalancingClient
                     OnConnectedToMasterServer?.Invoke();
                     break;
             }
-
         };
 
         OnConnectedToMasterServer += TryJoinOrCreateDebugRoom;
@@ -53,14 +52,6 @@ public class NetworkManager : LoadBalancingClient
     void Update()
     {
         Service();
-        
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            NetBuffer writeBuffer = new NetBuffer();
-            writeBuffer.Write("hellooo, test test");
-            
-            SendMessage(writeBuffer.Data); 
-        }
     }
 
     public static void SendMessage(byte[] inData) => 
@@ -70,13 +61,12 @@ public class NetworkManager : LoadBalancingClient
     {
         base.OnEvent(photonEvent);
 
-        if (photonEvent.Code == 0)
+        if (photonEvent.Code == (byte)NetEventCode.Command)
         {
             byte[] incomingBytes = (byte[])photonEvent.Parameters[245];
-
             NetBuffer readBuffer = new NetBuffer(incomingBytes);
-            Debug.Log(readBuffer.ReadString());
         }
+
     }
 
 
@@ -91,11 +81,84 @@ public class NetworkManager : LoadBalancingClient
         if (!OpJoinOrCreateRoom("debugTest", new RoomOptions() { MaxPlayers = 4 }, TypedLobby.Default))
             DebugReturn(DebugLevel.ERROR, "Could not create or join room!");
     }
+}
+
+public enum NetEventCode
+{
+    Command,
+}
 
 
-    public enum DebugEventCodes
+
+public abstract class Command
+{
+    public abstract Type      type { get; }
+    public abstract IPackable data { get; }
+
+
+    public class MoveMech : Command
     {
-        TestEvent,
-        TestEvent2 
+        public override Type      type => Type.MoveMech;
+
+        public override IPackable data { get; }
+
+
+        public MoveMech(NetBuffer inBuffer)
+        {
+            data.UnpackFrom(inBuffer); 
+        }
+
+
+        public class Data : IPackable
+        {
+            public Guid        targetMechGuid;
+            public Vector2DInt destination;
+
+
+            public int GetPacketSize() =>
+                targetMechGuid.GetPacketSize() +
+                destination.GetPacketSize();
+
+            public void PackInto(NetBuffer inBuffer)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void UnpackFrom(NetBuffer inBuffer)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
+
+    public enum Type
+    {
+        MoveMech,
+    }
+}
+
+static class CommandManager
+{
+    public static void ProcessCommand(NetBuffer inCommandBuffer)
+    {
+        Command.Type commandType = (Command.Type)inCommandBuffer.ReadVariableInt32();
+
+        switch (commandType)
+        {
+            case Command.Type.MoveMech:
+                new Command.MoveMech(inCommandBuffer);
+                break;
+
+            default:
+                Debug.LogError("Unknown command recieved");
+                break;
+        }
+    }
+}
+
+public interface IPackable
+{
+    int GetPacketSize();
+    void PackInto(NetBuffer inBuffer);
+    void UnpackFrom(NetBuffer inBuffer);
 }

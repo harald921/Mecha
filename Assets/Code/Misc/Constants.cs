@@ -8,6 +8,8 @@ public static class Constants
     public const string APP_NAME     = "Mecha";
     public const string GAME_VERSION = "0.01";
 
+    public const int    BOOL_SIZE_IN_BITS = 8;
+
     public static class Terrain
     {
         public const string CHUNK_SAVE_FOLDER    = @"C:\" + APP_NAME;
