@@ -11,7 +11,7 @@ public partial class Mech // Decides what action to "begin" depending on the inp
 
         public ActionComponent(Mech inMech) : base(inMech)
         {
-            _moveAction = new MoveAction(mech, () => _moveAction = null);
+            _moveAction = new MoveAction(mech, () => turnUsed = true);
 
             mech.OnComponentsCreated += () => mech.inputComponent.OnClicked += () =>
             {

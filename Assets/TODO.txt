@@ -1,5 +1,6 @@
 
-* Combine "Command" and Mech.MoveAction
+
+* Create a RecieveAndExecute method
 
 * Make it possible to serialize and send the move command
 

@@ -24,7 +24,13 @@ public class Program : MonoBehaviour
         mechManager    = new MechManager();
         networkManager = new NetworkManager();
 
-        mechManager.GenerateDebugMechs();
+        OnUpdate += () =>
+        {
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                mechManager.GenerateDebugMechs();
+            }
+        };
     }
 
 

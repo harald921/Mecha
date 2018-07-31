@@ -54,7 +54,7 @@ public class NetworkManager : LoadBalancingClient
         Service();
     }
 
-    public static void SendMessage(byte[] inData) => 
+    public static void Send(byte[] inData) => 
         Program.networkManager.OpRaiseEvent(0, inData, true, RaiseEventOptions.Default);
 
     public override void OnEvent(EventData photonEvent)
@@ -64,7 +64,8 @@ public class NetworkManager : LoadBalancingClient
         if (photonEvent.Code == (byte)NetEventCode.Command)
         {
             byte[] incomingBytes = (byte[])photonEvent.Parameters[245];
-            NetBuffer readBuffer = new NetBuffer(incomingBytes);
+
+            CommandManager.ProcessCommand(new NetBuffer(incomingBytes));
         }
 
     }
@@ -86,79 +87,4 @@ public class NetworkManager : LoadBalancingClient
 public enum NetEventCode
 {
     Command,
-}
-
-
-
-public abstract class Command
-{
-    public abstract Type      type { get; }
-    public abstract IPackable data { get; }
-
-
-    public class MoveMech : Command
-    {
-        public override Type      type => Type.MoveMech;
-
-        public override IPackable data { get; }
-
-
-        public MoveMech(NetBuffer inBuffer)
-        {
-            data.UnpackFrom(inBuffer); 
-        }
-
-
-        public class Data : IPackable
-        {
-            public Guid        targetMechGuid;
-            public Vector2DInt destination;
-
-
-            public int GetPacketSize() =>
-                targetMechGuid.GetPacketSize() +
-                destination.GetPacketSize();
-
-            public void PackInto(NetBuffer inBuffer)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void UnpackFrom(NetBuffer inBuffer)
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }
-
-    public enum Type
-    {
-        MoveMech,
-    }
-}
-
-static class CommandManager
-{
-    public static void ProcessCommand(NetBuffer inCommandBuffer)
-    {
-        Command.Type commandType = (Command.Type)inCommandBuffer.ReadVariableInt32();
-
-        switch (commandType)
-        {
-            case Command.Type.MoveMech:
-                new Command.MoveMech(inCommandBuffer);
-                break;
-
-            default:
-                Debug.LogError("Unknown command recieved");
-                break;
-        }
-    }
-}
-
-public interface IPackable
-{
-    int GetPacketSize();
-    void PackInto(NetBuffer inBuffer);
-    void UnpackFrom(NetBuffer inBuffer);
 }

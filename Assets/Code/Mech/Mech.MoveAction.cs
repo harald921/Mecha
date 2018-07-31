@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Lidgren.Network;
 
 public partial class Mech 
 {
@@ -37,7 +37,8 @@ public partial class Mech
         public void Execute(Tile inTargetTile) 
         {
             Debug.Log("TODO: Send this as an RPC when networking is implemented");
-            _mechActor.movementComponent.TryMoveTo(inTargetTile);
+
+            new Command.MoveMech(_mechActor, inTargetTile.worldPosition).Send();
 
             OnCompleteCallback?.Invoke();
             Stop();
@@ -57,6 +58,51 @@ public partial class Mech
         {
             if (_walkableTiles.Contains(inTile))
                 Execute(inTile);
+        }
+    }
+}
+
+
+partial class Command
+{
+    public class MoveMech : Command
+    {
+        public override Type type => Type.MoveMech;
+
+        Guid        _targetMechGuid;
+        Vector2DInt _destination;
+
+
+        public MoveMech(Mech inTargetMech, Vector2DInt inDestination)
+        {
+            _targetMechGuid = inTargetMech.guid;
+            _destination = inDestination;
+
+            inTargetMech.movementComponent.TryMoveTo(Program.world.GetTile(_destination));
+        }
+
+        public MoveMech(NetBuffer inCommandData)
+        {
+            UnpackFrom(inCommandData);
+
+            Program.mechManager.GetMech(_targetMechGuid).movementComponent.TryMoveTo(Program.world.GetTile(_destination));
+        }
+
+
+        public override int GetPacketSize() =>
+            NetUtility.BitsToHoldGuid(_targetMechGuid) +
+            _destination.GetPacketSize();
+
+        public override void PackInto(NetBuffer inBuffer)
+        {
+            _targetMechGuid.PackInto(inBuffer);
+            _destination.PackInto(inBuffer);
+        }
+
+        public override void UnpackFrom(NetBuffer inBuffer)
+        {
+            _targetMechGuid.UnpackFrom(inBuffer, ref _targetMechGuid);
+            _destination.UnpackFrom(inBuffer);
         }
     }
 }

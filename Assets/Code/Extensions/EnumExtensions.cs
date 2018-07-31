@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class EnumerationExtensions
+public static class EnumExtensions
 {
     public static void Add<T>(this Enum type, T value, ref T inDestination)
     {

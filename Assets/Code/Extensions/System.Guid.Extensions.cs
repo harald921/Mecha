@@ -7,10 +7,6 @@ public static class SystemGuidExtensions
 {
 	const int GUID_NUM_BYTES = 16;
 
-    public static int GetPacketSize(this Guid inGuid) =>
-        GUID_NUM_BYTES * 8;
-
-
     public static void PackInto(this Guid inGuid, NetBuffer inBuffer)
     {
         byte[] guidBytes = inGuid.ToByteArray();
@@ -18,10 +14,10 @@ public static class SystemGuidExtensions
         inBuffer.Write(guidBytes, 0, GUID_NUM_BYTES);
     }
 
-	public static Guid UnpackFrom(this Guid inGuid, NetBuffer inBuffer)
+	public static void UnpackFrom(this Guid inGuid, NetBuffer inBuffer, ref Guid inDestination)
     {
         byte[] guidBytes = inBuffer.ReadBytes(GUID_NUM_BYTES);
 
-        return new Guid(guidBytes);
+        inDestination = new Guid(guidBytes);
     }
 }

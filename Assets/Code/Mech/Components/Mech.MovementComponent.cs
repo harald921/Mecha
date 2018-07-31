@@ -15,11 +15,11 @@ public partial class Mech
         public event Action<OnCurrentTileChangeArgs> OnCurrentTileChange;
 
 
-        public MovementComponent(Mech inParentMech, Tile inSpawnTile) : base(inParentMech)
+        public MovementComponent(Mech inParentMech, Vector2DInt inSpawnPosition) : base(inParentMech)
         {
             moveSpeed = mech.mobilityType.data.movementModifier + mech.armorType.data.movementModifier;
 
-            currentTile = inSpawnTile;
+            currentTile = Program.world.GetTile(inSpawnPosition);
 
             mech.OnComponentsInitialized += () => OnCurrentTileChange?.Invoke(new OnCurrentTileChangeArgs(currentTile));
         }

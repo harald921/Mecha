@@ -246,7 +246,6 @@ namespace Lidgren.Network
 #else
 		
 		/// Writes a 32 bit signed integer
-		
 		public void Write(Int32 source)
 		{
 			EnsureBufferSize(m_bitLength + 32);
@@ -468,13 +467,10 @@ namespace Lidgren.Network
 		}
 #endif
 
-		//
 		// Variable bits
-		//
 
 		/// Write Base128 encoded variable sized unsigned integer of up to 32 bits
 		/// <returns>number of bytes written</returns>
-
 		public int WriteVariableUInt32(uint value)
 		{
 			int retval = 1;
@@ -491,7 +487,6 @@ namespace Lidgren.Network
 
 		
 		/// Write Base128 encoded variable sized signed integer of up to 32 bits
-		
 		/// <returns>number of bytes written</returns>
 		public int WriteVariableInt32(int value)
 		{
@@ -501,7 +496,6 @@ namespace Lidgren.Network
 
 		
 		/// Write Base128 encoded variable sized signed integer of up to 64 bits
-		
 		/// <returns>number of bytes written</returns>
 		public int WriteVariableInt64(Int64 value)
 		{
@@ -511,9 +505,7 @@ namespace Lidgren.Network
 
 		
 		/// Write Base128 encoded variable sized unsigned integer of up to 64 bits
-		
 		/// <returns>number of bytes written</returns>
-
 		public int WriteVariableUInt64(UInt64 value)
 		{
 			int retval = 1;
@@ -530,7 +522,6 @@ namespace Lidgren.Network
 
 		
 		/// Compress (lossy) a float in the range -1..1 using numberOfBits bits
-		
 		public void WriteSignedSingle(float value, int numberOfBits)
 		{
 			NetException.Assert(((value >= -1.0) && (value <= 1.0)), " WriteSignedSingle() must be passed a float in the range -1 to 1; val is " + value);
@@ -544,7 +535,6 @@ namespace Lidgren.Network
 
 		
 		/// Compress (lossy) a float in the range 0..1 using numberOfBits bits
-		
 		public void WriteUnitSingle(float value, int numberOfBits)
 		{
 			NetException.Assert(((value >= 0.0) && (value <= 1.0)), " WriteUnitSingle() must be passed a float in the range 0 to 1; val is " + value);
@@ -571,7 +561,6 @@ namespace Lidgren.Network
 		
 		/// Writes an integer with the least amount of bits need for the specified range
 		/// Returns number of bits written
-		
 		public int WriteRangedInteger(int min, int max, int value)
 		{
 			NetException.Assert(value >= min && value <= max, "Value not within min/max range!");
@@ -604,7 +593,6 @@ namespace Lidgren.Network
 
 		
 		/// Write a string
-		
 		public void Write(string source)
 		{
 			if (string.IsNullOrEmpty(source))

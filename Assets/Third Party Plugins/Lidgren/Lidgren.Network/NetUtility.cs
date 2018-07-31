@@ -64,8 +64,14 @@ namespace Lidgren.Network
         public static int BitsToHoldBytes(byte[] inBytes) =>
             inBytes.Length * 8;
 
-		/// Returns how many bits are necessary to hold a certain number
-		public static int BitsToHoldUInt(uint value)
+        public static int BitsToHoldString(string inString) =>
+            Encoding.UTF8.GetByteCount(inString) * 8;
+
+        public static int BitsToHoldGuid(Guid inGuid) =>
+            16 * 8;
+
+        /// Returns how many bits are necessary to hold a certain number
+        public static int BitsToHoldUInt(uint value)
 		{
 			int bits = 1;
 			while ((value >>= 1) != 0)
