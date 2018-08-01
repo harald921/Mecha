@@ -16,6 +16,14 @@ public abstract partial class Command : IPackable
         NetworkManager.Send(writeBuffer.Data);
     }
 
+    public abstract void Execute();
+
+    public void ExecuteAndSend()
+    {
+        Execute();
+        Send();
+    }
+
 
     public enum Type
     {

@@ -38,7 +38,7 @@ public partial class Mech
         {
             Debug.Log("TODO: Send this as an RPC when networking is implemented");
 
-            new Command.MoveMech(_mechActor, inTargetTile.worldPosition).Send();
+            new Command.MoveMech(_mechActor, inTargetTile.worldPosition).ExecuteAndSend();
 
             OnCompleteCallback?.Invoke();
             Stop();
@@ -77,14 +77,15 @@ partial class Command
         {
             _targetMechGuid = inTargetMech.guid;
             _destination = inDestination;
-
-            inTargetMech.movementComponent.TryMoveTo(Program.world.GetTile(_destination));
         }
 
         public MoveMech(NetBuffer inCommandData)
         {
             UnpackFrom(inCommandData);
+        }
 
+        public override void Execute()
+        {
             Program.mechManager.GetMech(_targetMechGuid).movementComponent.TryMoveTo(Program.world.GetTile(_destination));
         }
 

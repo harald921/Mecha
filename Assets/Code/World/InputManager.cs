@@ -30,10 +30,6 @@ public class InputManager
         // DEBUG Check if player finished turn
         if (Input.GetKeyDown(KeyCode.B))
             OnPlayerFinishedTurn?.Invoke(0);
-        if (Input.GetKeyDown(KeyCode.N))
-            OnPlayerFinishedTurn?.Invoke(1);
-        if (Input.GetKeyDown(KeyCode.M))
-            OnPlayerFinishedTurn?.Invoke(2);
     }
 
 

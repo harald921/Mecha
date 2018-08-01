@@ -10,11 +10,11 @@ static class CommandManager
         switch (commandType)
         {
             case Command.Type.SpawnMech:
-                new Command.SpawnMech(inCommandBuffer);
+                new Command.SpawnMech(inCommandBuffer).Execute();
                 break;
 
             case Command.Type.MoveMech:
-                new Command.MoveMech(inCommandBuffer);
+                new Command.MoveMech(inCommandBuffer).Execute();
                 break;
 
             default:

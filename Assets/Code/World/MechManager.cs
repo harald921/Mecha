@@ -45,7 +45,7 @@ public class MechManager
             armorTypeName    = "debug",
             spawnPosition    = new Vector2DInt(2, 1),
             team             = 0
-        }).Send();
+        }).ExecuteAndSend();
 
         new Command.SpawnMech(new Mech.Parameters()
         {
@@ -54,7 +54,7 @@ public class MechManager
             armorTypeName    = "debug",
             spawnPosition    = new Vector2DInt(2, 3),
             team             = 0
-        }).Send();
+        }).ExecuteAndSend();
 
         new Command.SpawnMech(new Mech.Parameters()
         {
@@ -63,7 +63,7 @@ public class MechManager
             armorTypeName    = "debug",
             spawnPosition    = new Vector2DInt(2, 5),
             team             = 0
-        }).Send();
+        }).ExecuteAndSend();
     }
 }
 
@@ -84,16 +84,15 @@ partial class Command
 
             _mechParameters      = inParameters;
             _mechParameters.guid = Guid.NewGuid();
-
-            Program.mechManager.AddMech(new Mech(_mechParameters));
         }
 
         public SpawnMech(NetBuffer inCommandData)
         {
             UnpackFrom(inCommandData);
+        }
 
-            Debug.Log("lmao");
-
+        public override void Execute()
+        {
             Program.mechManager.AddMech(new Mech(_mechParameters));
         }
 
@@ -106,5 +105,6 @@ partial class Command
 
         public override void UnpackFrom(NetBuffer inBuffer) =>
             _mechParameters.UnpackFrom(inBuffer);
+   
     }
 }
