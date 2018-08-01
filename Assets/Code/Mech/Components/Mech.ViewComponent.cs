@@ -8,6 +8,14 @@ public partial class Mech
 {
     public class ViewComponent : Component
     {
+        static List<Color> _teamColors = new List<Color>()
+        {
+            Color.blue,
+            Color.red,
+            Color.green,
+            Color.yellow,
+        };
+
         public readonly GameObject _viewGO;
 
 
@@ -17,7 +25,7 @@ public partial class Mech
 
             mech.OnComponentsCreated += () => mech.movementComponent.OnCurrentTileChange += UpdatePosition;
 
-            mech.OnComponentsInitialized += () => _viewGO.GetComponent<MeshRenderer>().material.color = mech.teamComponent.teamColor;
+            mech.OnComponentsInitialized += () => _viewGO.GetComponent<MeshRenderer>().material.color = _teamColors[mech.owner.ID];
         }
 
 

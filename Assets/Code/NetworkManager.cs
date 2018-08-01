@@ -19,7 +19,7 @@ public class NetworkManager : LoadBalancingClient
         AppId         = PHOTON_CLOUD_APP_ID;
         AppVersion    = GAME_VERSION;
         AutoJoinLobby = AUTO_JOIN_LOBBY;
-        
+
         OnStateChangeAction += (ClientState inClientState) =>
         {
             switch (inClientState)
@@ -29,7 +29,7 @@ public class NetworkManager : LoadBalancingClient
                     break;
 
                 case ClientState.Joined:
-                    Debug.Log("Joined room: " + CurrentRoom.Name + ", PlayerCount: " + CurrentRoom.PlayerCount);
+                    Debug.Log("Joined room: " + CurrentRoom.Name + ", PlayerCount: " + CurrentRoom.PlayerCount + ", ID: " + LocalPlayer.ID);
                     OnConnectedToRoom?.Invoke();
                     break;
 

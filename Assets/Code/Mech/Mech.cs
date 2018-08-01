@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using Lidgren.Network;
+using ExitGames.Client.Photon.LoadBalancing;
 
 public partial class Mech
 {
-    public readonly Guid guid;
+    public readonly Guid   guid;
+    public readonly Player owner;
 
     public readonly MechBodyType     bodyType;
     public readonly MechMobilityType mobilityType;
@@ -17,7 +19,6 @@ public partial class Mech
     public readonly InputComponent       inputComponent;
     public readonly ActionComponent      actionComponent;
     public readonly UIComponent          uiComponent;
-    public readonly TeamComponent        teamComponent;
 
     public event System.Action OnComponentsCreated;
     public event System.Action OnComponentsInitialized;
@@ -25,8 +26,9 @@ public partial class Mech
 
     public Mech(Parameters inParameters)
     {
-        guid = inParameters.guid;
-            
+        guid  = inParameters.guid;
+        owner = Program.networkManager.CurrentRoom.GetPlayer(inParameters.ownerID);    
+
         bodyType     = new MechBodyType(inParameters.bodyTypeName);
         mobilityType = new MechMobilityType(inParameters.mobilityTypeName);
         armorType    = new MechArmorType(inParameters.armorTypeName);
@@ -38,7 +40,6 @@ public partial class Mech
         inputComponent       = new InputComponent(this);
         actionComponent      = new ActionComponent(this);
         uiComponent          = new UIComponent(this);
-        teamComponent        = new TeamComponent(this, inParameters.team);
 
         OnComponentsCreated?.Invoke();
         OnComponentsInitialized?.Invoke();
@@ -53,8 +54,8 @@ public partial class Mech
 
         public Vector2DInt spawnPosition;
 
-        public int         team;
-        public Guid        guid;
+        public int  ownerID;
+        public Guid guid;
 
 
         public int GetPacketSize()
@@ -65,7 +66,7 @@ public partial class Mech
                    
                    spawnPosition.GetPacketSize()                 +
             
-                   NetUtility.BitsToHoldUInt((uint)team)         +
+                   NetUtility.BitsToHoldUInt((uint)ownerID)         +
                    NetUtility.BitsToHoldGuid(guid);
         }
 
@@ -77,7 +78,7 @@ public partial class Mech
 
             spawnPosition.PackInto(inBuffer);
 
-            inBuffer.WriteVariableInt32(team);
+            inBuffer.WriteVariableInt32(ownerID);
             guid.PackInto(inBuffer);
         }
 
@@ -89,7 +90,7 @@ public partial class Mech
 
             spawnPosition.UnpackFrom(inBuffer);
 
-            team = inBuffer.ReadVariableInt32();
+            ownerID = inBuffer.ReadVariableInt32();
             guid.UnpackFrom(inBuffer, ref guid);
         }
     }
