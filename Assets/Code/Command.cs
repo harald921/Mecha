@@ -28,7 +28,8 @@ public abstract partial class Command : IPackable
     public enum Type
     {
         MoveMech,
-        SpawnMech
+        SpawnMech,
+        EndTurn
     }
 
     public abstract int GetPacketSize();

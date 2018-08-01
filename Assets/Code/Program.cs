@@ -27,9 +27,7 @@ public class Program : MonoBehaviour
         OnUpdate += () =>
         {
             if (Input.GetKeyDown(KeyCode.O))
-            {
                 mechManager.GenerateDebugMechs();
-            }
         };
     }
 

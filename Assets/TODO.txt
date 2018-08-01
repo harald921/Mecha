@@ -1,8 +1,3 @@
-* Create a turn system
-	* Add a "Next Turn" UI button in the bottom right
-		* This passes the turn to the next player, and makes all that players mechs ready to perform an action
-	* Implement invokation of "OnNewMyTurn" 
-
 * Rework how mechs are controlled 
 	* When a mech is clicked, it should be marked as "active" or "selected". 
 		* Selected mechs should show a window displaying its health, stats and a "Move" or "Attack" option

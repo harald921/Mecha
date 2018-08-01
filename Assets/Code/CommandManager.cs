@@ -17,6 +17,10 @@ static class CommandManager
                 new Command.MoveMech(inCommandBuffer).Execute();
                 break;
 
+            case Command.Type.EndTurn:
+                new Command.EndTurn(inCommandBuffer).Execute();
+                break;
+
             default:
                 Debug.LogError("Unknown command recieved. Did you forget to add it to the CommandManager?");
                 break;

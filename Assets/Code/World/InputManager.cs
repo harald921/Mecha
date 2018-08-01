@@ -6,13 +6,14 @@ public class InputManager
     readonly World _world;
 
     public event Action<Tile> OnTileClicked; // TODO: Move this to some kind of WorldInputManager
-    public event Action<int>  OnPlayerFinishedTurn;
 
     public InputManager(World inWorld)
     {
         _world = inWorld;
 
         Program.OnUpdate += ReadInput;
+
+        GameObject.FindObjectOfType<ButtonNextTurn>().OnClicked += () => new Command.EndTurn(Program.networkManager.LocalPlayer.ID).ExecuteAndSend();
     }
 
 
@@ -27,12 +28,7 @@ public class InputManager
                 OnTileClicked?.Invoke(clickedTile);
         }
 
-        // DEBUG Check if player finished turn
-        if (Input.GetKeyDown(KeyCode.B))
-            OnPlayerFinishedTurn?.Invoke(0);
     }
-
-
 
 
     static Vector2DInt GetCurrentMouseWorldPos()
