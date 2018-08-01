@@ -13,10 +13,6 @@ public class SimpleCameraController : MonoBehaviour
     [Tooltip("Time it takes to interpolate camera position 99% of the way to the target."), Range(0.001f, 1f)]
     [SerializeField] float _positionLerpTime = 0.2f;
 
-    [Header("Rotation Settings")]
-    [Tooltip("X = Change in mouse position.\nY = Multiplicative factor for camera rotation.")]
-    [SerializeField] AnimationCurve _mouseSensitivityCurve = new AnimationCurve(new Keyframe(0f, 0.5f, 0f, 5f), new Keyframe(1f, 2.5f, 0f, 0f));
-
     [Tooltip("Time it takes to interpolate camera rotation 99% of the way to the target."), Range(0.001f, 1f)]
     [SerializeField] float _rotationLerpTime = 0.01f;
 

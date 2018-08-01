@@ -9,9 +9,6 @@
 
 * Implement "shooting" 
 
-* Perhaps remove the entire Mech Team thing? Simply use the client ID of a player, and generate unique colors from that
-	* If so, make sure that Player.ID is actually the same for everyone, otherwise it'd be bad
-
 * Create menus
 	* Create debug main menu. Just a menu displaying the buttons "Host" or "Join"
 	* Create debug lobby, where people design their mechs. When everyone is ready, the game starts
