@@ -25,7 +25,10 @@ public class SimpleCameraController : MonoBehaviour
     Camera _camera;
 
 
-    void Awake() => _camera = GetComponent<Camera>();
+    void Awake()
+    {
+        _camera = GetComponent<Camera>();
+    }
 
     void OnEnable()
     {
