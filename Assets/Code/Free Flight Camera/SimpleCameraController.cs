@@ -7,7 +7,8 @@ public class SimpleCameraController : MonoBehaviour
 
     [Header("Movement Settings")]
     [Tooltip("Exponential boost factor on translation, controllable by mouse wheel.")]
-    [SerializeField] float _boost = 3.5f;
+    [SerializeField] float _speed = 3.5f;
+    [SerializeField] float _sprintMultiplier = 2.0f;
 
     [Tooltip("Time it takes to interpolate camera position 99% of the way to the target."), Range(0.001f, 1f)]
     [SerializeField] float _positionLerpTime = 0.2f;
@@ -19,12 +20,12 @@ public class SimpleCameraController : MonoBehaviour
     [Tooltip("Time it takes to interpolate camera rotation 99% of the way to the target."), Range(0.001f, 1f)]
     [SerializeField] float _rotationLerpTime = 0.01f;
 
-    bool _frozen = true;
+    [SerializeField] Vector2 _minMaxZoom = new Vector2(10, 30);
 
-    public void Freeze()   => _frozen = true;
-    public void UnFreeze() => _frozen = false;
+    Camera _camera;
 
 
+    void Awake() => _camera = GetComponent<Camera>();
 
     void OnEnable()
     {
@@ -37,42 +38,25 @@ public class SimpleCameraController : MonoBehaviour
         Vector3 direction = new Vector3();
 
         if (Input.GetKey(KeyCode.W))
-            direction += Vector3.forward;
+            direction += Vector3.up;
         if (Input.GetKey(KeyCode.S))
-            direction += Vector3.back;
+            direction += Vector3.down;
         if (Input.GetKey(KeyCode.A))
             direction += Vector3.left;
         if (Input.GetKey(KeyCode.D))
             direction += Vector3.right;
-        if (Input.GetKey(KeyCode.Q))
-            direction += Vector3.down;
-        if (Input.GetKey(KeyCode.E))
-            direction += Vector3.up;
 
         return direction;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-            _frozen = !_frozen;
-
-        if (_frozen)
-            return;
-
-        Vector2 mouseMovement = new Vector2(Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"));
-
-        float mouseSensitivityFactor = _mouseSensitivityCurve.Evaluate(mouseMovement.magnitude);
-
-        _targetCameraState.yaw   += mouseMovement.x * mouseSensitivityFactor;
-        _targetCameraState.pitch += mouseMovement.y * mouseSensitivityFactor;
-
         Vector3 translation = GetInputTranslationDirection() * Time.deltaTime;
 
         if (Input.GetKey(KeyCode.LeftShift))
             ApplySprintMultiplier(ref translation);
 
-        HandleBoostFactor(ref translation);
+        translation *= Mathf.Pow(2.0f, _speed);
 
         _targetCameraState.Translate(translation);
 
@@ -84,16 +68,13 @@ public class SimpleCameraController : MonoBehaviour
         _interpolatingCameraState.LerpTowards(_targetCameraState, positionLerpPct, rotationLerpPct);
 
         _interpolatingCameraState.UpdateTransform(transform);
+
+
+        _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize - Input.mouseScrollDelta.y, _minMaxZoom.x, _minMaxZoom.y);
     }
 
     void ApplySprintMultiplier(ref Vector3 inTranslation) =>
-        inTranslation *= 10.0f;
-
-    void HandleBoostFactor(ref Vector3 inTranslation)
-    {
-        _boost += Input.mouseScrollDelta.y * 0.2f;
-        inTranslation *= Mathf.Pow(2.0f, _boost);
-    }
+        inTranslation *= _sprintMultiplier;
 
 
 
