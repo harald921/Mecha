@@ -25,7 +25,7 @@ public partial class Mech
 
     public Mech(Parameters inParameters)
     {
-        guid = (Guid)inParameters.guid;
+        guid = inParameters.guid;
             
         bodyType     = new MechBodyType(inParameters.bodyTypeName);
         mobilityType = new MechMobilityType(inParameters.mobilityTypeName);

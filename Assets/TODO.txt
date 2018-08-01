@@ -1,17 +1,21 @@
-
 * Create a turn system
+	* Add a "Next Turn" UI button in the bottom right
+		* This passes the turn to the next player, and makes all that players mechs ready to perform an action
 	* Implement invokation of "OnNewMyTurn" 
-		* For this, there has to be several "Player" objects which keep track of what player is local. Photon Time?
 
-* Add the camera from cubic
+* Rework how mechs are controlled 
+	* When a mech is clicked, it should be marked as "active" or "selected". 
+		* Selected mechs should show a window displaying its health, stats and a "Move" or "Attack" option
 
-* Add a "Next Turn" UI button in the bottom right
+* Implement "shooting" 
 
-* Add health bars above active mechs
+* Perhaps remove the entire Mech Team thing? Simply use the client ID of a player, and generate unique colors from that
+	* If so, make sure that Player.ID is actually the same for everyone, otherwise it'd be bad
 
-* Add debug UI showing the stats of active mechs
-	
-* Add a way of "shooting" at something. For now, right click a mech to go into "shoot mode" and then left click within range to shoot.
+* Create menus
+	* Create debug main menu. Just a menu displaying the buttons "Host" or "Join"
+	* Create debug lobby, where people design their mechs. When everyone is ready, the game starts
 
-* The pathfinding is a crime against humanity. "CanEnter" is entered 160k times whenever a MoveAction begins for some reason. Send help and more diet coke.
+* Add all the mech components from the design doc to the databases
 
+* Create a way to design own mechs ingame in the lobby phase
