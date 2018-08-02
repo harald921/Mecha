@@ -10,6 +10,8 @@ public partial class Mech
     {
         static List<Color> _teamColors = new List<Color>()
         {
+            Color.magenta,
+
             Color.blue,
             Color.red,
             Color.green,

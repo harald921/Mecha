@@ -13,30 +13,25 @@ public partial class Mech // Decides what action to "begin" depending on the inp
         {
             _moveAction = new MoveAction(mech, () => turnUsed = true);
 
-            mech.OnComponentsCreated += () => mech.inputComponent.OnClicked += () =>
+            mech.OnComponentsCreated += () =>
             {
-                if (turnUsed)
-                    return;
-
-                if (!_moveAction.isActive)
-                    _moveAction.Start();
-                else
-                    _moveAction.Stop();
+                mech.inputComponent.OnSelected += () => 
+                    mech.uiComponent.mechGUI.OnMechActionMove += ToggleMoveAction;
+                mech.inputComponent.OnSelectionLost += () =>
+                    mech.uiComponent.mechGUI.OnMechActionMove -= ToggleMoveAction;
             };
         }
-    }
-}
 
-
-public partial class Mech
-{
-    public class Action
-    {
-        protected System.Action OnCompleteCallback;
-
-        public Action(System.Action inOnCompleteCallback)
+        void ToggleMoveAction()
         {
-            OnCompleteCallback = inOnCompleteCallback;
+            if (turnUsed)
+                return;
+
+            if (!_moveAction.isActive)
+                _moveAction.Start();
+            else
+                _moveAction.Stop();
         }
+
     }
 }

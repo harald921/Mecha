@@ -19,7 +19,6 @@ public partial class Mech
         public MoveAction(Mech inMechActor, System.Action inOnCompleteCallback) : base(inOnCompleteCallback)
         {
             _mechActor = inMechActor;
-
         }
 
         public void Start()
@@ -32,12 +31,12 @@ public partial class Mech
             tilesIndicator = new TilesIndicator(_walkableTiles);
 
             Program.inputManager.OnTileClicked += ExecuteIfTileIsWalkable;
+
+            _mechActor.inputComponent.OnSelectionLost += Stop;
         }
 
         public void Execute(Tile inTargetTile) 
         {
-            Debug.Log("TODO: Send this as an RPC when networking is implemented");
-
             new Command.MoveMech(_mechActor, inTargetTile.worldPosition).ExecuteAndSend();
 
             OnCompleteCallback?.Invoke();

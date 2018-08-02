@@ -12,6 +12,7 @@ public partial class Mech
     public readonly MechMobilityType mobilityType;
     public readonly MechArmorType    armorType;
 
+    public readonly HealthComponent      healthComponent;
     public readonly UtilityComponent     utilityComponent;
     public readonly MovementComponent    movementComponent;
     public readonly PathfindingComponent pathfindingComponent;
@@ -33,6 +34,7 @@ public partial class Mech
         mobilityType = new MechMobilityType(inParameters.mobilityTypeName);
         armorType    = new MechArmorType(inParameters.armorTypeName);
 
+        healthComponent      = new HealthComponent(this);
         utilityComponent     = new UtilityComponent(this);
         movementComponent    = new MovementComponent(this, inParameters.spawnPosition);
         pathfindingComponent = new PathfindingComponent(this);
@@ -95,5 +97,3 @@ public partial class Mech
         }
     }
 }
-
-

@@ -2,9 +2,13 @@
 {
     public class UIComponent : Component
     {
+        public readonly MechGUI mechGUI;
+
         public UIComponent(Mech inMech) : base(inMech)
         {
+            mechGUI = UnityEngine.Object.FindObjectOfType<MechGUI>();
 
+            mech.inputComponent.OnSelected += () => mechGUI.Display(mech);
         }
     }
 }

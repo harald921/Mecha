@@ -66,6 +66,7 @@ public class MechMobilityTypeData
     [SerializeField] List<MobilityFlags> _mobilityFlags;
 
     public bool ContainsMobilityFlag(MobilityFlags inMobilityFlag) => _mobilityFlags.Contains(inMobilityFlag);
+    public MobilityFlags[] GetMobilityFlags() => _mobilityFlags.ToArray(); 
 }
 
 public enum MobilityFlags

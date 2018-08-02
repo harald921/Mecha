@@ -1,6 +1,8 @@
-* Rework how mechs are controlled 
-	* When a mech is clicked, it should be marked as "active" or "selected". 
-		* Selected mechs should show a window displaying its health, stats and a "Move" or "Attack" option
+* Make selected mechs become yellow
+
+* Make mechs able to move again on OnNewMyTurn
+
+* Perhaps merge MovementComponent and PatfindingComponent? Not sure what the difference between them is really
 
 * Implement "shooting" 
 

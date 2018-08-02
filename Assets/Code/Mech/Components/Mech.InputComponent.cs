@@ -1,19 +1,32 @@
 ﻿using System;
 
-
 public partial class Mech // Takes input, and executes events
 {
     public class InputComponent : Component
     {
-        public event System.Action OnClicked;
+        bool _selected;
 
+        public event System.Action OnSelected;
+        public event System.Action OnSelectionLost;
 
         public InputComponent(Mech inMech) : base(inMech)
         {
             Program.inputManager.OnTileClicked += (Tile inClickedTile) =>
             {
                 if (inClickedTile == mech.movementComponent.currentTile)
-                    OnClicked?.Invoke();
+                {
+                    _selected = true;
+                    OnSelected?.Invoke();
+                }
+
+                else
+                {
+                    if (_selected)
+                    {
+                        _selected = false;
+                        OnSelectionLost?.Invoke();
+                    }
+                }
             };
         }
     }
