@@ -246,11 +246,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114720027877597514, guid: 45d4690f5a024e347a4f06fbf4bfa945,
-        type: 2}
-      propertyPath: _mobilityTypesToSerialize.Array.data[0]._mobilityFlags.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4370509726021418, guid: 45d4690f5a024e347a4f06fbf4bfa945, type: 2}
       propertyPath: m_LocalPosition.x
       value: 87.2835
@@ -282,16 +277,6 @@ Prefab:
     - target: {fileID: 4370509726021418, guid: 45d4690f5a024e347a4f06fbf4bfa945, type: 2}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114720027877597514, guid: 45d4690f5a024e347a4f06fbf4bfa945,
-        type: 2}
-      propertyPath: _mobilityTypesToSerialize.Array.data[0]._mobilityFlags.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114720027877597514, guid: 45d4690f5a024e347a4f06fbf4bfa945,
-        type: 2}
-      propertyPath: _mobilityTypesToSerialize.Array.data[0]._mobilityFlags.Array.data[2]
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 45d4690f5a024e347a4f06fbf4bfa945, type: 2}
