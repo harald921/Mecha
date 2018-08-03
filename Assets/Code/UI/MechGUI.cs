@@ -23,24 +23,23 @@ public partial class MechGUI : MonoBehaviour
 
     Mech _displayedMech;
 
-    public event Action OnMechActionMove;
-    public event Action OnMechActionAttack;
+    public event Action OnMoveButtonPressed;
+    public event Action OnAttackButtonPressed;
 
 
     void Awake()
     {
-        _actionPanelButtons.buttonMove.onClick.AddListener(() => OnMechActionMove?.Invoke());
-        _actionPanelButtons.buttonAttack.onClick.AddListener(() => OnMechActionAttack?.Invoke());
+        _actionPanelButtons.buttonMove.onClick.AddListener(() => OnMoveButtonPressed?.Invoke());
+        _actionPanelButtons.buttonAttack.onClick.AddListener(() => OnAttackButtonPressed?.Invoke());
     }
 
     public void Display(Mech inMech)
     {
-        Hide();
-
         _displayedMech = inMech;
 
         _actionPanel.SetActive(true);
         _statPanel.SetActive(true);
+        _mechMobilityFlagsPanel.SetActive(false);
 
         _statPanelTexts.armor.text = $"Armor: { inMech.healthComponent.currentHealth }";
         _statPanelTexts.speed.text = $"Speed: { inMech.movementComponent.moveSpeed }";
@@ -56,8 +55,11 @@ public partial class MechGUI : MonoBehaviour
         }
     }
 
-    public void Hide()
+    public void Hide(Mech inMech)
     {
+        if (_displayedMech != inMech)
+            return;
+
         _displayedMech = null;
 
         _actionPanel.SetActive(false);

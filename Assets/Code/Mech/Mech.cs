@@ -68,7 +68,7 @@ public partial class Mech
                    
                    spawnPosition.GetPacketSize()                 +
             
-                   NetUtility.BitsToHoldUInt((uint)ownerID)         +
+                   NetUtility.BitsToHoldUInt((uint)ownerID)      +
                    NetUtility.BitsToHoldGuid(guid);
         }
 

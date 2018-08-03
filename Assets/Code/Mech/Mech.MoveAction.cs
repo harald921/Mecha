@@ -3,6 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using Lidgren.Network;
 
+public partial class Mech
+{
+    public class AttackAction : Action
+    {
+        readonly Mech _mechActor;
+
+        public bool isActive { get; private set; }
+
+        List<Tile> _tilesWithinReach;
+
+        TilesIndicator _tilesIndicator;
+
+
+        public AttackAction(Mech inMechActor, System.Action inOnCompleteCallback) : base(inOnCompleteCallback)
+        {
+            _mechActor = inMechActor;
+        }
+    }
+}
+
 public partial class Mech 
 {
     public class MoveAction : Action
@@ -13,7 +33,7 @@ public partial class Mech
 
         List<Tile> _walkableTiles;
 
-        TilesIndicator tilesIndicator;
+        TilesIndicator _tilesIndicator;
 
 
         public MoveAction(Mech inMechActor, System.Action inOnCompleteCallback) : base(inOnCompleteCallback)
@@ -28,7 +48,7 @@ public partial class Mech
             _walkableTiles = _mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed);
             _walkableTiles.Remove(_mechActor.movementComponent.currentTile);
 
-            tilesIndicator = new TilesIndicator(_walkableTiles);
+            _tilesIndicator = new TilesIndicator(_walkableTiles);
 
             Program.inputManager.OnTileClicked += ExecuteIfTileIsWalkable;
 
@@ -47,7 +67,7 @@ public partial class Mech
         {
             isActive = false;
 
-            tilesIndicator.Destroy();
+            _tilesIndicator.Destroy();
 
             Program.inputManager.OnTileClicked -= ExecuteIfTileIsWalkable;
         }
