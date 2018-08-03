@@ -27,7 +27,7 @@ public class MechArmorTypeDatabase : MonoBehaviour
     }
 
 
-    public MechArmorTypeData GetArmorType(string inArmorTypeName)
+    public MechArmorTypeData GetArmorTypeData(string inArmorTypeName)
     {
         if (!_initialized)
             Initialize();
@@ -42,14 +42,14 @@ public class MechArmorType
 {
     static MechArmorTypeDatabase _armorTypeDB = MechArmorTypeDatabase.instance;
 
-    public MechArmorTypeData data => _armorTypeDB.GetArmorType(_armorTypeName);
+    public MechArmorTypeData data => _armorTypeDB.GetArmorTypeData(_name);
 
-    readonly string _armorTypeName;
+    readonly string _name;
 
 
     public MechArmorType(string inArmorTypeName)
     {
-        _armorTypeName = inArmorTypeName;
+        _name = inArmorTypeName;
     }
 }
 

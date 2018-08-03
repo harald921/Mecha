@@ -3,26 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Lidgren.Network;
 
-public partial class Mech
-{
-    public class AttackAction : Action
-    {
-        readonly Mech _mechActor;
-
-        public bool isActive { get; private set; }
-
-        List<Tile> _tilesWithinReach;
-
-        TilesIndicator _tilesIndicator;
-
-
-        public AttackAction(Mech inMechActor, System.Action inOnCompleteCallback) : base(inOnCompleteCallback)
-        {
-            _mechActor = inMechActor;
-        }
-    }
-}
-
 public partial class Mech 
 {
     public class MoveAction : Action
@@ -70,6 +50,8 @@ public partial class Mech
             _tilesIndicator.Destroy();
 
             Program.inputManager.OnTileClicked -= ExecuteIfTileIsWalkable;
+
+            _mechActor.inputComponent.OnSelectionLost -= Stop;
         }
 
 
