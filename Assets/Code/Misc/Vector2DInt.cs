@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Lidgren.Network;
+using UnityEngine;
 
 public struct Vector2DInt : IPackable
 {
@@ -14,6 +15,10 @@ public struct Vector2DInt : IPackable
     public static Vector2DInt Down  => new Vector2DInt(0, -1);
     public static Vector2DInt Left  => new Vector2DInt(-1, 0);
     public static Vector2DInt Right => new Vector2DInt(1, 0);
+
+    public float sqrMagnitude => (x*x) + (y*y);
+    public float magnitude => Mathf.Sqrt(sqrMagnitude);
+
     #endregion
 
     #region Constructors

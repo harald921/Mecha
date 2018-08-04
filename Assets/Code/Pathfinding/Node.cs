@@ -21,7 +21,7 @@ public class Node
     }
 
     public int CostBetween(Tile inTargetTile) =>
-        Mathf.RoundToInt(DistanceTo(inTargetTile));
+        DistanceTo(inTargetTile);
 
 
     public Node(Tile inOwner)

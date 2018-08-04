@@ -6,9 +6,7 @@ public partial class Mech
     {
         readonly Mech _mechActor;
 
-        public bool isActive { get; private set; }
-
-        List<Tile> _tilesWithinReach;
+        List<Tile> _tilesWithinRange;
 
         TilesIndicator _tilesIndicator;
 
@@ -19,30 +17,53 @@ public partial class Mech
         }
 
 
-        public void Start()
+        public override void Start()
         {
             isActive = true;
 
-            // Calculate what tiles are eligble to be shot
+            _tilesWithinRange = GetTilesWithinRange();
 
-            // Create indicator
+            _tilesIndicator = new TilesIndicator(_tilesWithinRange);
 
-            // OnTileClicked += FireIfTileIsEligble
-
-            // OnSelectionLost += Stop;
+            Program.inputManager.OnTileClicked += FireAtTileIfWithinRange;
+            _mechActor.inputComponent.OnSelectionLost += Stop;
         }
 
-        public void Execute()
+        public void Execute(Tile inTargetTile)
         {
             OnCompleteCallback?.Invoke();
             Stop();
         }
 
-        public void Stop()
+        public override void Stop()
         {
             isActive = false;
 
             _tilesIndicator.Destroy();
+
+            Program.inputManager.OnTileClicked -= FireAtTileIfWithinRange;
+            _mechActor.inputComponent.OnSelectionLost -= Stop;
+        }
+
+        void FireAtTileIfWithinRange(Tile inTile)
+        {
+            if (_tilesWithinRange.Contains(inTile))
+                Execute(inTile);
+        }
+
+        List<Tile> GetTilesWithinRange()
+        {
+            List<Tile> tilesWithinRange = new List<Tile>();
+            int weaponRange = _mechActor.utilityComponent.GetWeapon(0).data.range;
+            for (int y = 0; y < weaponRange; y++)
+                for (int x = 0; x < weaponRange; x++)
+                {
+                    Vector2DInt currentTilePos = new Vector2DInt(x, y);
+                    if (currentTilePos.magnitude <= weaponRange)
+                        tilesWithinRange.Add(Program.world.GetTile(currentTilePos));
+                }
+
+            return tilesWithinRange;
         }
     }
 }

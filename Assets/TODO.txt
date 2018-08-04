@@ -1,5 +1,9 @@
+* Create a wireframe box which indicates what tile your mouse is over
+
+* Make the tileindicator take in a color. (So attack actions can be red)
+
 * Implement "shooting" 
-	* Implement AttackAction
+	* Implement a way to pick a weapon to use for the attack
 	* Implement AttackCommand
 
 * Create menus

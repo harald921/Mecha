@@ -9,8 +9,6 @@ public partial class Mech
     {
         readonly Mech _mechActor;
 
-        public bool isActive { get; private set; }
-
         List<Tile> _walkableTiles;
 
         TilesIndicator _tilesIndicator;
@@ -21,7 +19,7 @@ public partial class Mech
             _mechActor = inMechActor;
         }
 
-        public void Start()
+        public override void Start()
         {
             isActive = true;
 
@@ -43,7 +41,7 @@ public partial class Mech
             Stop();
         }
 
-        public void Stop()
+        public override void Stop()
         {
             isActive = false;
 
