@@ -1,6 +1,8 @@
 * Create a wireframe box which indicates what tile your mouse is over
+	* Download wireframe shader from asset store
 
 * Make the tileindicator take in a color. (So attack actions can be red)
+	* Check if the entire thing can be rewritten and be made prettier
 
 * Implement "shooting" 
 	* Implement a way to pick a weapon to use for the attack
