@@ -6,7 +6,7 @@ public partial class Mech
     {
         readonly Mech _mechActor;
 
-        List<Tile> _tilesWithinRange;
+        List<Vector2DInt> _positionsWithinRange;
 
         TilesIndicator _tilesIndicator;
 
@@ -21,9 +21,9 @@ public partial class Mech
         {
             isActive = true;
 
-            _tilesWithinRange = GetTilesWithinRange();
+            _positionsWithinRange = GetPositionsWithinRange();
 
-            _tilesIndicator = new TilesIndicator(_tilesWithinRange);
+            _tilesIndicator = new TilesIndicator(_positionsWithinRange);
 
             Program.inputManager.OnTileClicked += FireAtTileIfWithinRange;
             _mechActor.inputComponent.OnSelectionLost += Stop;
@@ -47,20 +47,20 @@ public partial class Mech
 
         void FireAtTileIfWithinRange(Tile inTile)
         {
-            if (_tilesWithinRange.Contains(inTile))
+            if (_positionsWithinRange.Contains(inTile.worldPosition))
                 Execute(inTile);
         }
 
-        List<Tile> GetTilesWithinRange()
+        List<Vector2DInt> GetPositionsWithinRange()
         {
-            List<Tile> tilesWithinRange = new List<Tile>();
+            List<Vector2DInt> tilesWithinRange = new List<Vector2DInt>();
             int weaponRange = _mechActor.utilityComponent.GetWeapon(0).data.range;
             for (int y = 0; y < weaponRange; y++)
                 for (int x = 0; x < weaponRange; x++)
                 {
-                    Vector2DInt currentTilePos = new Vector2DInt(x, y);
-                    if (currentTilePos.magnitude <= weaponRange)
-                        tilesWithinRange.Add(Program.world.GetTile(currentTilePos));
+                    Vector2DInt currentPosition = new Vector2DInt(x, y);
+                    if (currentPosition.magnitude <= weaponRange)
+                        tilesWithinRange.Add(currentPosition);
                 }
 
             return tilesWithinRange;

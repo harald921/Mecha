@@ -3,25 +3,31 @@ using UnityEngine;
 
 public class TilesIndicator 
 {
-    GameObject[] _views;
+    List<GameObject> _views = new List<GameObject>();
 
-    public TilesIndicator(List<Tile> inTiles)
+    static GameObject _prefabWalkableTile;
+
+
+    static TilesIndicator()
     {
-        _views = new GameObject[inTiles.Count];
+        _prefabWalkableTile = Resources.Load<GameObject>("Prefab_WalkableTile");
+    }
 
-        for (int i = 0; i < inTiles.Count; i++)
+
+    public TilesIndicator(List<Vector2DInt> inTilePositions)
+    {
+        foreach (Vector2DInt tilePosition in inTilePositions)
         {
-            GameObject tileView = GameObject.Instantiate(Resources.Load<GameObject>("Prefab_WalkableTile"));
+            GameObject tileView = Object.Instantiate(_prefabWalkableTile);
 
-            tileView.transform.position = new Vector3(inTiles[i].worldPosition.x + 0.5f, 1, inTiles[i].worldPosition.y + 0.5f);
+            tileView.transform.position = new Vector3(tilePosition.x + 0.5f,
+                                                      1,
+                                                      tilePosition.y + 0.5f);
 
-            _views[i] = tileView;
+            _views.Add(tileView);
         }
     }
 
-    public virtual void Destroy()
-    {
-        foreach (GameObject view in _views)
-            GameObject.Destroy(view);
-    }
+    public virtual void Destroy() =>
+        _views.ForEach(tileView => tileView.Destroy());
 }

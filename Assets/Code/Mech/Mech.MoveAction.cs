@@ -9,7 +9,7 @@ public partial class Mech
     {
         readonly Mech _mechActor;
 
-        List<Tile> _walkableTiles;
+        List<Vector2DInt> _walkableTilePositions = new List<Vector2DInt>();
 
         TilesIndicator _tilesIndicator;
 
@@ -23,10 +23,12 @@ public partial class Mech
         {
             isActive = true;
 
-            _walkableTiles = _mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed);
-            _walkableTiles.Remove(_mechActor.movementComponent.currentTile);
+            List<Tile> walkableTiles = _mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed);
+            walkableTiles.Remove(_mechActor.movementComponent.currentTile);
 
-            _tilesIndicator = new TilesIndicator(_walkableTiles);
+            walkableTiles.ForEach(walkableTile => _walkableTilePositions.Add(walkableTile.worldPosition));
+
+            _tilesIndicator = new TilesIndicator(_walkableTilePositions);
 
             Program.inputManager.OnTileClicked += ExecuteIfTileIsWalkable;
 
@@ -55,7 +57,7 @@ public partial class Mech
 
         void ExecuteIfTileIsWalkable(Tile inTile)
         {
-            if (_walkableTiles.Contains(inTile))
+            if (_walkableTilePositions.Contains(inTile.worldPosition))
                 Execute(inTile);
         }
     }
