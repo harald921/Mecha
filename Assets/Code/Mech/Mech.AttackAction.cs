@@ -23,7 +23,7 @@ public partial class Mech
 
             _positionsWithinRange = GetPositionsWithinRange();
 
-            _tilesIndicator = new TilesIndicator(_positionsWithinRange);
+            _tilesIndicator = new TilesIndicator(_positionsWithinRange, new UnityEngine.Color(1, 0, 0, 0.5f));
 
             Program.inputManager.OnTileClicked += FireAtTileIfWithinRange;
             _mechActor.inputComponent.OnSelectionLost += Stop;
@@ -53,8 +53,10 @@ public partial class Mech
 
         List<Vector2DInt> GetPositionsWithinRange()
         {
+            UnityEngine.Debug.LogError("TODO: Finish implement GetPositionsWithinRange()");
+
             List<Vector2DInt> tilesWithinRange = new List<Vector2DInt>();
-            int weaponRange = _mechActor.utilityComponent.GetWeapon(0).data.range;
+            int weaponRange = 4; // _mechActor.utilityComponent.GetWeapon(0).data.range;
             for (int y = 0; y < weaponRange; y++)
                 for (int x = 0; x < weaponRange; x++)
                 {

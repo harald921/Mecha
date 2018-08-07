@@ -26,9 +26,10 @@ public partial class Mech
             List<Tile> walkableTiles = _mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed);
             walkableTiles.Remove(_mechActor.movementComponent.currentTile);
 
+            _walkableTilePositions.Clear();
             walkableTiles.ForEach(walkableTile => _walkableTilePositions.Add(walkableTile.worldPosition));
 
-            _tilesIndicator = new TilesIndicator(_walkableTilePositions);
+            _tilesIndicator = new TilesIndicator(_walkableTilePositions, new UnityEngine.Color(0, 1, 0, 0.5f));
 
             Program.inputManager.OnTileClicked += ExecuteIfTileIsWalkable;
 

@@ -10,11 +10,11 @@ public class TilesIndicator
 
     static TilesIndicator()
     {
-        _prefabWalkableTile = Resources.Load<GameObject>("Prefab_WalkableTile");
+        _prefabWalkableTile = Resources.Load<GameObject>("Prefab_TileIndicator");
     }
 
 
-    public TilesIndicator(List<Vector2DInt> inTilePositions)
+    public TilesIndicator(List<Vector2DInt> inTilePositions, Color inColor)
     {
         foreach (Vector2DInt tilePosition in inTilePositions)
         {
@@ -23,6 +23,8 @@ public class TilesIndicator
             tileView.transform.position = new Vector3(tilePosition.x + 0.5f,
                                                       1,
                                                       tilePosition.y + 0.5f);
+
+            tileView.GetComponent<MeshRenderer>().material.color = inColor; 
 
             _views.Add(tileView);
         }
