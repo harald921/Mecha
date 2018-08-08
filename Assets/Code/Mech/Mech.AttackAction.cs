@@ -55,17 +55,20 @@ public partial class Mech
         {
             UnityEngine.Debug.LogError("TODO: Finish implement GetPositionsWithinRange()");
 
-            List<Vector2DInt> tilesWithinRange = new List<Vector2DInt>();
+            Vector2DInt currentPosition = _mechActor.movementComponent.currentTile.worldPosition;
+
+            List<Vector2DInt> positionsWithinRange = new List<Vector2DInt>();
             int weaponRange = 4; // _mechActor.utilityComponent.GetWeapon(0).data.range;
-            for (int y = 0; y < weaponRange; y++)
-                for (int x = 0; x < weaponRange; x++)
+            for (int y = -weaponRange; y <= weaponRange; y++)
+                for (int x = -weaponRange; x <= weaponRange; x++)
                 {
-                    Vector2DInt currentPosition = new Vector2DInt(x, y);
-                    if (currentPosition.magnitude <= weaponRange)
-                        tilesWithinRange.Add(currentPosition);
+                    Vector2DInt positionOffset = new Vector2DInt(x, y);
+                    UnityEngine.Debug.Log(positionOffset);
+                    if (positionOffset.magnitude <= weaponRange)
+                        positionsWithinRange.Add(positionOffset + currentPosition);
                 }
 
-            return tilesWithinRange;
+            return positionsWithinRange;
         }
     }
 }

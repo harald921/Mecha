@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23083347915144528}
   - component: {fileID: 65906454552842204}
   m_Layer: 0
-  m_Name: Prefab_WalkableTile
+  m_Name: Prefab_TileIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

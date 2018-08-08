@@ -24,6 +24,8 @@ public class TilesIndicator
                                                       1,
                                                       tilePosition.y + 0.5f);
 
+            Debug.Log(tileView.transform.position);
+
             tileView.GetComponent<MeshRenderer>().material.color = inColor; 
 
             _views.Add(tileView);
