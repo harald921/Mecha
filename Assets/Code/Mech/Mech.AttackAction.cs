@@ -65,7 +65,8 @@ public partial class Mech
                     Vector2DInt positionOffset = new Vector2DInt(x, y);
                     UnityEngine.Debug.Log(positionOffset);
                     if (positionOffset.magnitude <= weaponRange)
-                        positionsWithinRange.Add(positionOffset + currentPosition);
+                        if (Program.world.GetTile(positionOffset + currentPosition) != null)
+                            positionsWithinRange.Add(positionOffset + currentPosition);
                 }
 
             return positionsWithinRange;
