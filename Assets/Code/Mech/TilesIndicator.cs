@@ -14,7 +14,7 @@ public class TilesIndicator
     }
 
 
-    public TilesIndicator(List<Vector2DInt> inTilePositions, Color inColor)
+    public TilesIndicator(Vector2DInt[] inTilePositions, Color inColor)
     {
         foreach (Vector2DInt tilePosition in inTilePositions)
         {

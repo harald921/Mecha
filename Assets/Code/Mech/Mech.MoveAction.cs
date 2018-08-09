@@ -2,64 +2,59 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Lidgren.Network;
+using System.Linq;
 
 public partial class Mech 
 {
     public class MoveAction : Action
     {
-        readonly Mech _mechActor;
-
-        List<Vector2DInt> _walkableTilePositions = new List<Vector2DInt>();
+        Vector2DInt[] _walkableTilePositions;
 
         TilesIndicator _tilesIndicator;
 
 
-        public MoveAction(Mech inMechActor, System.Action inOnCompleteCallback) : base(inOnCompleteCallback)
+        protected override void OnStart()
         {
-            _mechActor = inMechActor;
-        }
-
-        public override void Start()
-        {
-            isActive = true;
-
-            List<Tile> walkableTiles = _mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed);
-            walkableTiles.Remove(_mechActor.movementComponent.currentTile);
-
-            _walkableTilePositions.Clear();
-            walkableTiles.ForEach(walkableTile => _walkableTilePositions.Add(walkableTile.worldPosition));
+            _walkableTilePositions = CalculateWalkablePositions();
 
             _tilesIndicator = new TilesIndicator(_walkableTilePositions, new UnityEngine.Color(0, 1, 0, 0.5f));
 
             Program.inputManager.OnTileClicked += ExecuteIfTileIsWalkable;
-
-            _mechActor.inputComponent.OnSelectionLost += Stop;
+            _mechActor.inputComponent.OnSelectionLost += Cancel;
         }
 
-        public void Execute(Tile inTargetTile) 
+        public override void Cancel()
+        {
+            _tilesIndicator.Destroy();
+
+            Program.inputManager.OnTileClicked -= ExecuteIfTileIsWalkable;
+            _mechActor.inputComponent.OnSelectionLost -= Cancel;
+        }
+
+
+        void Execute(Tile inTargetTile) 
         {
             new Command.MoveMech(_mechActor, inTargetTile.worldPosition).ExecuteAndSend();
 
             OnCompleteCallback?.Invoke();
-            Stop();
+            Cancel();
         }
-
-        public override void Stop()
-        {
-            isActive = false;
-
-            _tilesIndicator.Destroy();
-
-            Program.inputManager.OnTileClicked -= ExecuteIfTileIsWalkable;
-
-            _mechActor.inputComponent.OnSelectionLost -= Stop;
-        }
-
 
         void ExecuteIfTileIsWalkable(Tile inTile)
         {
             if (_walkableTilePositions.Contains(inTile.worldPosition))
                 Execute(inTile);
+        }
+
+        Vector2DInt[] CalculateWalkablePositions()
+        {
+            List<Tile> walkableTiles = _mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed); 
+            walkableTiles.Remove(_mechActor.movementComponent.currentTile);                                                       
+
+            List<Vector2DInt> walkableTilePositions = new List<Vector2DInt>();                                                    
+            walkableTiles.ForEach(walkableTile => walkableTilePositions.Add(walkableTile.worldPosition));
+
+            return walkableTilePositions.ToArray();
         }
     }
 }

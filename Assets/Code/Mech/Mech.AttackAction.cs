@@ -1,57 +1,45 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public partial class Mech
 {
     public class AttackAction : Action
     {
-        readonly Mech _mechActor;
-
-        List<Vector2DInt> _positionsWithinRange;
+        Vector2DInt[] _positionsWithinRange;
 
         TilesIndicator _tilesIndicator;
 
 
-        public AttackAction(Mech inMechActor, System.Action inOnCompleteCallback) : base(inOnCompleteCallback)
+        protected override void OnStart()
         {
-            _mechActor = inMechActor;
-        }
-
-
-        public override void Start()
-        {
-            isActive = true;
-
             _positionsWithinRange = GetPositionsWithinRange();
 
             _tilesIndicator = new TilesIndicator(_positionsWithinRange, new UnityEngine.Color(1, 0, 0, 0.5f));
 
-            Program.inputManager.OnTileClicked += FireAtTileIfWithinRange;
-            _mechActor.inputComponent.OnSelectionLost += Stop;
+            Program.inputManager.OnTileClicked += ExecuteIfShootable;
         }
 
-        public void Execute(Tile inTargetTile)
+        public override void Cancel()
         {
-            OnCompleteCallback?.Invoke();
-            Stop();
-        }
-
-        public override void Stop()
-        {
-            isActive = false;
-
             _tilesIndicator.Destroy();
 
-            Program.inputManager.OnTileClicked -= FireAtTileIfWithinRange;
-            _mechActor.inputComponent.OnSelectionLost -= Stop;
+            Program.inputManager.OnTileClicked -= ExecuteIfShootable;
         }
 
-        void FireAtTileIfWithinRange(Tile inTile)
+
+        void Execute(Tile inTargetTile)
+        {
+            OnCompleteCallback?.Invoke();
+            Cancel();
+        }
+
+        void ExecuteIfShootable(Tile inTile)
         {
             if (_positionsWithinRange.Contains(inTile.worldPosition))
                 Execute(inTile);
         }
 
-        List<Vector2DInt> GetPositionsWithinRange()
+        Vector2DInt[] GetPositionsWithinRange()
         {
             UnityEngine.Debug.LogError("TODO: Finish implement GetPositionsWithinRange()");
 
@@ -63,13 +51,13 @@ public partial class Mech
                 for (int x = -weaponRange; x <= weaponRange; x++)
                 {
                     Vector2DInt positionOffset = new Vector2DInt(x, y);
-                    UnityEngine.Debug.Log(positionOffset);
+
                     if (positionOffset.magnitude <= weaponRange)
                         if (Program.world.GetTile(positionOffset + currentPosition) != null)
                             positionsWithinRange.Add(positionOffset + currentPosition);
                 }
 
-            return positionsWithinRange;
+            return positionsWithinRange.ToArray();
         }
     }
 }

@@ -6,30 +6,27 @@ public partial class Mech // Decides what action to "begin" depending on the inp
     {
         public bool turnUsed { get; private set; }
 
-        MoveAction _moveAction;
-        AttackAction _attackAction;
+        Action _activeAction;
 
 
         public ActionComponent(Mech inMech) : base(inMech)
         {
-            _moveAction   = new MoveAction(mech, () => turnUsed = true);
-            _attackAction = new AttackAction(mech, () => turnUsed = true);
-
             mech.OnComponentsCreated += () =>
             {
-                System.Action tryToggleMoveAction   = () => TryToggleAction(_moveAction);
-                System.Action tryToggleAttackAction = () => TryToggleAction(_attackAction);
 
-                mech.inputComponent.OnSelected += () =>
+                mech.inputComponent.OnSelected += () => 
                 {
-                    mech.uiComponent.mechGUI.OnMoveButtonPressed   += tryToggleMoveAction;
-                    mech.uiComponent.mechGUI.OnAttackButtonPressed += tryToggleAttackAction;
+                    mech.uiComponent.mechGUI.OnMoveButtonPressed   += TryToggleAction<MoveAction>; 
+                    mech.uiComponent.mechGUI.OnAttackButtonPressed += TryToggleAction<AttackAction>;
                 };
-
-                mech.inputComponent.OnSelectionLost += () =>
+                
+                mech.inputComponent.OnSelectionLost += () => 
                 {
-                    mech.uiComponent.mechGUI.OnMoveButtonPressed   -= tryToggleMoveAction;
-                    mech.uiComponent.mechGUI.OnAttackButtonPressed -= tryToggleAttackAction;
+                    _activeAction?.Cancel();
+                    _activeAction = null;
+
+                    mech.uiComponent.mechGUI.OnMoveButtonPressed   -= TryToggleAction<MoveAction>;
+                    mech.uiComponent.mechGUI.OnAttackButtonPressed -= TryToggleAction<AttackAction>;
                 };
             };
 
@@ -37,15 +34,32 @@ public partial class Mech // Decides what action to "begin" depending on the inp
                 turnUsed = false;
         }
 
-        void TryToggleAction(Action inAction)
+        void OnActionCompleted()
         {
-            if (turnUsed)
-                return;
+            turnUsed = true;
+            _activeAction = null;
+        }
 
-            if (!inAction.isActive)
-                inAction.Start();
+        void TryToggleAction<T>() where T : Action, new()
+        {
+            if (_activeAction == null)
+            {
+                _activeAction = new T();
+                _activeAction.Initialize(mech, () => turnUsed = true);
+            }
+
+            else if (_activeAction.GetType() == typeof(T))
+            {
+                _activeAction.Cancel();
+                _activeAction = null;
+            }
+
             else
-                inAction.Stop();
+            {
+                _activeAction.Cancel();
+                _activeAction = new T();
+                _activeAction.Initialize(mech, () => turnUsed = true);
+            }
         }
     }
 }
