@@ -16,8 +16,8 @@ public partial class Mech // Decides what action to "begin" depending on the inp
 
                 mech.inputComponent.OnSelected += () => 
                 {
-                    mech.uiComponent.mechGUI.OnMoveButtonPressed   += TryToggleAction<MoveAction>; 
-                    mech.uiComponent.mechGUI.OnAttackButtonPressed += TryToggleAction<AttackAction>;
+                    mech.uiComponent.mechGUI.OnMoveButtonPressed   += ToggleAction<MoveAction>; 
+                    mech.uiComponent.mechGUI.OnAttackButtonPressed += ToggleAction<AttackAction>;
                 };
                 
                 mech.inputComponent.OnSelectionLost += () => 
@@ -25,8 +25,8 @@ public partial class Mech // Decides what action to "begin" depending on the inp
                     _activeAction?.Cancel();
                     _activeAction = null;
 
-                    mech.uiComponent.mechGUI.OnMoveButtonPressed   -= TryToggleAction<MoveAction>;
-                    mech.uiComponent.mechGUI.OnAttackButtonPressed -= TryToggleAction<AttackAction>;
+                    mech.uiComponent.mechGUI.OnMoveButtonPressed   -= ToggleAction<MoveAction>;
+                    mech.uiComponent.mechGUI.OnAttackButtonPressed -= ToggleAction<AttackAction>;
                 };
             };
 
@@ -40,7 +40,7 @@ public partial class Mech // Decides what action to "begin" depending on the inp
             _activeAction = null;
         }
 
-        void TryToggleAction<T>() where T : Action, new()
+        void ToggleAction<T>() where T : Action, new()
         {
             if (_activeAction == null)
             {
