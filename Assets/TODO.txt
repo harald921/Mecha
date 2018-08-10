@@ -1,13 +1,6 @@
-* Fix it being possible to start multiple actions at once
-
-* Create a wireframe box which indicates what tile your mouse is over
-	* Download wireframe shader from asset store
-
-* Make the tileindicator take in a color. (So attack actions can be red)
-	* Check if the entire thing can be rewritten and be made prettier
+* Make mechs get an outline when they are moused over
 
 * Implement "shooting" 
-	* Fix shooting indicator getting the wrong positions for whatever reason. Probably not offset to the players position.
 	* Implement a way to pick a weapon to use for the attack
 	* Implement AttackCommand
 
