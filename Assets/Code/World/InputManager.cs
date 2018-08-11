@@ -22,8 +22,6 @@ public class InputManager
     {
         Tile currentMouseoverTile = _world.GetTile(GetCurrentMouseWorldPos());
 
-        UpdateTileMarker(currentMouseoverTile);
-
         // Check what (if any) Tile was clicked
         if (Input.GetMouseButtonDown(0))
             if (currentMouseoverTile != null)
