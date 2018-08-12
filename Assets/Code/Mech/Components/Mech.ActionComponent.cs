@@ -13,20 +13,15 @@ public partial class Mech // Decides what action to "begin" depending on the inp
         {
             mech.OnComponentsCreated += () =>
             {
-
                 mech.inputComponent.OnSelected += () => 
-                {
-                    mech.uiComponent.mechGUI.OnMoveButtonPressed   += ToggleAction<MoveAction>; 
-                    mech.uiComponent.mechGUI.OnAttackButtonPressed += ToggleAction<AttackAction>;
-                };
+                    mech.uiComponent.mechGUI.OnMoveButtonPressed += ToggleMoveAction;
                 
                 mech.inputComponent.OnSelectionLost += () => 
                 {
                     _activeAction?.Cancel();
                     _activeAction = null;
 
-                    mech.uiComponent.mechGUI.OnMoveButtonPressed   -= ToggleAction<MoveAction>;
-                    mech.uiComponent.mechGUI.OnAttackButtonPressed -= ToggleAction<AttackAction>;
+                    mech.uiComponent.mechGUI.OnMoveButtonPressed -= ToggleMoveAction;
                 };
             };
 
@@ -40,15 +35,12 @@ public partial class Mech // Decides what action to "begin" depending on the inp
             _activeAction = null;
         }
 
-        void ToggleAction<T>() where T : Action, new()
+        void ToggleMoveAction()
         {
             if (_activeAction == null)
-            {
-                _activeAction = new T();
-                _activeAction.Initialize(mech, () => turnUsed = true);
-            }
+                _activeAction = new MoveAction(mech, () => turnUsed = true);
 
-            else if (_activeAction.GetType() == typeof(T))
+            else if (_activeAction.GetType() == typeof(MoveAction))
             {
                 _activeAction.Cancel();
                 _activeAction = null;
@@ -57,8 +49,7 @@ public partial class Mech // Decides what action to "begin" depending on the inp
             else
             {
                 _activeAction.Cancel();
-                _activeAction = new T();
-                _activeAction.Initialize(mech, () => turnUsed = true);
+                _activeAction = new MoveAction(mech, () => turnUsed = true);
             }
         }
     }

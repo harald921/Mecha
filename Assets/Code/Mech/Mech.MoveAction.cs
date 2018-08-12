@@ -13,7 +13,7 @@ public partial class Mech
         TilesIndicator _tilesIndicator;
 
 
-        protected override void OnStart()
+        public MoveAction(Mech inMechActor, System.Action inOnCompleteCallback) : base(inMechActor, inOnCompleteCallback)
         {
             _walkableTilePositions = CalculateWalkablePositions();
 

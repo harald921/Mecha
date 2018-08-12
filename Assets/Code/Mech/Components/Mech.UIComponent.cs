@@ -8,8 +8,19 @@
         {
             mechGUI = UnityEngine.Object.FindObjectOfType<MechGUI>();
 
-            mech.inputComponent.OnSelected      += () => mechGUI.Display(mech);
-            mech.inputComponent.OnSelectionLost += () => mechGUI.Hide(mech);
+            mech.inputComponent.OnSelected      += ShowMechGUI;
+            mech.inputComponent.OnSelectionLost += HideMechGUI;
+        }
+
+
+        void HideMechGUI()
+        {
+
+        }
+
+        void ShowMechGUI()
+        {
+
         }
     }
 }

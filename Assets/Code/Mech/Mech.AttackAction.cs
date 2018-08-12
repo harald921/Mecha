@@ -5,13 +5,20 @@ public partial class Mech
 {
     public class AttackAction : Action
     {
+        Weapon _weaponInUse;
+
         Vector2DInt[] _positionsWithinRange;
 
         TilesIndicator _tilesIndicator;
 
 
-        protected override void OnStart()
+
+        public AttackAction(Mech inMechActor, System.Action inOnCompleteCallback, Weapon inWeaponToUse) : base(inMechActor, inOnCompleteCallback)
         {
+            UnityEngine.Debug.LogError("TODO: Make it possible to choose which weapon to fire");
+
+            _weaponInUse = inWeaponToUse;
+
             _positionsWithinRange = GetPositionsWithinRange();
 
             _tilesIndicator = new TilesIndicator(_positionsWithinRange, new UnityEngine.Color(1, 0, 0, 0.5f));
@@ -29,6 +36,8 @@ public partial class Mech
 
         void Execute(Tile inTargetTile)
         {
+            inTargetTile.mech?.healthComponent.ModifyHealth(-_weaponInUse.data.damage);
+
             OnCompleteCallback?.Invoke();
             Cancel();
         }
@@ -41,12 +50,10 @@ public partial class Mech
 
         Vector2DInt[] GetPositionsWithinRange()
         {
-            UnityEngine.Debug.LogError("TODO: Finish implement GetPositionsWithinRange()");
-
-            Vector2DInt currentPosition = _mechActor.movementComponent.currentTile.worldPosition;
-
             List<Vector2DInt> positionsWithinRange = new List<Vector2DInt>();
-            int weaponRange = 4; // _mechActor.utilityComponent.GetWeapon(0).data.range;
+            int               weaponRange          = _weaponInUse.data.range;
+            Vector2DInt       currentPosition      = _mechActor.movementComponent.currentTile.worldPosition;
+
             for (int y = -weaponRange; y <= weaponRange; y++)
                 for (int x = -weaponRange; x <= weaponRange; x++)
                 {

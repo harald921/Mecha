@@ -8,18 +8,16 @@ public partial class Mech
 {
     public class UtilityComponent : Component
     {
-        readonly Weapon[] _weaponSlots;
-        readonly Utility[] _utilitySlots;
+        readonly List<Weapon> _weapons = new List<Weapon>();
 
 
-        public UtilityComponent(Mech inParentMech) : base(inParentMech)
+        public UtilityComponent(Mech inParentMech, string[] inWeaponNames) : base(inParentMech)
         {
-            _weaponSlots  = new Weapon[mech.bodyType.data.weaponSlotCount];
-            _utilitySlots = new Utility[mech.bodyType.data.utilitySlotCount];
+            foreach (string weaponName in inWeaponNames)
+                _weapons.Add(new Weapon(weaponName));
         }
 
 
-        public Weapon GetWeapon(int inSlotID)   => _weaponSlots[inSlotID];
-        public Utility GetUtility(int inSlotID) => _utilitySlots[inSlotID];
+        public Weapon GetWeapon(int inSlotID)   => _weapons[inSlotID];
     }
 }

@@ -1,4 +1,10 @@
-* Make mechs get an outline when they are moused over
+* Rework the UI flow
+	* When a mech is hovered, it should be outlined
+	* When a mech is hovered, it should show all the tiles it could move to in a light green color
+		* Gotta add a "OnTileHovered" callback for InputManager, and "OnMechHovered" for MechInputManager
+	* When a mech is clicked, it should show all the tiles it could move to in a green color, and it should show the path it would take to any walkable tile the mouse hovers over
+	* When a mechs weapon is clicked, it should leave the move state and enter an attack state, showing what tiles it can fire at
+	* Replace the ugly Unity default sprites with square, nice sprites
 
 * Implement "shooting" 
 	* Implement a way to pick a weapon to use for the attack

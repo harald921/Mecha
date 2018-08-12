@@ -35,7 +35,7 @@ public partial class Mech
         armorType    = new MechArmorType(inParameters.armorTypeName);
 
         healthComponent      = new HealthComponent(this);
-        utilityComponent     = new UtilityComponent(this);
+        utilityComponent     = new UtilityComponent(this, inParameters.equipedWeaponNames);
         movementComponent    = new MovementComponent(this, inParameters.spawnPosition);
         pathfindingComponent = new PathfindingComponent(this);
         viewComponent        = new ViewComponent(this);
@@ -54,6 +54,8 @@ public partial class Mech
         public string mobilityTypeName;
         public string armorTypeName;
 
+        public string[] equipedWeaponNames;
+
         public Vector2DInt spawnPosition;
 
         public int  ownerID;
@@ -62,14 +64,21 @@ public partial class Mech
 
         public int GetPacketSize()
         {
-            return NetUtility.BitsToHoldString(bodyTypeName)     +
-                   NetUtility.BitsToHoldString(mobilityTypeName) +
-                   NetUtility.BitsToHoldString(armorTypeName)    +
-                   
-                   spawnPosition.GetPacketSize()                 +
-            
-                   NetUtility.BitsToHoldUInt((uint)ownerID)      +
-                   NetUtility.BitsToHoldGuid(guid);
+            int numBits = 0;
+
+            numBits += NetUtility.BitsToHoldString(bodyTypeName);
+            numBits += NetUtility.BitsToHoldString(mobilityTypeName);
+            numBits += NetUtility.BitsToHoldString(armorTypeName);
+            numBits += NetUtility.BitsToHoldUInt((uint)equipedWeaponNames.Length);
+
+            foreach (string equipedWeaponName in equipedWeaponNames)
+                numBits += NetUtility.BitsToHoldString(equipedWeaponName);
+
+            numBits += spawnPosition.GetPacketSize();
+            numBits += NetUtility.BitsToHoldUInt((uint)ownerID);
+            numBits += NetUtility.BitsToHoldGuid(guid);
+
+            return numBits;
         }
 
         public void PackInto(NetBuffer inBuffer)
@@ -77,6 +86,10 @@ public partial class Mech
             inBuffer.Write(bodyTypeName);
             inBuffer.Write(mobilityTypeName);
             inBuffer.Write(armorTypeName);
+
+            inBuffer.WriteVariableInt32(equipedWeaponNames.Length);
+            foreach (string equipedWeaponName in equipedWeaponNames)
+                inBuffer.Write(equipedWeaponName);
 
             spawnPosition.PackInto(inBuffer);
 
@@ -89,6 +102,11 @@ public partial class Mech
             bodyTypeName     = inBuffer.ReadString();
             mobilityTypeName = inBuffer.ReadString();
             armorTypeName    = inBuffer.ReadString();
+
+            int equipedWeaponNamesCount = inBuffer.ReadVariableInt32();
+            equipedWeaponNames = new string[equipedWeaponNamesCount];
+            for (int i = 0; i < equipedWeaponNamesCount; i++)
+                equipedWeaponNames[i] = inBuffer.ReadString();
 
             spawnPosition.UnpackFrom(inBuffer);
 

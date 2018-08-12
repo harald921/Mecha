@@ -40,29 +40,32 @@ public class MechManager
 
         new Command.SpawnMech(new Mech.Parameters()
         {
-            bodyTypeName     = "debug",
-            mobilityTypeName = "debug",
-            armorTypeName    = "debug",
-            spawnPosition    = new Vector2DInt(2, 1),
-            ownerID          = Program.networkManager.LocalPlayer.ID
+            bodyTypeName       = "debug",
+            mobilityTypeName   = "debug",
+            armorTypeName      = "debug",
+            equipedWeaponNames = new string[] { "debug" },
+            spawnPosition      = new Vector2DInt(2, 1),
+            ownerID            = Program.networkManager.LocalPlayer.ID
         }).ExecuteAndSend();
 
         new Command.SpawnMech(new Mech.Parameters()
         {
-            bodyTypeName     = "debug",
-            mobilityTypeName = "debug",
-            armorTypeName    = "debug",
-            spawnPosition    = new Vector2DInt(2, 3),
-            ownerID          = Program.networkManager.LocalPlayer.ID
+            bodyTypeName       = "debug",
+            mobilityTypeName   = "debug",
+            armorTypeName      = "debug",
+            equipedWeaponNames = new string[] { "debug" },
+            spawnPosition      = new Vector2DInt(2, 3),
+            ownerID            = Program.networkManager.LocalPlayer.ID
         }).ExecuteAndSend();
 
         new Command.SpawnMech(new Mech.Parameters()
         {
-            bodyTypeName     = "debug",
-            mobilityTypeName = "debug",
-            armorTypeName    = "debug",
-            spawnPosition    = new Vector2DInt(2, 5),
-            ownerID          = Program.networkManager.LocalPlayer.ID
+            bodyTypeName       = "debug",
+            mobilityTypeName   = "debug",
+            armorTypeName      = "debug",
+            equipedWeaponNames = new string[] { "debug" },
+            spawnPosition      = new Vector2DInt(2, 5),
+            ownerID            = Program.networkManager.LocalPlayer.ID
         }).ExecuteAndSend();
     }
 }

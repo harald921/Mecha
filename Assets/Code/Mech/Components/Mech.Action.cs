@@ -7,15 +7,12 @@
         protected System.Action OnCompleteCallback;
 
 
-        public void Initialize(Mech inMechActor, System.Action inOnCompleteCallback)
+        public Action(Mech inMechActor, System.Action inOnCompleteCallback)
         {
             _mechActor = inMechActor;
             OnCompleteCallback = inOnCompleteCallback;
-
-            OnStart();
         }
 
         public abstract void Cancel();
-        protected abstract void OnStart();
     }
 }

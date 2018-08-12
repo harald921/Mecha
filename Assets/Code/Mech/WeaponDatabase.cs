@@ -21,7 +21,7 @@ public class WeaponDatabase : MonoBehaviour
         if (_initialized)
             return;
 
-        _weaponsToSerialize.ForEach(weaponToSerialize => _weapons.Add("weaponName", weaponToSerialize));
+        _weaponsToSerialize.ForEach(weaponToSerialize => _weapons.Add(weaponToSerialize.name, weaponToSerialize));
         _initialized = true;
     }
 
