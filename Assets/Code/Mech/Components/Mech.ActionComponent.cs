@@ -13,15 +13,12 @@ public partial class Mech // Decides what action to "begin" depending on the inp
         {
             mech.OnComponentsCreated += () =>
             {
-                mech.inputComponent.OnSelected += () => 
-                    mech.uiComponent.mechGUI.OnMoveButtonPressed += ToggleMoveAction;
+                mech.inputComponent.OnSelected += ToggleMoveAction;
                 
                 mech.inputComponent.OnSelectionLost += () => 
                 {
                     _activeAction?.Cancel();
                     _activeAction = null;
-
-                    mech.uiComponent.mechGUI.OnMoveButtonPressed -= ToggleMoveAction;
                 };
             };
 
