@@ -18,6 +18,6 @@ public partial class Mech
         }
 
 
-        public Weapon GetWeapon(int inSlotID)   => _weapons[inSlotID];
+        public Weapon[] weapons => _weapons.ToArray();
     }
 }

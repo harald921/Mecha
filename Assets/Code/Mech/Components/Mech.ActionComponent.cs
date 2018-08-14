@@ -26,14 +26,12 @@ public partial class Mech // Decides what action to "begin" depending on the inp
                 turnUsed = false;
         }
 
-        void OnActionCompleted()
-        {
-            turnUsed = true;
-            _activeAction = null;
-        }
 
         void ToggleMoveAction()
         {
+            if (turnUsed)
+                return;
+
             if (_activeAction == null)
                 _activeAction = new MoveAction(mech, () => turnUsed = true);
 

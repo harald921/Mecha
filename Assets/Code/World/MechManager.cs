@@ -43,7 +43,7 @@ public class MechManager
             bodyTypeName       = "debug",
             mobilityTypeName   = "debug",
             armorTypeName      = "debug",
-            equipedWeaponNames = new string[] { "debug" },
+            equipedWeaponNames = new string[] { "debugWeapon", "debugWeapon2" },
             spawnPosition      = new Vector2DInt(2, 1),
             ownerID            = Program.networkManager.LocalPlayer.ID
         }).ExecuteAndSend();
@@ -53,7 +53,7 @@ public class MechManager
             bodyTypeName       = "debug",
             mobilityTypeName   = "debug",
             armorTypeName      = "debug",
-            equipedWeaponNames = new string[] { "debug" },
+            equipedWeaponNames = new string[] { "debugWeapon2" },
             spawnPosition      = new Vector2DInt(2, 3),
             ownerID            = Program.networkManager.LocalPlayer.ID
         }).ExecuteAndSend();
@@ -63,7 +63,7 @@ public class MechManager
             bodyTypeName       = "debug",
             mobilityTypeName   = "debug",
             armorTypeName      = "debug",
-            equipedWeaponNames = new string[] { "debug" },
+            equipedWeaponNames = new string[] { "debugWeapon3", "debugWeapon", "debugWeapon2" },
             spawnPosition      = new Vector2DInt(2, 5),
             ownerID            = Program.networkManager.LocalPlayer.ID
         }).ExecuteAndSend();

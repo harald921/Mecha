@@ -2,25 +2,30 @@
 {
     public class UIComponent : Component
     {
-        public readonly MechGUI mechGUI;
+        readonly MechUIStats _mechUIStats;
+        readonly MechUIActions _mechUIActions;
+
 
         public UIComponent(Mech inMech) : base(inMech)
         {
-            mechGUI = UnityEngine.Object.FindObjectOfType<MechGUI>();
+            _mechUIStats   = UnityEngine.Object.FindObjectOfType<MechUIStats>();
+            _mechUIActions = UnityEngine.Object.FindObjectOfType<MechUIActions>();
 
             mech.inputComponent.OnSelected      += ShowMechGUI;
             mech.inputComponent.OnSelectionLost += HideMechGUI;
         }
 
 
-        void HideMechGUI()
-        {
-
-        }
-
         void ShowMechGUI()
         {
+            _mechUIStats.Display(mech);
+            _mechUIActions.Display(mech);
+        }
 
+        void HideMechGUI()
+        {
+            _mechUIStats.Hide(mech);
+            _mechUIActions.Hide(mech);
         }
     }
 }

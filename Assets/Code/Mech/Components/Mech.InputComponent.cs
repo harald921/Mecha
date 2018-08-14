@@ -4,7 +4,7 @@ public partial class Mech // Takes input, and executes events
 {
     public class InputComponent : Component
     {
-        bool _selected;
+        bool _isSelected;
 
         public event System.Action OnSelected;
         public event System.Action OnSelectionLost;
@@ -15,19 +15,28 @@ public partial class Mech // Takes input, and executes events
             {
                 if (inClickedTile == mech.movementComponent.currentTile)
                 {
-                    _selected = true;
-                    OnSelected?.Invoke();
+                    if (_isSelected)
+                        LostSelection();
+                    else
+                        GainSelection();
                 }
 
-                else
-                {
-                    if (_selected)
-                    {
-                        _selected = false;
-                        OnSelectionLost?.Invoke();
-                    }
-                }
+                else if (_isSelected)
+                    LostSelection();
             };
+        }
+
+
+        void GainSelection()
+        {
+            _isSelected = true;
+            OnSelected?.Invoke();
+        }
+
+        void LostSelection()
+        {
+            _isSelected = false;
+            OnSelectionLost?.Invoke();
         }
     }
 }
