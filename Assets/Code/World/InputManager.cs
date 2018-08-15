@@ -8,6 +8,7 @@ public class InputManager
     public event Action<Tile> OnTileClicked; 
     public event Action<Tile> OnTileHovered;
 
+    Tile _previousMouseoverTile;
 
     public InputManager(World inWorld)
     {
@@ -25,12 +26,15 @@ public class InputManager
 
         if (currentMouseoverTile != null)
         {
-            OnTileHovered?.Invoke(currentMouseoverTile);
+            if (currentMouseoverTile != _previousMouseoverTile)
+                OnTileHovered?.Invoke(currentMouseoverTile);
 
             // Check what (if any) Tile was clicked
             if (Input.GetMouseButtonDown(0))
                 OnTileClicked?.Invoke(currentMouseoverTile);
         }
+
+        _previousMouseoverTile = currentMouseoverTile;
     }
 
     static Vector2DInt GetCurrentMouseWorldPos()

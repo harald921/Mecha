@@ -15,7 +15,7 @@ public partial class Mech
 
         public MoveAction(Mech inMechActor, System.Action inOnCompleteCallback) : base(inMechActor, inOnCompleteCallback)
         {
-            _walkableTilePositions = CalculateWalkablePositions();
+            _walkableTilePositions = _mechActor.movementComponent.GetWalkableTilePositions();
 
             _tilesIndicator = new TilesIndicator(_walkableTilePositions, new UnityEngine.Color(0, 1, 0, 0.5f));
 
@@ -44,17 +44,6 @@ public partial class Mech
         {
             if (_walkableTilePositions.Contains(inTile.worldPosition))
                 Execute(inTile);
-        }
-
-        Vector2DInt[] CalculateWalkablePositions()
-        {
-            List<Tile> walkableTiles = _mechActor.pathfindingComponent.FindWalkableTiles(_mechActor.movementComponent.moveSpeed); 
-            walkableTiles.Remove(_mechActor.movementComponent.currentTile);                                                       
-
-            List<Vector2DInt> walkableTilePositions = new List<Vector2DInt>();                                                    
-            walkableTiles.ForEach(walkableTile => walkableTilePositions.Add(walkableTile.worldPosition));
-
-            return walkableTilePositions.ToArray();
         }
     }
 }

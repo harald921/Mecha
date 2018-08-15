@@ -32,4 +32,5 @@ public class TilesIndicator
 
     public virtual void Destroy() =>
         _views.ForEach(tileView => tileView.Destroy());
+
 }

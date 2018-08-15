@@ -49,6 +49,18 @@ public partial class Mech
                 yield return Timing.WaitForSeconds(0.1f);
             }
         }
+
+
+        public Vector2DInt[] GetWalkableTilePositions()
+        {
+            List<Tile> walkableTiles = mech.pathfindingComponent.FindWalkableTiles(moveSpeed);
+            walkableTiles.Remove(currentTile);
+
+            List<Vector2DInt> walkableTilePositions = new List<Vector2DInt>();
+            walkableTiles.ForEach(walkableTile => walkableTilePositions.Add(walkableTile.worldPosition));
+
+            return walkableTilePositions.ToArray();
+        }
     }
 }
 

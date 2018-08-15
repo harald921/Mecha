@@ -21,6 +21,8 @@ public partial class Mech
         public readonly GameObject _viewGO;
         public readonly MeshRenderer _viewMeshRenderer;
 
+
+
         public ViewComponent(Mech inParentMech) : base(inParentMech)
         {
             _viewGO = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -28,17 +30,17 @@ public partial class Mech
 
             _viewMeshRenderer.material.color = _teamColors[mech.owner.ID];
 
-            mech.OnComponentsCreated += () => 
-                mech.movementComponent.OnCurrentTileChange += UpdatePosition;
 
             mech.OnComponentsCreated += () =>
+            {
+                mech.movementComponent.OnCurrentTileChange += UpdatePosition;
+
                 mech.inputComponent.OnSelected += () => 
                     _viewMeshRenderer.material.color = Color.yellow;
 
-            mech.OnComponentsCreated += () =>
                 mech.inputComponent.OnSelectionLost += () => 
                     _viewMeshRenderer.material.color = _teamColors[mech.owner.ID];
-
+            };
         }
 
 

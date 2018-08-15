@@ -8,6 +8,8 @@ public partial class Mech // Decides what action to "begin" depending on the inp
 
         Action _activeAction;
 
+        TilesIndicator _moveHoverTileIndicator;
+
 
         public ActionComponent(Mech inMech) : base(inMech)
         {
@@ -19,6 +21,25 @@ public partial class Mech // Decides what action to "begin" depending on the inp
                 {
                     _activeAction?.Cancel();
                     _activeAction = null;
+                };
+
+                mech.inputComponent.OnHovered += () =>
+                {
+                    if (!turnUsed)
+                        if (!mech.inputComponent.isSelected)
+                            _moveHoverTileIndicator = new TilesIndicator(mech.movementComponent.GetWalkableTilePositions(), new UnityEngine.Color(0.6f, 1.0f, 0.4f, 0.3f));
+                };
+
+                mech.inputComponent.OnHoverLost += () =>
+                {
+                    _moveHoverTileIndicator?.Destroy();
+                    _moveHoverTileIndicator = null;
+                };
+
+                mech.inputComponent.OnSelected += () =>
+                {
+                    _moveHoverTileIndicator.Destroy();
+                    _moveHoverTileIndicator = null;
                 };
             };
 
