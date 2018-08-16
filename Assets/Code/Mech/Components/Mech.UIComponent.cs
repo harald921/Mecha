@@ -5,6 +5,9 @@
         readonly MechUIStats _mechUIStats;
         readonly MechUIActions _mechUIActions;
 
+        public event System.Action<MechUIActions> OnMechUIActionsDisplayed;
+        public event System.Action<MechUIActions> OnMechUIActionsHidden;
+
 
         public UIComponent(Mech inMech) : base(inMech)
         {
@@ -20,12 +23,16 @@
         {
             _mechUIStats.Display(mech);
             _mechUIActions.Display(mech);
+
+            OnMechUIActionsDisplayed?.Invoke(_mechUIActions);
         }
 
         void HideMechGUI()
         {
             _mechUIStats.Hide(mech);
             _mechUIActions.Hide(mech);
+
+            OnMechUIActionsHidden?.Invoke(_mechUIActions);
         }
     }
 }

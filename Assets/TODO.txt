@@ -1,6 +1,10 @@
+* The action system should probably be a finite state machine...
+	* This is chaos
+		* What have I done
+			* Help
+
 * Rework the UI flow
 	* When a mech is hovered, it should be outlined
-	* When a mech is hovered, it should show all the tiles it could move to in a light green color
 	* When a mechs weapon is clicked, it should leave the move state and enter an attack state, showing what tiles it can fire at
 
 * Implement "shooting" 

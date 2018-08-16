@@ -5,7 +5,7 @@ public partial class Mech
 {
     public class AttackAction : Action
     {
-        Weapon _weaponInUse;
+        public readonly Weapon weaponInUse;
 
         Vector2DInt[] _positionsWithinRange;
 
@@ -13,11 +13,9 @@ public partial class Mech
 
 
 
-        public AttackAction(Mech inMechActor, System.Action inOnCompleteCallback, Weapon inWeaponToUse) : base(inMechActor, inOnCompleteCallback)
+        public AttackAction(Mech inMechActor, System.Action inOnCompleteCallback, Weapon inWeaponInUse) : base(inMechActor, inOnCompleteCallback)
         {
-            UnityEngine.Debug.LogError("TODO: Make it possible to choose which weapon to fire");
-
-            _weaponInUse = inWeaponToUse;
+            weaponInUse = inWeaponInUse;
 
             _positionsWithinRange = GetPositionsWithinRange();
 
@@ -36,7 +34,7 @@ public partial class Mech
 
         void Execute(Tile inTargetTile)
         {
-            inTargetTile.mech?.healthComponent.ModifyHealth(-_weaponInUse.data.damage);
+            inTargetTile.mech?.healthComponent.ModifyHealth(-weaponInUse.data.damage);
 
             OnCompleteCallback?.Invoke();
             Cancel();
@@ -51,7 +49,7 @@ public partial class Mech
         Vector2DInt[] GetPositionsWithinRange()
         {
             List<Vector2DInt> positionsWithinRange = new List<Vector2DInt>();
-            int               weaponRange          = _weaponInUse.data.range;
+            int               weaponRange          = weaponInUse.data.range;
             Vector2DInt       currentPosition      = _mechActor.movementComponent.currentTile.worldPosition;
 
             for (int y = -weaponRange; y <= weaponRange; y++)
