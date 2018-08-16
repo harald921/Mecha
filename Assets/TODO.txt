@@ -1,7 +1,5 @@
-* The action system should probably be a finite state machine...
-	* This is chaos
-		* What have I done
-			* Help
+
+* Bug: If an attack action is canceled, the mech is selected but without having an active move action. Perhaps (for now) have a heap of actions that override eachother?
 
 * Rework the UI flow
 	* When a mech is hovered, it should be outlined
@@ -17,3 +15,5 @@
 * Add all the mech components from the design doc to the databases
 
 * Create a way to design own mechs ingame in the lobby phase
+
+* The action system should probably be a finite state machine...
