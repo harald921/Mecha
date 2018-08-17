@@ -8,8 +8,6 @@ public partial class Mech // Decides what action to "begin" depending on the inp
 
         Action _activeAction;
 
-        TilesIndicator _moveHoverTileIndicator;
-
 
         public ActionComponent(Mech inMech) : base(inMech)
         {
@@ -21,25 +19,6 @@ public partial class Mech // Decides what action to "begin" depending on the inp
                 {
                     _activeAction?.Cancel();
                     _activeAction = null;
-                };
-
-                mech.inputComponent.OnHovered += () =>
-                {
-                    if (!turnUsed)
-                        if (!mech.inputComponent.isSelected)
-                            _moveHoverTileIndicator = new TilesIndicator(mech.movementComponent.GetWalkableTilePositions(), new UnityEngine.Color(0.6f, 1.0f, 0.4f, 0.3f));
-                };
-
-                mech.inputComponent.OnHoverLost += () =>
-                {
-                    _moveHoverTileIndicator?.Destroy();
-                    _moveHoverTileIndicator = null;
-                };
-
-                mech.inputComponent.OnSelected += () =>
-                {
-                    _moveHoverTileIndicator.Destroy();
-                    _moveHoverTileIndicator = null;
                 };
 
                 mech.uiComponent.OnMechUIActionsDisplayed += (MechUIActions inUIActions) =>
@@ -64,13 +43,18 @@ public partial class Mech // Decides what action to "begin" depending on the inp
                 _activeAction = new AttackAction(mech, () => turnUsed = true, inWeapon);      // ... start an attack action
                                                                                               
             else if (_activeAction.GetType() == typeof(AttackAction))                         // If there's already an attack action...
-            {                                                                                 
-                _activeAction.Cancel();                                                       // ... cancel it
-
+            {
                 if (((AttackAction)_activeAction).weaponInUse != inWeapon)                    // If the new action uses another weapon...
-                    _activeAction = new AttackAction(mech, () => turnUsed = true, inWeapon);  // ... start an attack action using that weapon
+                {
+                    _activeAction.Cancel();                                                   // ... cancel the previous one
+                    _activeAction = new AttackAction(mech, () => turnUsed = true, inWeapon);  // ... start a new attack action using the new weapon
+                }
+
                 else                                                                          // If it's the same...
-                    _activeAction = null;                                                     // ... null it
+                {
+                    _activeAction.Cancel();                                                   // Cancel the action
+                    _activeAction = new MoveAction(mech, () => turnUsed = true);                                                      
+                }
             }
 
             else
