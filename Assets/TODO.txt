@@ -1,12 +1,9 @@
 
 * Bug: If an attack action is canceled, the mech is selected but without having an active move action. Perhaps (for now) have a heap of actions that override eachother?
 
-* Rework the UI flow
-	* When a mech is hovered, it should be outlined
-	* When a mechs weapon is clicked, it should leave the move state and enter an attack state, showing what tiles it can fire at
+* Make the Mech go back to the move state if it activates a weapon and then deactivates it
 
-* Implement "shooting" 
-	* Implement AttackCommand
+* Implement AttackCommand
 
 * Create menus
 	* Create debug main menu. Just a menu displaying the buttons "Host" or "Join"
