@@ -19,8 +19,6 @@ public class MechUIActions : MonoBehaviour
 
     public void Display(Mech inMech)
     {
-        Debug.Log("Todo: make onWeaponButtonClicked event execute properly");
-
         Clear();
 
         _displayedMech = inMech;
