@@ -12,7 +12,11 @@
 
         public void ModifyHealth(int inHealthModification)
         {
+            int previousHealth = currentHealth;
+
             currentHealth += inHealthModification;
+
+            UnityEngine.Debug.Log("Mech health went from " + previousHealth + " to " + currentHealth);
         }
     }
 }
