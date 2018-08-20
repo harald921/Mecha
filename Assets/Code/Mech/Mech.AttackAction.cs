@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Lidgren.Network;
 
 public partial class Mech
 {
@@ -69,8 +71,45 @@ public partial class Mech
 
 public partial class Command
 {
-    public class Attack
+    public class Attack : Command
     {
+        public override Type type => Type.Attack;
 
+        Guid        _sourceMechGuid;
+        Weapon      _usedWeapon;
+        Vector2DInt _targetPosition;
+
+
+        public Attack(Vector2DInt inTargetPosition)
+        {
+            _targetPosition = inTargetPosition;
+        }
+
+        public Attack(NetBuffer inCommandData)
+        {
+            UnpackFrom(inCommandData);
+        }
+
+
+        public override void Execute()
+        {
+            UnityEngine.Debug.Log("TODO: Make a Shoot() function for the Weapon class");
+            Program.world.GetTile(_targetPosition).mech?.healthComponent.ModifyHealth(-_usedWeapon.data.damage);
+        }
+
+        public override int GetPacketSize()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void PackInto(NetBuffer inBuffer)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void UnpackFrom(NetBuffer inBuffer)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

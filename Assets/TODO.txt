@@ -1,3 +1,5 @@
+* Make Weapon an IPackable
+
 * Implement a flag state component
 
 * Re-implement the hover outline of move target tiles

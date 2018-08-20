@@ -29,6 +29,7 @@ public abstract partial class Command : IPackable
     {
         MoveMech,
         SpawnMech,
+        Attack,
         EndTurn
     }
 
