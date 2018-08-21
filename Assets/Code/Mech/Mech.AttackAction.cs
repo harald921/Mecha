@@ -97,19 +97,24 @@ public partial class Command
             Program.world.GetTile(_targetPosition).mech?.healthComponent.ModifyHealth(-_usedWeapon.data.damage);
         }
 
-        public override int GetPacketSize()
-        {
-            throw new System.NotImplementedException();
-        }
+
+        public override int GetPacketSize() =>
+            NetUtility.BitsToHoldGuid(_sourceMechGuid) +
+            _usedWeapon.GetPacketSize()                +
+            _targetPosition.GetPacketSize();
 
         public override void PackInto(NetBuffer inBuffer)
         {
-            throw new System.NotImplementedException();
+            _sourceMechGuid.PackInto(inBuffer);
+            _usedWeapon.PackInto(inBuffer);
+            _targetPosition.PackInto(inBuffer);
         }
 
         public override void UnpackFrom(NetBuffer inBuffer)
         {
-            throw new System.NotImplementedException();
+            _sourceMechGuid.UnpackFrom(inBuffer, ref _sourceMechGuid);
+            _usedWeapon.UnpackFrom(inBuffer);
+            _targetPosition.UnpackFrom(inBuffer);
         }
     }
 }
